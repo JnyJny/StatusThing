@@ -2,7 +2,8 @@
 
 Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing is a network-addressable, JSON configurable icon that lives on your OS X status bar.
 
-XXX screenshot
+<img src="Screenshots/ScreenShot0.png"/>
+<img src="Screenshots/ScreenShot1.png"/>
 
 ## Features
 - Listens for client TCP connections (port 55000 by default)
