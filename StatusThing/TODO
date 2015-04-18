@@ -9,7 +9,14 @@ StatusView
     implement shapes as layers to help with animations
 
 StatusView animations
-    throb - animate alpha? cancel when statusItem clicked?
+    intensity throb - animate alpha
+    rotate icon: direction, speed, duration
+    rotate symbol: direction, speed, duration
+    shine
+
+StatusViewArrayController
+StatusViewArray
+
 
 Error Handling
     Fail when unable to bind the given port
@@ -39,6 +46,7 @@ StatusListener
     should respond to "help" with a list of things that it understands
     need to look into REST interface patterns?
     use HTTP, seems.. overkill-y?
+    Publish Bonjour service
 
 AppleScript
     provide support for AppleScript
@@ -65,6 +73,8 @@ Strategy
         or
     One application listening on a port manages N different StatusViews ( array of StatusViews ).
         when a client sets an attribute on an item, creates if DNE?
+        associate StatusView with a client supplied tag
+        restrict client access to only the statusviews they initiate?
 
 Update Checking Stuff
     Sparkle?
@@ -73,5 +83,6 @@ Client Bindings
     python
     ruby
     AppleScript
+    native cocoa app
 
 
