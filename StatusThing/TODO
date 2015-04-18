@@ -1,9 +1,9 @@
+BROKEN
+    JSON sourced dictionaries not distributed to StatusView or StatusMenu
 
 Command line argument processing
     specify listening port number
     specify starting shape|color|symbol|symbolcolor|animation
-
-
 
 StatusView
     implement shapes as layers to help with animations
@@ -19,7 +19,7 @@ JSON dispatch object
     Take the smarts out of the various Status* objects
     Use more KVC
 
-Menu
+StatusMenu
     messages menuItem with sub-menus holding message list and a clear item
     Preferences
 
@@ -27,17 +27,51 @@ Preference Pane - per running instance?
     allow remote connections
     allow animations
     allow inset symbols
+    allow notifications
+    set limit on number of statusviews to create
+    allow clients to create new statusviews
+    blacklist clients
+    whitelist clients
     change port on the fly
 
-StatusLister
-    sends a welcome string, probably not necessary
+StatusListener
+    sends a welcome string, probably not necessary?
     should respond to "help" with a list of things that it understands
-    need to look into REST interfaces?
+    need to look into REST interface patterns?
     use HTTP, seems.. overkill-y?
-
 
 AppleScript
     provide support for AppleScript
 
-Broken
-    JSON sourced dictionaries not distributed to StatusView or StatusMenu
+NotificationCenter
+    allow clients to generate Notifcations too?
+
+Icon
+    It Needs One.
+
+Packaging?
+    eventually
+
+Shapes
+    WiFi-like fan thingy
+    Images supplied by client
+    System template images
+
+Licensing
+    Copyright messages in source need to be replace with CC appropriate verbiage
+
+Strategy
+    One application per port
+        or
+    One application listening on a port manages N different StatusViews ( array of StatusViews ).
+        when a client sets an attribute on an item, creates if DNE?
+
+Update Checking Stuff
+    Sparkle?
+
+Client Bindings
+    python
+    ruby
+    AppleScript
+
+
