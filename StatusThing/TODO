@@ -36,5 +36,8 @@ StatusLister
     use HTTP, seems.. overkill-y?
 
 
+AppleScript
+    provide support for AppleScript
+
 Broken
     JSON sourced dictionaries not distributed to StatusView or StatusMenu
