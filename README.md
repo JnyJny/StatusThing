@@ -5,7 +5,7 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 <img src="Screenshots/ScreenShot0.png"/>
 
 ```sh
-{ "shape":"circle","color":"white","symbol":"\u01F8","symbolColor":"black" }
+{ "shape":"circle","color":"white","symbol":"\u018F","symbolColor":"black" }
 ```
 
 <img src="Screenshots/ScreenShot1.png"/>

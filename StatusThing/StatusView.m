@@ -56,14 +56,17 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
+    // if drawShape
+    
     [self.color setFill];
     [self.path fill];
-
     
     if (self.hasOutline) {
         [self.isDark?[NSColor whiteColor]:[NSColor blackColor] setStroke];
         [self.path stroke];
     }
+    
+    // if drawSymbol
     
     if ( self.symbolPath ) {
         [self.symbolColor setFill];

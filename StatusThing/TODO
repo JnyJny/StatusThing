@@ -7,6 +7,9 @@ Command line argument processing
 
 StatusView
     implement shapes as layers to help with animations
+    symbol toggle
+    shape toggle
+    StatusShapeNone ?
 
 StatusView animations
     intensity throb - animate alpha

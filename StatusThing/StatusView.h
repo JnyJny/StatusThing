@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
+#define StatusShapeNone            @"none"
 #define StatusShapeCircle          @"circle"
 #define StatusShapeSquare          @"square"
 #define StatusShapeRoundedSquare   @"roundedsquare"
@@ -18,9 +18,10 @@
 #define StatusShapeHexagon         @"hexagon"
 #define StatusShapeOctogon         @"octogon"
 
-#define StatusImageShapeProperty   @"shape"
-#define StatusImageColorProperty   @"color"
-#define StatusImageGlyphProperty   @"glyph"
+#define StatusViewShapeProperty   @"shape"
+#define StatusViewColorProperty   @"color"
+#define StatusViewSymbolProperty  @"symbol"
+#define StatusViewMessageProperty @"message"
 
 
 @interface StatusView : NSView
