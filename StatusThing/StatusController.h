@@ -10,14 +10,17 @@
 
 #import "StatusMenu.h"
 #import "StatusListener.h"
-#import "StatusImage.h"
+#import "StatusView.h"
 
 @interface StatusController : NSObject <StatusListenerDelegate>
 
-@property (nonatomic, strong) StatusMenu *statusMenu;
-@property (nonatomic, strong) StatusListener *statusListener;
-@property (nonatomic, strong) StatusImage *statusImage;
+@property (strong, nonatomic) NSNumber *port;
+@property (strong, nonatomic) NSStatusItem *statusItem;
+@property (strong, nonatomic) StatusView *statusView;
+@property (strong, nonatomic) StatusMenu *statusMenu;
+@property (strong, nonatomic) StatusListener *statusListener;
 
+- (instancetype)init;
 - (instancetype)initWithPort:(NSNumber *)port;
 
 - (void)start;

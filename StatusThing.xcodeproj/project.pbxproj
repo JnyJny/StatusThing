@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
+		1D6DB4531AE2C16000277C13 /* TODO in Resources */ = {isa = PBXBuildFile; fileRef = 1D6DB4521AE2C16000277C13 /* TODO */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
 		1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */; };
@@ -15,7 +17,6 @@
 		1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F941ADFFF50009CE2BE /* StatusController.m */; };
 		1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */; };
 		1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */; };
-		1DAF8FA21AE03D71009CE2BE /* StatusImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8FA11AE03D71009CE2BE /* StatusImage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D6DB44F1AE2AD0000277C13 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
+		1D6DB4501AE2AD0000277C13 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
+		1D6DB4521AE2C16000277C13 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DAF8F741ADFFEE2009CE2BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -46,8 +50,6 @@
 		1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusListener.h; sourceTree = "<group>"; };
 		1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusListener.m; sourceTree = "<group>"; };
 		1DAF8F9F1AE01848009CE2BE /* Konstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Konstants.h; sourceTree = "<group>"; };
-		1DAF8FA01AE03D71009CE2BE /* StatusImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusImage.h; sourceTree = "<group>"; };
-		1DAF8FA11AE03D71009CE2BE /* StatusImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusImage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,12 +91,13 @@
 		1DAF8F721ADFFEE2009CE2BE /* StatusThing */ = {
 			isa = PBXGroup;
 			children = (
+				1D6DB4521AE2C16000277C13 /* TODO */,
 				1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */,
 				1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */,
 				1DAF8F931ADFFF50009CE2BE /* StatusController.h */,
 				1DAF8F941ADFFF50009CE2BE /* StatusController.m */,
-				1DAF8FA01AE03D71009CE2BE /* StatusImage.h */,
-				1DAF8FA11AE03D71009CE2BE /* StatusImage.m */,
+				1D6DB44F1AE2AD0000277C13 /* StatusView.h */,
+				1D6DB4501AE2AD0000277C13 /* StatusView.m */,
 				1DAF8F991AE002D9009CE2BE /* StatusMenu.h */,
 				1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */,
 				1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */,
@@ -213,6 +216,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6DB4531AE2C16000277C13 /* TODO in Resources */,
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1DAF8F7E1ADFFEE2009CE2BE /* MainMenu.xib in Resources */,
 			);
@@ -233,11 +237,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */,
-				1DAF8FA21AE03D71009CE2BE /* StatusImage.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,
+				1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +431,7 @@
 				1DAF8F8F1ADFFEE2009CE2BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1DAF8F901ADFFEE2009CE2BE /* Build configuration list for PBXNativeTarget "StatusThingTests" */ = {
 			isa = XCConfigurationList;
@@ -435,6 +440,7 @@
 				1DAF8F921ADFFEE2009CE2BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

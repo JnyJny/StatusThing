@@ -1,0 +1,40 @@
+
+Command line argument processing
+    specify listening port number
+    specify starting shape|color|symbol|symbolcolor|animation
+
+
+
+StatusView
+    implement shapes as layers to help with animations
+
+StatusView animations
+    throb - animate alpha? cancel when statusItem clicked?
+
+Error Handling
+    Fail when unable to bind the given port
+    Send error notices back to clients when JSON doesn't work out
+
+JSON dispatch object
+    Take the smarts out of the various Status* objects
+    Use more KVC
+
+Menu
+    messages menuItem with sub-menus holding message list and a clear item
+    Preferences
+
+Preference Pane - per running instance?
+    allow remote connections
+    allow animations
+    allow inset symbols
+    change port on the fly
+
+StatusLister
+    sends a welcome string, probably not necessary
+    should respond to "help" with a list of things that it understands
+    need to look into REST interfaces?
+    use HTTP, seems.. overkill-y?
+
+
+Broken
+    JSON sourced dictionaries not distributed to StatusView or StatusMenu

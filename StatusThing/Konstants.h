@@ -10,7 +10,7 @@
 #define StatusThing_Konstants_h
 
 #define kPortEnvVar @"THINGSTATUS_PORT"
-#define kDefaultPort 1738
+#define kDefaultPort 55000
 #define kDefaultMessage @"<No Message>"
 #define kLocalHost @"localhost"
 #define kWelcome @"Connected to ThingStatus\nFeed Me JSON\n"

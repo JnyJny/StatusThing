@@ -9,13 +9,11 @@
 #import "StatusController.h"
 #import "Konstants.h"
 
-@interface StatusController()
-
-
-@property (strong, nonatomic) NSNumber *port;
-@property (strong, nonatomic) NSStatusItem *statusItem;
-
-@end
+/* StatusController
+ *
+ * Coordinates the input from StatusListener and updates 
+ * StatusView and StatusMenu accordingly.
+ */
 
 @implementation StatusController
 
@@ -24,9 +22,19 @@
     if (self = [super init]) {
         self.port = port;
         self.statusItem.menu = self.statusMenu;
-        self.statusItem.button.image = self.statusImage;
-        self.statusItem.highlightMode = YES;
+        [self.statusItem.button setSubviews:@[ self.statusView]];
+        self.statusItem.highlightMode = NO;
         [self.statusListener setDelegate:self];
+        
+        self.statusView.outline = YES;
+        self.statusView.colorName = @"white";
+        self.statusView.shape = StatusShapeCircle;
+        self.statusView.symbolColorName = @"black";
+        self.statusView.fontName = @"Courier Bold";
+        self.statusView.fontSize = 16;
+        self.statusView.symbol = @"Ə";
+        //self.statusView.symbol = @"\u018F";
+
     }
     return self;
 }
@@ -50,7 +58,7 @@
 - (NSStatusItem *)statusItem
 {
     if( _statusItem == nil ){
-        _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+        _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     }
     return _statusItem;
 }
@@ -59,16 +67,15 @@
 #pragma mark Public Properties
 
 
-
-- (StatusImage *)statusImage
+- (StatusView *)statusView
 {
-    if ( _statusImage == nil ) {
-        
+    if ( _statusView == nil ) {
+        _statusView = [[StatusView alloc] init];
         CGFloat w = [[NSStatusBar systemStatusBar] thickness];
-        _statusImage = [[StatusImage alloc] initWithSize:NSMakeSize(w,w)];
+        [_statusView setFrameSize:NSMakeSize(w, w)];
+        //_statusView.fontSize = w;
     }
-    
-    return _statusImage;
+    return _statusView;
 }
 
 - (StatusMenu *)statusMenu
@@ -108,8 +115,7 @@
 {
     //    NSLog(@"got: %@",info);
     
-    [self.statusImage bulkUpdate:info];
-    
+
     self.statusItem.button.needsDisplay = YES;
   
 }

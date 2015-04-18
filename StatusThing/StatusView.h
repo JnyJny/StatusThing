@@ -1,12 +1,13 @@
 //
-//  StatusImage.h
+//  StatusView.h
 //  StatusThing
 //
-//  Created by Erik on 4/16/15.
+//  Created by Erik on 4/18/15.
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-@import AppKit;
+#import <Cocoa/Cocoa.h>
+
 
 #define StatusShapeCircle          @"circle"
 #define StatusShapeSquare          @"square"
@@ -21,18 +22,21 @@
 #define StatusImageColorProperty   @"color"
 #define StatusImageGlyphProperty   @"glyph"
 
-@interface StatusImage : NSImage <NSImageDelegate>
+
+@interface StatusView : NSView
 
 @property (strong, nonatomic) NSString *shape;
 @property (strong, nonatomic,readonly) NSBezierPath *path;
-@property (strong, nonatomic) NSFont *font;
-@property (assign, nonatomic) NSGlyph glyph;
-@property (strong, nonatomic) NSColor *fillColor;
-@property (strong, nonatomic) NSColor *glyphColor;
+
+@property (strong, nonatomic) NSString *fontName;
+@property (strong, nonatomic) NSString *colorName;
+@property (strong, nonatomic) NSString *symbol;
+@property (strong, nonatomic) NSString *symbolColorName;
 
 @property (assign, nonatomic,getter=hasOutline) BOOL outline;
+@property (assign, nonatomic) CGFloat outlineWidth;
+@property (assign, nonatomic) CGFloat fontSize;
 
-- (void)bulkUpdate:(NSDictionary *)info;
 
 
 
