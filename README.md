@@ -13,7 +13,7 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 ```sh
 { "color":"red","symbolColor":"yellow" }
 ```
-
+<img src="Screenshots/ScreenShot2.png"/>
 
 ## Features
 - Listens for client TCP connections (port 55000 by default)
