@@ -6,16 +6,21 @@ Command line argument processing
     specify starting shape|color|symbol|symbolcolor|animation
 
 StatusView
-    implement shapes as layers to help with animations
-    symbol toggle
-    shape toggle
-    StatusShapeNone ?
+    [done]implement shapes as layers to help with animations
+    [done]symbol toggle
+    [done]shape toggle
+    [done]StatusShapeNone ?
 
 StatusView animations
     intensity throb - animate alpha
-    rotate icon: direction, speed, duration
-    rotate symbol: direction, speed, duration
-    shine
+    rotate shape, direction, speed, duration
+    rotate outline
+    rotate symbol, direction, speed, duration
+    wobble, back and forth partial rotations ( < 45 degrees)
+    shine / twinkle / lens flare
+    switch between list of shapes: speed
+    bounce within statusBarItem.button's bounding box
+    shimmy side to side
 
 StatusViewArrayController
 StatusViewArray
@@ -52,7 +57,7 @@ StatusListener
     Publish Bonjour service
 
 AppleScript
-    provide support for AppleScript
+    provide support for AppleScript - ugh.
 
 NotificationCenter
     allow clients to generate Notifcations too?
