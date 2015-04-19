@@ -18,5 +18,6 @@
 #define kAppleInterfaceThemeChangedNotification @"AppleInterfaceThemeChangedNotification"
 #define kAppleInterfaceStyle                    @"AppleInterfaceStyle"
 
+#define kDefaultFontName @"Courier"
 
 #endif
