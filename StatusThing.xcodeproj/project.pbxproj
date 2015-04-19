@@ -41,8 +41,8 @@
 		1D6DB4561AE3185000277C13 /* ScreenShot1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ScreenShot1.png; sourceTree = "<group>"; };
 		1D6DB4571AE3185000277C13 /* ScreenShot2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ScreenShot2.png; sourceTree = "<group>"; };
 		1D6DB45B1AE3187400277C13 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		1D6DB45E1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath+BezierPathQuartzUtilities.h"; path = "../NSBezierPath+BezierPathQuartzUtilities.h"; sourceTree = "<group>"; };
-		1D6DB45F1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath+BezierPathQuartzUtilities.m"; path = "../NSBezierPath+BezierPathQuartzUtilities.m"; sourceTree = "<group>"; };
+		1D6DB45E1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+BezierPathQuartzUtilities.h"; sourceTree = "<group>"; };
+		1D6DB45F1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+BezierPathQuartzUtilities.m"; sourceTree = "<group>"; };
 		1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+NamedColorUtilities.h"; sourceTree = "<group>"; };
 		1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+NamedColorUtilities.m"; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
