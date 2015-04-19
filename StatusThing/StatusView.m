@@ -6,16 +6,22 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
+
 #import "StatusView.h"
+#import <QuartzCore/QuartzCore.h>
+#import "NSBezierPath+BezierPathQuartzUtilities.h"
 #import "Konstants.h"
 
 @interface StatusView()
 
 @property (assign,nonatomic,getter=isDark,readonly) BOOL dark;
 
-@property (strong,nonatomic,readonly) NSColor *color;
-@property (strong,nonatomic,readonly) NSFont  *font;
-@property (strong,nonatomic,readonly) NSColor *symbolColor;
+@property (strong,nonatomic,readonly) NSColor *outlineColor;
+
+@property (strong,nonatomic) CAShapeLayer *shapeLayer;
+@property (strong,nonatomic) CAShapeLayer *outlineLayer;
+@property (strong,nonatomic) CAShapeLayer *symbolLayer;
+
 
 @property (strong,nonatomic,readonly) NSBezierPath *circlePath;
 @property (strong,nonatomic,readonly) NSBezierPath *trianglePath;
@@ -31,13 +37,11 @@
 
 @implementation StatusView
 
-@synthesize colorName =         _colorName;
+@synthesize shape =             _shape;
 @synthesize color =             _color;
-@synthesize fontName =          _fontName;
-@synthesize font =              _font;
-@synthesize symbolColorName =   _symbolColorName;
+@synthesize symbol =            _symbol;
 @synthesize symbolColor =       _symbolColor;
-
+@synthesize font =              _font;
 
 @synthesize circlePath =        _circlePath;
 @synthesize trianglePath =      _trianglePath;
@@ -49,35 +53,86 @@
 @synthesize octogonPath =       _octogonPath;
 @synthesize symbolPath =        _symbolPath;
 
+#pragma mark -
+#pragma mark Initialization Methods
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if ( self ) {
+        
+        self.outlineWidth = 0.8;
+        self.fontSize = CGRectGetHeight(frameRect) - 8;
+        
+        self.wantsLayer = YES;
+
+        [self.layer addSublayer:self.shapeLayer];
+        [self.layer addSublayer:self.outlineLayer];
+        [self.layer addSublayer:self.symbolLayer];
+    }
+    return self;
+}
+
+- (instancetype)init
+{
+    return [self initWithFrame:NSZeroRect];
+}
 
 #pragma mark -
 #pragma mark Drawing Method
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    
-    // if drawShape
-    
-    [self.color setFill];
-    [self.path fill];
-    
-    if (self.hasOutline) {
-        [self.isDark?[NSColor whiteColor]:[NSColor blackColor] setStroke];
-        [self.path stroke];
-    }
-    
-    // if drawSymbol
-    
-    if ( self.symbolPath ) {
-        [self.symbolColor setFill];
-        [self.symbolPath fill];
-    }
-    
+- (BOOL)wantsUpdateLayer
+{
+    return YES;
 }
+
+
+- (void)updateLayer
+{
+    if (self.shapeLayer.hidden == NO) {
+        self.shapeLayer.fillColor = [self.color CGColor];
+        if (self.shapeLayer.path == nil)
+            self.shapeLayer.path = [self.path quartzPath];
+    }
+    
+    if (self.outlineLayer.hidden == NO) {
+        self.outlineLayer.strokeColor = [self.outlineColor CGColor];
+        self.outlineLayer.lineWidth = self.outlineWidth;
+        if (self.outlineLayer.path == nil) {
+            self.outlineLayer.path = [self.path quartzPath];
+        }
+    }
+    
+    if (self.symbolLayer.hidden == NO) {
+        self.symbolLayer.fillColor = [self.symbolColor CGColor];
+        if (self.symbolLayer.path == nil)
+            self.symbolLayer.path = [self.symbolPath quartzPath];
+    }
+}
+
+
+
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+    NSPoint center = NSMakePoint(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
+    
+    self.shapeLayer.bounds = layer.bounds;
+    self.shapeLayer.position = center;
+    self.shapeLayer.path = self.outlineLayer.path = [self.path quartzPath];
+    
+    self.outlineLayer.bounds = layer.bounds;
+    self.outlineLayer.position = center;
+    self.outlineLayer.lineWidth = self.outlineWidth;
+    
+    self.symbolLayer.bounds = layer.bounds;
+    self.symbolLayer.position = center;
+    self.symbolLayer.path = [self.symbolPath quartzPath];
+}
+
+
 
 #pragma mark -
 #pragma mark Properties
-
 
 - (NSString *)shape
 {
@@ -87,95 +142,133 @@
     return _shape;
 }
 
+- (void)setShape:(NSString *)shape
+{
+    _shape = shape;
+    
+    if ( [_shape isEqualToString:StatusShapeNone]) {
+        self.shapeLayer.hidden = YES;
+        [self setNeedsDisplay:YES];
+        return ;
+    }
+    
+    self.shapeLayer.path = self.outlineLayer.path = nil;
+    
+    [self setNeedsDisplay:YES];
+}
+
 - (NSBezierPath *)path
 {
     // Append @"Path" to the shape to allow KVC access to the shape paths
+    
     NSBezierPath *path = [self valueForKey:[self.shape stringByAppendingString:@"Path"]];
-    
-    path.lineWidth = self.outlineWidth;
-    
-    // if glyphPath [path append:glyphPath]
+
+    // XXX need exception handling here if self.shape DNE
     
     return path;
-}
-
-- (NSString *)colorName
-{
-    if ( _colorName == nil ) {
-        _colorName = @"Green";
-    }
-    return _colorName;
-}
-
-- (void)setColorName:(NSString *)colorName
-{
-    if ( colorName) {
-        _colorName = colorName;
-        _color = [self colorForString:_colorName];
-    }
 }
 
 - (NSColor *)color
 {
     if ( _color == nil ) {
-        _color = [self colorForString:self.colorName];
+        _color = [NSColor whiteColor];
     }
     return _color;
 }
 
-
-
-- (NSString *)symbolColorName
+- (void)setColor:(NSColor *)color
 {
-    if ( _symbolColorName == nil ) {
-        _symbolColorName = @"Red";
-    }
-    return _symbolColorName;
+    _color = color;
+    [self setNeedsDisplay:YES];
 }
 
-- (void)setSymbolColorName:(NSString *)glyphColorName
+- (NSString *)symbol
 {
-    _symbolColorName = glyphColorName;
-    _symbolColor = [self colorForString:_symbolColorName];
+    if ( _symbol == nil ) {
+        _symbol = @"\u018F";
+    }
+    return _symbol;
+}
+
+- (void)setSymbol:(NSString *)symbol
+{
+    _symbol = symbol;
+    self.symbolLayer.path = nil;
+    [self setNeedsDisplay:YES];
 }
 
 - (NSColor *)symbolColor
 {
     if ( _symbolColor == nil ) {
-        _symbolColor = [self colorForString:self.symbolColorName];
+        _symbolColor = [NSColor blackColor];
     }
     return _symbolColor;
 }
 
-
-#define kDefaultFontName @"Apple Symbols"
-- (NSString *)fontName
+- (void)setSymbolColor:(NSColor *)symbolColor
 {
-    if ( _fontName == nil ) {
-        _fontName = kDefaultFontName;
-    }
-    return _fontName;
+    _symbolColor = symbolColor;
+    [self setNeedsDisplay:YES];
 }
 
-- (void)setFontName:(NSString *)fontName
+
+#define kDefaultFontName @"Courier"
+
+- (NSFont *)font
 {
-    _fontName = fontName;
-    _font = [NSFont fontWithName:_fontName size:self.fontSize];
+    if (_font == nil ) {
+        _font = [NSFont fontWithName:kDefaultFontName size:self.fontSize];
+    }
+    return _font;
+}
+
+- (void)setFont:(NSFont *)font
+{
+    _font = font;
+    self.symbolLayer.path = nil;
+    [self setNeedsDisplay:YES];
 }
 
 - (void)setFontSize:(CGFloat)fontSize
 {
     _fontSize = fontSize;
-    _font = [NSFont fontWithName:self.fontName size:_fontSize];
+    self.symbolLayer.path = nil;
+    [self setNeedsDisplay:YES];
 }
 
-- (NSFont *)font
+
+- (BOOL)shapeIsHidden
 {
-    if (_font == nil ) {
-        _font = [NSFont fontWithName:self.fontName size:self.fontSize];
-    }
-    return _font;
+    return self.shapeLayer.hidden;
 }
+
+- (void)setShapeHidden:(BOOL)shapeHidden
+{
+    self.shapeLayer.hidden = shapeHidden;
+    [self setNeedsDisplay:YES];
+}
+
+- (BOOL)outlineIsHidden
+{
+    return self.outlineLayer.hidden;
+}
+
+- (void)setOutlineHidden:(BOOL)outlineHidden
+{
+    self.outlineLayer.hidden = outlineHidden;
+    [self setNeedsDisplay:YES];
+}
+
+- (BOOL)symbolIsHidden
+{
+    return self.symbolLayer.hidden;
+}
+
+- (void)setSymbolHidden:(BOOL)symbolHidden
+{
+    self.symbolLayer.hidden = symbolHidden;
+}
+
 
 
 #pragma mark -
@@ -183,10 +276,60 @@
 
 - (BOOL)isDark
 {
+    // this method roots around in User Defaults for the key kAppleInterfaceStyle
+    // and compares it (if found) to the string "dark".  This determines whether
+    // the user has requested "Dark" mode, necessitating a light colored outline
+    // instead of the regular black outline
+    
+    // this would be handled by the StatusItem.button if we were supplying a
+    // Template image, but we're not.
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *appleInterfaceStyle = [userDefaults stringForKey:kAppleInterfaceStyle];
     
     return [[appleInterfaceStyle lowercaseString] isEqualToString:@"dark"];
+}
+
+- (NSColor *)outlineColor
+{
+    return self.isDark?[NSColor whiteColor]:[NSColor blackColor];
+}
+
+#pragma mark -
+#pragma mark Layer Properties
+
+- (CAShapeLayer *)shapeLayer
+{
+    if ( _shapeLayer == nil ) {
+        _shapeLayer = [CAShapeLayer layer];
+        _shapeLayer.name = @"shapeLayer";
+        _shapeLayer.strokeColor = nil;
+        _shapeLayer.fillColor = [self.color CGColor];
+     }
+    return _shapeLayer;
+}
+
+- (CAShapeLayer *)outlineLayer
+{
+    if ( _outlineLayer == nil ) {
+        _outlineLayer = [CAShapeLayer layer];
+        _outlineLayer.name = @"outlineLayer";
+        _outlineLayer.strokeColor = [self.outlineColor CGColor];
+        _outlineLayer.fillColor = nil;
+        _outlineLayer.lineWidth = self.outlineWidth;
+    }
+    return _outlineLayer;
+}
+
+- (CAShapeLayer *)symbolLayer
+{
+    if ( _symbolLayer == nil ) {
+        _symbolLayer = [CAShapeLayer layer];
+        _symbolLayer.name = @"symbolLayer";
+        _symbolLayer.strokeColor = nil;
+        _symbolLayer.fillColor = [self.symbolColor CGColor];
+    }
+    return _symbolLayer;
 }
 
 
@@ -201,44 +344,7 @@
     return NSIntegralRect(NSInsetRect(srcRect, dx, dy));
 }
 
-- (NSColor *)colorForString:(NSString *)colorString
-{
-    NSColor *color = nil;
-    
-    // XXX not especially performant, but it does find a variety of colors by name
-    
-    for ( NSColorList *colorList in [NSColorList availableColorLists] ) {
-        // NSLog(@"colorList = %@",colorList.allKeys);
-        color = [colorList colorWithKey:[colorString capitalizedString]];
-        if (color != nil ) {
-            return color;
-        }
-    }
-    
-    return color;
-}
 
-#define NegativeToZero(V) ((V)<0)?0.0:(V)
-#define ScaleFrom255(V)  ((V)>1.0)?(V)/255.f:(V)
-#define Scale(V) ScaleFrom255(NegativeToZero((V)))
-
-- (NSColor *)colorForDictionary:(NSDictionary *)info
-{
-    // info may have red, blue, green, alpha key/values  empty dictionary is black
-    
-    CGFloat red = 0;
-    CGFloat green = 0;
-    CGFloat blue = 0;
-    CGFloat alpha = 1.0;
-    
-    red = [[info valueForKey:@"red"] floatValue];
-    green = [[info valueForKey:@"green"] floatValue];
-    blue = [[info valueForKey:@"blue"] floatValue];
-    alpha = [[info valueForKey:@"alpha"] floatValue];
-
-    return [NSColor colorWithRed:Scale(red) green:Scale(green) blue:Scale(blue) alpha:Scale(alpha)];
-    
-}
 
 #pragma mark -
 #pragma mark Path Properties
@@ -392,6 +498,7 @@
         [_symbolPath moveToPoint:self.bounds.origin];
         [_symbolPath appendBezierPathWithGlyph:glyphs[0] inFont:self.font];
 
+#if 1
         CGFloat dx = (self.bounds.size.width - _symbolPath.bounds.size.width) / 2.;
 
         // dy divisor could be 4 for shapes which "sit" on the baseline at MinY
@@ -403,15 +510,17 @@
         _symbolPath = [NSBezierPath bezierPath];
         [_symbolPath moveToPoint:sRect.origin];
         [_symbolPath appendBezierPathWithGlyph:glyphs[0] inFont:self.font];
+#endif
         
         free(glyphs);
         
+        [self setNeedsDisplay:YES];
     }
     
     if ( self.symbol == nil) {
         _symbolPath = nil;
     }
-    
+
      return _symbolPath;
 }
 

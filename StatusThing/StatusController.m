@@ -7,6 +7,7 @@
 //
 
 #import "StatusController.h"
+#import "NSColor+NamedColorUtilities.h"
 #import "Konstants.h"
 
 /* StatusController
@@ -21,19 +22,19 @@
 {
     if (self = [super init]) {
         self.port = port;
-        self.statusItem.menu = self.statusMenu;
-        [self.statusItem.button setSubviews:@[ self.statusView]];
-        self.statusItem.highlightMode = NO;
         [self.statusListener setDelegate:self];
-        
-        self.statusView.outline = YES;
-        self.statusView.colorName = @"white";
-        self.statusView.shape = StatusShapeCircle;
-        self.statusView.symbolColorName = @"black";
-        self.statusView.fontName = @"Courier Bold";
-        self.statusView.fontSize = 16;
-        self.statusView.symbol = @"Ə";
+        self.statusItem.highlightMode = YES;
+        self.statusItem.menu = self.statusMenu;
+
+
+        //self.statusView.outlineHidden = NO;
+        //self.statusView.color = [NSColor colorForString:@"green"];
+        //self.statusView.shape = StatusShapeRoundedSquare;
+        //self.statusView.symbolColor = [NSColor colorForString:@"white"];
+        //self.statusView.symbol = @"Ə";
         //self.statusView.symbol = @"\u018F";
+        
+        [self.statusItem.button setSubviews:@[ self.statusView]];
 
     }
     return self;
@@ -70,10 +71,8 @@
 - (StatusView *)statusView
 {
     if ( _statusView == nil ) {
-        _statusView = [[StatusView alloc] init];
         CGFloat w = [[NSStatusBar systemStatusBar] thickness];
-        [_statusView setFrameSize:NSMakeSize(w, w)];
-        //_statusView.fontSize = w;
+        _statusView = [[StatusView alloc] initWithFrame:NSMakeRect(0, 0, w, w)];
     }
     return _statusView;
 }
