@@ -41,8 +41,9 @@ Feed Me JSON
   - shape
   - color
   - symbol
-  - symbol color
+  - symbol color, font and font size
   - short update messages
+  - hide and show shape, outline and symbol
 
 
 ### Shapes
