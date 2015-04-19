@@ -5,13 +5,33 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 <img src="Screenshots/ScreenShot0.png"/>
 
 ```sh
+$ telnet localhost 55000
+Trying ::1...
+telnet: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Connected to ThingStatus
+Feed Me JSON
 { "shape":"circle","color":"white","symbol":"\u018F","symbolColor":"black" }
+^]
+telnet> q
 ```
 
 <img src="Screenshots/ScreenShot1.png"/>
 
 ```sh
-{ "color":"red","symbolColor":"yellow" }
+$ telnet localhost 55000
+Trying ::1...
+telnet: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Connected to ThingStatus
+Feed Me JSON
+{ "color":"red","symbolColor":"yellow" } }
+^]
+
 ```
 <img src="Screenshots/ScreenShot2.png"/>
 
