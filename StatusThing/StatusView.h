@@ -26,14 +26,12 @@
 @interface StatusView : NSView
 
 @property (strong, nonatomic) NSString *shape;
-
-@property (strong, nonatomic) NSString *shape;
 @property (strong, nonatomic) NSFont   *font;
 @property (strong, nonatomic) NSColor  *color;
 @property (strong, nonatomic) NSString *symbol;
 @property (strong, nonatomic) NSColor  *symbolColor;
-@property (assign, nonatomic) CGFloat outlineWidth;
-@property (assign, nonatomic) CGFloat fontSize;
+@property (assign, nonatomic) CGFloat   outlineWidth;
+@property (assign, nonatomic) CGFloat   fontSize;
 
 @property (assign, nonatomic,getter=shapeIsHidden) BOOL hideShape;
 @property (assign, nonatomic,getter=outlineIsHidden) BOOL hideOutline;

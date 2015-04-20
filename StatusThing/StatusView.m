@@ -37,13 +37,7 @@
         [self.layer addSublayer:self.shapeLayer];
         [self.layer addSublayer:self.outlineLayer];
         [self.layer addSublayer:self.symbolLayer];
-        self.outlineWidth = 0.8;
-        self.fontSize = CGRectGetHeight(self.bounds) - 8;
-        
-        self.hideShape = NO;
-        self.hideOutline = NO;
-        self.hideSymbol = NO;
-    }
+     }
     return self;
 }
 
@@ -85,25 +79,6 @@
 
 #pragma mark -
 #pragma mark Properties
-
-- (NSArray *)properties
-{
-    if (_properties == nil) {
-        _properties = @[ StatusViewShapeProperty,
-                         StatusViewHideShapeProperty,
-                         StatusViewColorProperty,
-                         StatusViewHideOutlineProperty,
-                         StatusViewOutlineWidthProperty,
-                         StatusViewSymbolProperty,
-                         StatusViewSymbolColorProperty,
-                         StatusViewHideSymbolProperty,
-                         StatusViewFontProperty,
-                         StatusViewFontSizeProperty,
-                         ];
-    }
-    return _properties;
-}
-
 
 - (NSString *)shape
 {
@@ -234,9 +209,9 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)setShapeHiddenForObject:(id)object
+- (void)setHideShapeForObject:(id)object
 {
-    [self setShapeHidden: [object boolValue]];
+    [self setHideShape:[object boolValue]];
 }
 
 - (BOOL)outlineIsHidden
@@ -250,9 +225,9 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)setOutlineHiddenForObject:(id)object
+- (void)setHideOutlineForObject:(id)object
 {
-    [self setOutlineHidden:[object boolValue]];
+    [self setHideOutline:[object boolValue]];
 }
 
 - (BOOL)symbolIsHidden
@@ -266,9 +241,9 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)setSymbolHiddenForObject:(id)object
+- (void)setHideSymbolForObject:(id)object
 {
-    [self setSymbolHidden:[object boolValue]];
+    [self setHideSymbol:[object boolValue]];
 }
 
 
@@ -288,6 +263,7 @@
 {
     if ( _outlineLayer == nil ) {
         _outlineLayer = [OutlineShapeLayer layer];
+        _outlineLayer.lineWidth = 0.8;
     }
     return _outlineLayer;
 }
@@ -323,78 +299,5 @@
     }];
 }
 
-#pragma mark -
-#pragma mark Path Reference Properties
-- (CGPathRef)symbolPathRef
-{
-    if ( _symbolPathRef == nil) {
-        _symbolPathRef = [self.symbolPath quartzPath];
-    }
-    return _symbolPathRef;
-}
-
-- (CGPathRef)circlePathRef
-{
-    if (_circlePathRef == nil ) {
-        _circlePathRef = [self.circlePath quartzPath];
-    }
-    return _circlePathRef;
-}
-
-- (CGPathRef)trianglePathRef
-{
-    if (_trianglePathRef == nil ) {
-        _trianglePathRef = [self.trianglePath quartzPath];
-    }
-    return _trianglePathRef;
-}
-
-- (CGPathRef)squarePathRef
-{
-    if (_squarePathRef == nil) {
-        _squarePathRef = [self.squarePath quartzPath];
-    }
-    return _squarePathRef;
-}
-
-- (CGPathRef)roundedSquarePathRef
-{
-    if (_roundedSquarePathRef == nil) {
-        _roundedSquarePathRef = [self.roundedSquarePath quartzPath];
-    }
-    return _roundedSquarePathRef;
-}
-
-- (CGPathRef)diamondPathRef
-{
-    if (_diamondPathRef == nil) {
-        _diamondPathRef = [self.diamondPath quartzPath];
-    }
-    return _diamondPathRef;
-}
-
-- (CGPathRef)pentagonPathRef
-{
-    if (_pentagonPathRef == nil) {
-        _pentagonPathRef = [self.pentagonPath quartzPath];
-    }
-    return _pentagonPathRef;
-}
-
-- (CGPathRef)hexagonPathRef
-{
-    if (_hexagonPathRef == nil) {
-        _hexagonPathRef = [self.hexagonPath quartzPath];
-    }
-    return _hexagonPathRef;
-}
-
-- (CGPathRef)octogonPathRef
-{
-    if (_octogonPathRef == nil) {
-        _octogonPathRef = [self.octogonPath quartzPath];
-    }
-    return _octogonPathRef;
-}
 
 @end
