@@ -7,17 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-
-#define StatusShapeNone           @"none"
-#define StatusShapeCircle         @"circle"
-#define StatusShapeSquare         @"square"
-#define StatusShapeRoundedSquare  @"roundedSquare"
-#define StatusShapeDiamond        @"diamond"
-#define StatusShapeTriangle       @"triangle"
-#define StatusShapePentagon       @"pentagon"
-#define StatusShapeHexagon        @"hexagon"
-#define StatusShapeOctogon        @"octogon"
+#import "StatusShapeLayer.h"
+#import "OutlineShapeLayer.h"
+#import "SymbolShapeLayer.h" 
 
 #define StatusViewShapeProperty       @"shape"
 #define StatusViewColorProperty       @"color"
@@ -30,7 +22,6 @@
 @interface StatusView : NSView
 
 @property (strong, nonatomic) NSString *shape;
-@property (strong, nonatomic,readonly) NSBezierPath *path;
 
 @property (strong, nonatomic) NSFont   *font;
 @property (strong, nonatomic) NSColor  *color;
@@ -44,7 +35,7 @@
 @property (assign, nonatomic) CGFloat fontSize;
 
 
-
+- (void)updateWithDictionary:(NSDictionary *)info;
 
 
 @end

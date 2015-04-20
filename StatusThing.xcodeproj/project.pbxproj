@@ -13,6 +13,10 @@
 		1D6DB45A1AE3185000277C13 /* ScreenShot2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6DB4571AE3185000277C13 /* ScreenShot2.png */; };
 		1D6DB4601AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB45F1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
+		1D6DB4711AE453CB00277C13 /* StatusShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4701AE453CB00277C13 /* StatusShapeLayer.m */; };
+		1D6DB4741AE453E400277C13 /* OutlineShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4731AE453E400277C13 /* OutlineShapeLayer.m */; };
+		1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */; };
+		1D6DB47A1AE4620200277C13 /* BaseShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4791AE4620200277C13 /* BaseShapeLayer.m */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
 		1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */; };
@@ -45,6 +49,14 @@
 		1D6DB45F1AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+BezierPathQuartzUtilities.m"; sourceTree = "<group>"; };
 		1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+NamedColorUtilities.h"; sourceTree = "<group>"; };
 		1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+NamedColorUtilities.m"; sourceTree = "<group>"; };
+		1D6DB46F1AE453CB00277C13 /* StatusShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusShapeLayer.h; sourceTree = "<group>"; };
+		1D6DB4701AE453CB00277C13 /* StatusShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusShapeLayer.m; sourceTree = "<group>"; };
+		1D6DB4721AE453E400277C13 /* OutlineShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutlineShapeLayer.h; sourceTree = "<group>"; };
+		1D6DB4731AE453E400277C13 /* OutlineShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutlineShapeLayer.m; sourceTree = "<group>"; };
+		1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolShapeLayer.h; sourceTree = "<group>"; };
+		1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolShapeLayer.m; sourceTree = "<group>"; };
+		1D6DB4781AE4620200277C13 /* BaseShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseShapeLayer.h; sourceTree = "<group>"; };
+		1D6DB4791AE4620200277C13 /* BaseShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseShapeLayer.m; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DAF8F741ADFFEE2009CE2BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -118,6 +130,7 @@
 			children = (
 				1D6DB44F1AE2AD0000277C13 /* StatusView.h */,
 				1D6DB4501AE2AD0000277C13 /* StatusView.m */,
+				1D6DB46E1AE4539600277C13 /* Layers */,
 				1DAF8F991AE002D9009CE2BE /* StatusMenu.h */,
 				1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */,
 			);
@@ -140,6 +153,21 @@
 				1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */,
 			);
 			name = Models;
+			sourceTree = "<group>";
+		};
+		1D6DB46E1AE4539600277C13 /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				1D6DB4781AE4620200277C13 /* BaseShapeLayer.h */,
+				1D6DB4791AE4620200277C13 /* BaseShapeLayer.m */,
+				1D6DB46F1AE453CB00277C13 /* StatusShapeLayer.h */,
+				1D6DB4701AE453CB00277C13 /* StatusShapeLayer.m */,
+				1D6DB4721AE453E400277C13 /* OutlineShapeLayer.h */,
+				1D6DB4731AE453E400277C13 /* OutlineShapeLayer.m */,
+				1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */,
+				1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */,
+			);
+			name = Layers;
 			sourceTree = "<group>";
 		};
 		1DAF8F671ADFFEE2009CE2BE = {
@@ -306,11 +334,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6DB4741AE453E400277C13 /* OutlineShapeLayer.m in Sources */,
 				1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */,
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
+				1D6DB4711AE453CB00277C13 /* StatusShapeLayer.m in Sources */,
+				1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */,
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
+				1D6DB47A1AE4620200277C13 /* BaseShapeLayer.m in Sources */,
 				1D6DB4601AE33D5200277C13 /* NSBezierPath+BezierPathQuartzUtilities.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,
 				1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */,

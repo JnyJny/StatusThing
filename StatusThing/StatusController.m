@@ -25,8 +25,7 @@
         [self.statusListener setDelegate:self];
         self.statusItem.highlightMode = YES;
         self.statusItem.menu = self.statusMenu;
-
-
+        
         //self.statusView.outlineHidden = NO;
         //self.statusView.color = [NSColor colorForString:@"green"];
         //self.statusView.shape = StatusShapeRoundedSquare;
@@ -114,6 +113,7 @@
 {
     //    NSLog(@"got: %@",info);
     
+    [self.statusView updateWithDictionary:info];
 
     self.statusItem.button.needsDisplay = YES;
   

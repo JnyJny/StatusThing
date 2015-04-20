@@ -10,6 +10,7 @@
 
 @interface NSColor (NamedColorUtilities)
 
++ (NSColor *)colorForObject:(id)object;
 + (NSColor *)colorForString:(NSString *)colorString;
 + (NSColor *)colorForDictionary:(NSDictionary *)info;
 

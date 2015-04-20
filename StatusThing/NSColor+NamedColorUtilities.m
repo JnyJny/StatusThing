@@ -11,6 +11,21 @@
 @implementation NSColor (NamedColorUtilities)
 
 
++ (NSColor *)colorForObject:(id)object
+{
+ 
+    if ( [object isKindOfClass:[NSString class]]) {
+        return [NSColor colorForString:object];
+    }
+    
+    if ( [object isKindOfClass:[NSDictionary class]]) {
+        return [NSColor colorForDictionary:object];
+    }
+
+    return nil;
+    
+}
+
 + (NSColor *)colorForString:(NSString *)colorString
 {
     NSColor *color = nil;
