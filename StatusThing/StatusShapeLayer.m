@@ -104,21 +104,7 @@
 
 }
 
-#pragma mark -
-#pragma mark Utility Method
 
-- (CGPathRef)drawClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(NSInteger)count points:(CGPoint *)points
-{
-    CGMutablePathRef p = CGPathCreateMutable();
-    
-    CGPathMoveToPoint(p, NULL, points[0].x, points[0].y);
-    
-    CGPathAddLines(p, transform, points, count);
-    
-    CGPathCloseSubpath(p);
-    
-    return CGPathRetain(p);
-}
 
 #pragma mark -
 #pragma mark Path Properties

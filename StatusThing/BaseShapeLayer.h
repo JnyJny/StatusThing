@@ -10,6 +10,20 @@
 
 @interface BaseShapeLayer : CAShapeLayer
 
+#define GeometricShapeNone           @"none"
+#define GeometricShapeCircle         @"circle"
+#define GeometricShapeSquare         @"square"
+#define GeometricShapeRoundedSquare  @"roundedSquare"
+#define GeometricShapeDiamond        @"diamond"
+#define GeometricShapeTriangle       @"triangle"
+#define GeometricShapePentagon       @"pentagon"
+#define GeometricShapeHexagon        @"hexagon"
+#define GeometricShapeOctogon        @"octogon"
+
+
+
+- (CGPathRef)drawClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(NSInteger)count points:(CGPoint *)points;
+
 - (NSRect)insetRect:(NSRect)srcRect byPercentage:(CGFloat) percentage;
 
 @end
