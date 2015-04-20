@@ -70,8 +70,7 @@
 - (StatusView *)statusView
 {
     if ( _statusView == nil ) {
-        CGFloat w = [[NSStatusBar systemStatusBar] thickness];
-        _statusView = [[StatusView alloc] initWithFrame:NSMakeRect(0, 0, w, w)];
+        _statusView = [[StatusView alloc] init];
     }
     return _statusView;
 }
@@ -115,7 +114,7 @@
     
     [self.statusView updateWithDictionary:info];
 
-    self.statusItem.button.needsDisplay = YES;
+    [self.statusView updateWithDictionary:info];
   
 }
 

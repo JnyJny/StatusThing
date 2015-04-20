@@ -12,6 +12,8 @@
 #import "NSColor+NamedColorUtilities.h"
 #import "Konstants.h"
 
+#define StringIsTrue(S) [[S lowercaseString] isEqualToString:@"yes"] || [[(S) lowercaseString] isEqualToString:@"true"]
+
 @interface StatusView()
 
 @property (strong,nonatomic) StatusShapeLayer *shapeLayer;
@@ -27,25 +29,35 @@
 #pragma mark -
 #pragma mark Initialization Methods
 
-- (instancetype)initWithFrame:(NSRect)frameRect
+- (instancetype)initWithFrame:(NSRect )rect
 {
-    self = [super initWithFrame:frameRect];
+    self = [super initWithFrame:rect];
     if ( self ) {
         self.wantsLayer = YES;
         [self.layer addSublayer:self.shapeLayer];
         [self.layer addSublayer:self.outlineLayer];
         [self.layer addSublayer:self.symbolLayer];
+        self.outlineWidth = 0.8;
+        self.fontSize = CGRectGetHeight(self.bounds) - 8;
+        
+        self.hideShape = NO;
+        self.hideOutline = NO;
+        self.hideSymbol = NO;
     }
     return self;
 }
 
 - (instancetype)init
 {
-    return [self initWithFrame:NSZeroRect];
+    CGFloat w = [[NSStatusBar systemStatusBar] thickness];
+    
+    return [self initWithFrame:NSMakeRect(0, 0, w, w)];
 }
 
+// missing: - (instancetype)initWithCoder:(NSCoder *)coder
+
 #pragma mark -
-#pragma mark Drawing Method
+#pragma mark Layer Drawing Methods
 
 - (BOOL)wantsUpdateLayer { return YES; }
 
@@ -73,6 +85,25 @@
 
 #pragma mark -
 #pragma mark Properties
+
+- (NSArray *)properties
+{
+    if (_properties == nil) {
+        _properties = @[ StatusViewShapeProperty,
+                         StatusViewHideShapeProperty,
+                         StatusViewColorProperty,
+                         StatusViewHideOutlineProperty,
+                         StatusViewOutlineWidthProperty,
+                         StatusViewSymbolProperty,
+                         StatusViewSymbolColorProperty,
+                         StatusViewHideSymbolProperty,
+                         StatusViewFontProperty,
+                         StatusViewFontSizeProperty,
+                         ];
+    }
+    return _properties;
+}
+
 
 - (NSString *)shape
 {
@@ -197,7 +228,7 @@
     return self.shapeLayer.hidden;
 }
 
-- (void)setShapeHidden:(BOOL)shapeHidden
+- (void)setHideShape:(BOOL)shapeHidden
 {
     self.shapeLayer.hidden = shapeHidden;
     [self setNeedsDisplay:YES];
@@ -213,7 +244,7 @@
     return self.outlineLayer.hidden;
 }
 
-- (void)setOutlineHidden:(BOOL)outlineHidden
+- (void)setHideOutline:(BOOL)outlineHidden
 {
     self.outlineLayer.hidden = outlineHidden;
     [self setNeedsDisplay:YES];
@@ -229,7 +260,7 @@
     return self.symbolLayer.hidden;
 }
 
-- (void)setSymbolHidden:(BOOL)symbolHidden
+- (void)setHideSymbol:(BOOL)symbolHidden
 {
     self.symbolLayer.hidden = symbolHidden;
     [self setNeedsDisplay:YES];
@@ -292,6 +323,78 @@
     }];
 }
 
+#pragma mark -
+#pragma mark Path Reference Properties
+- (CGPathRef)symbolPathRef
+{
+    if ( _symbolPathRef == nil) {
+        _symbolPathRef = [self.symbolPath quartzPath];
+    }
+    return _symbolPathRef;
+}
 
+- (CGPathRef)circlePathRef
+{
+    if (_circlePathRef == nil ) {
+        _circlePathRef = [self.circlePath quartzPath];
+    }
+    return _circlePathRef;
+}
+
+- (CGPathRef)trianglePathRef
+{
+    if (_trianglePathRef == nil ) {
+        _trianglePathRef = [self.trianglePath quartzPath];
+    }
+    return _trianglePathRef;
+}
+
+- (CGPathRef)squarePathRef
+{
+    if (_squarePathRef == nil) {
+        _squarePathRef = [self.squarePath quartzPath];
+    }
+    return _squarePathRef;
+}
+
+- (CGPathRef)roundedSquarePathRef
+{
+    if (_roundedSquarePathRef == nil) {
+        _roundedSquarePathRef = [self.roundedSquarePath quartzPath];
+    }
+    return _roundedSquarePathRef;
+}
+
+- (CGPathRef)diamondPathRef
+{
+    if (_diamondPathRef == nil) {
+        _diamondPathRef = [self.diamondPath quartzPath];
+    }
+    return _diamondPathRef;
+}
+
+- (CGPathRef)pentagonPathRef
+{
+    if (_pentagonPathRef == nil) {
+        _pentagonPathRef = [self.pentagonPath quartzPath];
+    }
+    return _pentagonPathRef;
+}
+
+- (CGPathRef)hexagonPathRef
+{
+    if (_hexagonPathRef == nil) {
+        _hexagonPathRef = [self.hexagonPath quartzPath];
+    }
+    return _hexagonPathRef;
+}
+
+- (CGPathRef)octogonPathRef
+{
+    if (_octogonPathRef == nil) {
+        _octogonPathRef = [self.octogonPath quartzPath];
+    }
+    return _octogonPathRef;
+}
 
 @end
