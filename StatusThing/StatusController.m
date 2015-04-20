@@ -25,16 +25,7 @@
         [self.statusListener setDelegate:self];
         self.statusItem.highlightMode = YES;
         self.statusItem.menu = self.statusMenu;
-        
-        //self.statusView.outlineHidden = NO;
-        //self.statusView.color = [NSColor colorForString:@"green"];
-        //self.statusView.shape = StatusShapeRoundedSquare;
-        //self.statusView.symbolColor = [NSColor colorForString:@"white"];
-        //self.statusView.symbol = @"Ə";
-        //self.statusView.symbol = @"\u018F";
-        
-        [self.statusItem.button setSubviews:@[ self.statusView]];
-
+        [self.statusItem.button addSubview:self.statusView];
     }
     return self;
 }

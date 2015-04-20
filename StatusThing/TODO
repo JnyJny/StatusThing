@@ -1,16 +1,21 @@
 BROKEN
-    JSON sourced dictionaries not distributed to StatusView or StatusMenu
+    JSON sourced dictionaries not distributed to StatusMenu
+    [fixed]JSON sourced dictionaries not distributed to StatusView
+
 
 Command line argument processing
     specify listening port number
     specify starting shape|color|symbol|symbolcolor|animation
 
 StatusView
-    Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
+    [done]Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
     [done]implement shapes as layers to help with animations
     [done]symbol toggle
     [done]shape toggle
     [done]StatusShapeNone ?
+    range checking on user supplied symbol string
+    centering symbols within a shape automatically, masking/clipping?
+    
 
 
 StatusView animations
@@ -33,7 +38,7 @@ Error Handling
     Send error notices back to clients when JSON doesn't work out
 
 JSON dispatch object
-    Take the smarts out of the various Status* objects
+    [fixed]Take the smarts out of the various Status* objects
     Use more KVC
 
 StatusMenu
