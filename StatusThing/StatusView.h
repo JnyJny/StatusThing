@@ -14,12 +14,12 @@
 
 @interface StatusView : NSView
 
+
 @property (strong,nonatomic,readonly) PolyShapeLayer   *shape;
 @property (strong,nonatomic,readonly) PolyShapeLayer   *outline;
 @property (strong,nonatomic,readonly) SymbolShapeLayer *symbol;
 
+- (void)centerInRect:(CGRect)rect;
 - (void)updateKeyPathsWithDictionary:(NSDictionary *)info;
-
-
 
 @end

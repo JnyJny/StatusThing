@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-@import AppKit;
 #import "SymbolShapeLayer.h"
 
 @implementation SymbolShapeLayer
@@ -15,16 +14,15 @@
 {
     self = [super init];
     if (self) {
+        self.fontSize = 16;
         self.name = SymbolShapeLayerName;
         self.backgroundColor = nil;
-        self.foregroundColor = [[NSColor blackColor] CGColor];
+        self.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
         self.alignmentMode = kCAAlignmentCenter;
         self.string = @"\u018F";
         self.font = CFBridgingRetain(@"Courier");
-        self.fontSize = CGRectGetHeight(self.bounds) - 8.;
     }
     return self;
 }
-
 
 @end

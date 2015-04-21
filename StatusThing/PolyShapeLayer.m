@@ -44,8 +44,19 @@
         [self addSublayer:self.cross];
         [self addSublayer:self.strike];
         [self addSublayer:self.barredCircle];
+        
+        self.strokeColor = CGColorCreateGenericRGB(0, 0, 0, 1);
+        self.fillColor = CGColorCreateGenericRGB(1, 0, 0, 1);
+        self.backgroundColor = nil;
     }
     return self;
+}
+
+- (void)drawInContext:(CGContextRef)ctx
+{
+    [super drawInContext:ctx];
+    
+    NSLog(@"draw in context");
 }
 
 
@@ -67,6 +78,41 @@
         obj.position = position;
     }];
 }
+
+- (void)setBackgroundColor:(CGColorRef)backgroundColor
+{
+    [super setBackgroundColor:backgroundColor];
+    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+        obj.backgroundColor = backgroundColor;
+    }];
+}
+
+- (void)setFillColor:(CGColorRef)fillColor
+{
+    [super setFillColor:fillColor];
+    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+        obj.fillColor = fillColor;
+    }];
+}
+
+- (void)setStrokeColor:(CGColorRef)strokeColor
+{
+    [super setStrokeColor:strokeColor];
+    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+        obj.strokeColor = strokeColor;
+    }];
+}
+
+- (void)setLineWidth:(CGFloat)lineWidth
+{
+    [super setLineWidth:lineWidth];
+    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+        obj.lineWidth = lineWidth;
+    }];
+}
+
+#pragma mark -
+#pragma mark SubLayer Properties
 
 
 - (CircleShapeLayer *)circle {

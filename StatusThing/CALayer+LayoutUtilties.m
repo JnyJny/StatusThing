@@ -17,8 +17,6 @@
     
     self.bounds = layer.bounds;
     self.position = center;
-    
-
 }
 
 - (void)centerInRect:(CGRect)rect
@@ -30,9 +28,11 @@
 
 - (void)centerInRect:(CGRect)rect andInset:(CGPoint)delta
 {
-    [self centerInRect:rect];
+
     CGRect inset = CGRectInset(rect, delta.x, delta.y);
     self.bounds = CGRectIntegral(inset);
+    
+    [self centerInRect:rect];
 }
 
 

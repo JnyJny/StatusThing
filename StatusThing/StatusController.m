@@ -23,10 +23,13 @@
     if (self = [super init]) {
         self.port = port;
         [self.statusListener setDelegate:self];
-        self.statusItem.highlightMode = YES;
         self.statusItem.menu = self.statusMenu;
+        self.statusItem.highlightMode = YES;
         [self.statusItem.button addSubview:self.statusView];
+        
+        [self.statusView centerInRect:self.statusItem.button.bounds];
     }
+    
     return self;
 }
 

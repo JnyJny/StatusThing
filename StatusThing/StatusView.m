@@ -32,18 +32,15 @@
         [self.layer addSublayer:self.outline];
         [self.layer addSublayer:self.symbol];
         
-        GeometricShapeLayer *sl = [self.shape setVisibleShape:GeometricShapeBarredCircle];
-        sl.fillColor = [[NSColor redColor] CGColor];
-        sl.strokeColor = [[NSColor whiteColor] CGColor];
-        sl.lineWidth = 2.;
+        [self.shape setVisibleShape:GeometricShapeCircle];
         
-        GeometricShapeLayer *ol = [self.outline setVisibleShape:GeometricShapeCircle];
-        ol.strokeColor = [[NSColor blackColor] CGColor];
-        ol.fillColor = nil;
-        ol.lineWidth = 2.;
-
+        self.shape.strokeColor = nil;
+        
+        [self.outline setVisibleShape:GeometricShapeCircle];
+        self.outline.fillColor = nil;
+        self.outline.lineWidth = 2.;
+        
         [self setNeedsDisplay:YES];
-
     }
     return self;
 }
@@ -60,21 +57,27 @@
 #pragma mark -
 #pragma mark Layer Drawing Methods
 
+- (BOOL)opaque
+{
+    return NO;
+}
+
 - (BOOL)wantsUpdateLayer { return YES; }
 
 - (void)updateLayer
 {
     NSLog(@"updateLayer");
+
+
 }
+
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
+
     [self.shape centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
     [self.outline centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
     [self.symbol centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
-    
-    self.symbol.bounds = layer.bounds;
-    self.symbol.position = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
 }
 
 
@@ -94,7 +97,6 @@
 {
     if (_outline == nil) {
         _outline = [PolyShapeLayer layer];
-        _outline.lineWidth = 0.8;
     }
     return _outline;
 }
@@ -103,13 +105,46 @@
 {
     if (_symbol == nil) {
         _symbol = [SymbolShapeLayer layer];
-        _symbol.fontSize = CGRectGetHeight(self.bounds);
     }
     return _symbol;
 }
 
+
+
 #pragma mark -
 #pragma mark Methods
+
+- (void)setShapeForObject:(NSString *)name
+{
+    [self.shape setVisibleShape:name];
+    [self.outline setVisibleShape:name];
+}
+
+- (void)setFillColorForObject:(id)object
+{
+    
+    [self.shape setFillColor:[[NSColor colorForObject:object] CGColor]];
+}
+
+- (void)setStrokeColorForObject:(id)object
+{
+    [self.shape setStrokeColor:[[NSColor colorForObject:object] CGColor]];
+}
+
+- (void)setForegroundColorForObject:(id)object
+{
+    [self.symbol setForegroundColor:[[NSColor colorForObject:object] CGColor]];
+}
+
+- (void)centerInRect:(CGRect)rect
+{
+    CGFloat dx = (CGRectGetWidth(rect) - CGRectGetWidth(self.frame)) / 2.;
+    CGFloat dy = (CGRectGetHeight(rect) - CGRectGetHeight(self.frame)) / 2.;
+    
+    CGPoint newOrigin = CGPointMake(self.frame.origin.x + dx, self.frame.origin.y + dy);
+    
+    [self setFrameOrigin:newOrigin];
+}
 
 - (void)updateKeyPathsWithDictionary:(NSDictionary *)info
 {
@@ -120,10 +155,24 @@
             [self setValue:obj forKey:[key stringByAppendingString:@"ForObject"] ];
         }
         @catch (NSException *exception) {
-            NSLog(@"updateWithDictionary: %@",exception);
+            //NSLog(@"%@ForObject - updateWithDictionary: %@",key,exception);
+        }
+    
+        @try {
+            [self setValue:obj forKeyPath:key];
+        }
+        @catch (NSException *exception) {
+            //NSLog(@"%@ - updateKeyPathsWithDictionary: %@",key,exception);
         }
     }];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    NSLog(@"statusView got %@ %@",keyPath,change);
+}
 
 @end
