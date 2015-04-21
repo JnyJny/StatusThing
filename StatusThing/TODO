@@ -9,14 +9,16 @@ Command line argument processing
     specify starting shape|color|symbol|symbolcolor|animation
 
 StatusView
+    range checking on user supplied symbol string
+    centering symbols within a shape automatically, masking/clipping?
+    statusItem.button blue highlight is being clipped 
+
     [done]Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
     [done]implement shapes as layers to help with animations
     [done]symbol toggle
     [done]shape toggle
     [done]StatusShapeNone ?
-    range checking on user supplied symbol string
-    centering symbols within a shape automatically, masking/clipping?
-    center StatusView in the NSStatusItem's button's view
+    [done]center StatusView in the NSStatusItem's button's view
     
 
 
@@ -82,7 +84,7 @@ Packaging?
 
 Shapes
     WiFi-like fan thingy
-    Images supplied by client
+    Images supplied by client - integrate ASCIImage as an optional dependency
     System template images
 
 Licensing
