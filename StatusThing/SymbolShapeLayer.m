@@ -25,4 +25,10 @@
     return self;
 }
 
+- (void)setFontSize:(CGFloat)fontSize
+{
+    [super setFontSize:fontSize];
+    [self setNeedsLayout];
+}
+
 @end

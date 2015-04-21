@@ -33,7 +33,6 @@
         [self.layer addSublayer:self.symbol];
         
         [self.shape setVisibleShape:GeometricShapeCircle];
-        
         self.shape.strokeColor = nil;
         
         [self.outline setVisibleShape:GeometricShapeCircle];
@@ -64,17 +63,9 @@
 
 - (BOOL)wantsUpdateLayer { return YES; }
 
-- (void)updateLayer
-{
-    NSLog(@"updateLayer");
-
-
-}
-
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-
     [self.shape centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
     [self.outline centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
     [self.symbol centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
@@ -116,8 +107,12 @@
 
 - (void)setShapeForObject:(NSString *)name
 {
-    [self.shape setVisibleShape:name];
-    [self.outline setVisibleShape:name];
+    GeometricShapeLayer *s = [self.shape setVisibleShape:name];
+    GeometricShapeLayer *o = [self.outline setVisibleShape:name];
+    
+    NSLog(@"shape: %@ outline: %@",s.name,o.name);
+    
+    [self setNeedsDisplay:(s!=nil)||(o!=nil)];
 }
 
 - (void)setFillColorForObject:(id)object
@@ -150,19 +145,25 @@
 {
     
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-
+        BOOL found = YES;
+        // XXX weird bug here
+        //     the found dance keeps it from happening
         @try {
             [self setValue:obj forKey:[key stringByAppendingString:@"ForObject"] ];
         }
         @catch (NSException *exception) {
             //NSLog(@"%@ForObject - updateWithDictionary: %@",key,exception);
+            found = NO;
         }
-    
-        @try {
-            [self setValue:obj forKeyPath:key];
-        }
-        @catch (NSException *exception) {
-            //NSLog(@"%@ - updateKeyPathsWithDictionary: %@",key,exception);
+
+        if ( !found ) {
+            @try {
+                [self setValue:obj forKeyPath:key];
+                //NSLog(@"set %@ for %@",obj,key);
+            }
+            @catch (NSException *exception) {
+                //NSLog(@"%@ - updateKeyPathsWithDictionary: %@",key,exception);
+            }
         }
     }];
 }

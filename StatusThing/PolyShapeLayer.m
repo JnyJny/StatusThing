@@ -52,12 +52,6 @@
     return self;
 }
 
-- (void)drawInContext:(CGContextRef)ctx
-{
-    [super drawInContext:ctx];
-    
-    NSLog(@"draw in context");
-}
 
 
 #pragma mark -
