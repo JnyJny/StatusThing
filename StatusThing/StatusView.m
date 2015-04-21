@@ -32,14 +32,19 @@
         [self.layer addSublayer:self.outline];
         [self.layer addSublayer:self.symbol];
         
-        GeometricShapeLayer *sl = [self.shape setVisibleShape:GeometricShapeSquare];
-        
-        sl.fillColor = [[NSColor greenColor] CGColor];
-        sl.strokeColor = [[NSColor blackColor] CGColor];
+        GeometricShapeLayer *sl = [self.shape setVisibleShape:GeometricShapeBarredCircle];
+        sl.fillColor = [[NSColor redColor] CGColor];
+        sl.strokeColor = [[NSColor whiteColor] CGColor];
         sl.lineWidth = 2.;
+        
+        GeometricShapeLayer *ol = [self.outline setVisibleShape:GeometricShapeCircle];
+        ol.strokeColor = [[NSColor blackColor] CGColor];
+        ol.fillColor = nil;
+        ol.lineWidth = 2.;
+
         [self setNeedsDisplay:YES];
 
-     }
+    }
     return self;
 }
 
@@ -64,19 +69,18 @@
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    [self.shape layoutSublayerOfLayer:layer];
-    [self.outline layoutSublayerOfLayer:layer];
-    [self.symbol layoutSublayerOfLayer:layer];
+    [self.shape centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.outline centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.symbol centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
+    
+    self.symbol.bounds = layer.bounds;
+    self.symbol.position = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
 }
 
 
 
 #pragma mark -
 #pragma mark Properties
-
-
-#pragma mark -
-#pragma mark Layer Properties
 
 - (PolyShapeLayer *)shape
 {
@@ -99,15 +103,10 @@
 {
     if (_symbol == nil) {
         _symbol = [SymbolShapeLayer layer];
-        _symbol.fontSize = CGRectGetHeight(self.bounds) - 4;
+        _symbol.fontSize = CGRectGetHeight(self.bounds);
     }
     return _symbol;
 }
-
-
-#pragma mark -
-#pragma mark Private Methods
-
 
 #pragma mark -
 #pragma mark Methods

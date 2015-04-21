@@ -22,6 +22,10 @@
 @property (strong,nonatomic,readonly) StarShapeLayer          *star;
 @property (strong,nonatomic,readonly) HexagonShapeLayer       *hexagon;
 @property (strong,nonatomic,readonly) OctogonShapeLayer       *octogon;
+@property (strong,nonatomic,readonly) CrossShapeLayer         *cross;
+@property (strong,nonatomic,readonly) StrikeShapeLayer        *strike;
+@property (strong,nonatomic,readonly) BarredCircleShapeLayer  *barredCircle;
+
 
 
 - (GeometricShapeLayer *)setVisibleShape:(NSString *)shapeName;

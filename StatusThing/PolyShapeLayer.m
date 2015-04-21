@@ -19,6 +19,9 @@
 @synthesize star = _star;
 @synthesize hexagon = _hexagon;
 @synthesize octogon = _octogon;
+@synthesize cross = _cross;
+@synthesize strike = _strike;
+@synthesize barredCircle = _barredCircle;
 
 + (instancetype)layer
 {
@@ -38,6 +41,9 @@
         [self addSublayer:self.star];
         [self addSublayer:self.hexagon];
         [self addSublayer:self.octogon];
+        [self addSublayer:self.cross];
+        [self addSublayer:self.strike];
+        [self addSublayer:self.barredCircle];
     }
     return self;
 }
@@ -67,7 +73,6 @@
     if (_circle == nil) {
         _circle = [CircleShapeLayer layer];
         _circle.hidden = YES;
-        [self addSublayer:_circle];
     }
     return _circle;
 }
@@ -77,7 +82,6 @@
     if (_triangle == nil) {
         _triangle = [TriangleShapeLayer layer];
         _triangle.hidden = YES;
-        [self addSublayer:_triangle];
     }
     return _triangle;
 }
@@ -87,7 +91,6 @@
     if (_square == nil) {
         _square =[SquareShapeLayer layer];
         _square.hidden = YES;
-        [self addSublayer:_square];
     }
     return _square;
 }
@@ -97,7 +100,6 @@
     if (_roundedSquare == nil) {
         _roundedSquare =[RoundedSquareShapeLayer layer];
         _roundedSquare.hidden = YES;
-        [self addSublayer:_roundedSquare];
     }
     return _roundedSquare;
 }
@@ -107,7 +109,6 @@
     if (_diamond == nil) {
         _diamond = [DiamondShapeLayer layer];
         _diamond.hidden = YES;
-        [self addSublayer:_diamond];
     }
     return _diamond;
 }
@@ -117,7 +118,6 @@
     if (_pentagon == nil) {
         _pentagon = [PentagonShapeLayer layer];
         _pentagon.hidden = YES;
-        [self addSublayer:_pentagon];
     }
     return _pentagon;
 }
@@ -127,7 +127,6 @@
     if (_star == nil) {
         _star = [StarShapeLayer layer];
         _star.hidden = YES;
-        [self addSublayer:_star];
     }
     return _star;
 }
@@ -137,7 +136,6 @@
     if (_hexagon == nil) {
         _hexagon = [HexagonShapeLayer layer];
         _hexagon.hidden = YES;
-        [self addSublayer:_hexagon];
     }
     return _hexagon;
 }
@@ -147,11 +145,36 @@
     if (_octogon == nil) {
         _octogon = [OctogonShapeLayer layer];
         _octogon.hidden = YES;
-        [self addSublayer:_octogon];
     }
     return _octogon;
 }
 
+- (CrossShapeLayer *)cross
+{
+    if (_cross == nil) {
+        _cross = [CrossShapeLayer layer];
+        _cross.hidden = YES;
+    }
+    return _cross;
+}
+
+- (StrikeShapeLayer *)strike
+{
+    if (_strike == nil) {
+        _strike = [StrikeShapeLayer layer];
+        _strike.hidden = YES;
+    }
+    return _strike;
+}
+
+- (BarredCircleShapeLayer *)barredCircle
+{
+    if (_barredCircle == nil) {
+        _barredCircle = [BarredCircleShapeLayer layer];
+        _barredCircle.hidden = YES;
+    }
+    return _barredCircle;
+}
 
 
 #pragma mark -

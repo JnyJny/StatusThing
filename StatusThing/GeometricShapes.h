@@ -11,6 +11,7 @@
 
 
 #import "CircleShapeLayer.h"
+#import "BarredCircleShapeLayer.h"
 #import "TriangleShapeLayer.h"
 #import "SquareShapeLayer.h"
 #import "RoundedSquareShapeLayer.h"
@@ -19,6 +20,8 @@
 #import "StarShapeLayer.h"
 #import "HexagonShapeLayer.h"
 #import "OctogonShapeLayer.h"
+#import "CrossShapeLayer.h"
+#import "StrikeShapeLayer.h"
 
 #define GeometricShapeNone           @"none"
 
