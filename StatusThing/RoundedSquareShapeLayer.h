@@ -1,5 +1,5 @@
 //
-//  TriangleShapeLayer.h
+//  RoundedSquareShapeLayer.h
 //  StatusThing
 //
 //  Created by Erik on 4/20/15.
@@ -8,8 +8,8 @@
 
 #import "GeometricShapeLayer.h"
 
-#define GeometricShapeTriangle @"triangle"
+#define GeometricShapeRoundedSquare  @"roundedSquare"
 
-@interface TriangleShapeLayer : GeometricShapeLayer
+@interface RoundedSquareShapeLayer : GeometricShapeLayer
 
 @end

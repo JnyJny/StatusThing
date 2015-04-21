@@ -11,6 +11,16 @@
 @implementation DiamondShapeLayer
 
 @synthesize path = _path;
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.name = GeometricShapeDiamond;
+    }
+    return self;
+}
+
 - (CGPathRef)path
 {
     if ( _path == nil ) {

@@ -6,9 +6,11 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-#import "BaseShapeLayer.h"
+#import "GeometricShapeLayer.h"
 
-@interface CircleShapeLayer : BaseShapeLayer
+#define GeometricShapeCircle @"circle"
+
+@interface CircleShapeLayer : GeometricShapeLayer
 
 
 

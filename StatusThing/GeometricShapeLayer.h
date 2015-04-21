@@ -1,5 +1,5 @@
 //
-//  BaseShapeLayer.h
+//  GeometricShapeLayer.h
 //  StatusThing
 //
 //  Created by Erik on 4/19/15.
@@ -7,8 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
-
-@interface BaseShapeLayer : CAShapeLayer
+#import "CALayer+LayoutUtilties.h"
 
 #define GeometricShapeNone           @"none"
 #define GeometricShapeCircle         @"circle"
@@ -21,9 +20,12 @@
 #define GeometricShapeOctogon        @"octogon"
 
 
+@interface GeometricShapeLayer : CAShapeLayer
+
+- (NSRect)insetRect:(NSRect)srcRect byPercentage:(CGFloat) percentage;
 
 - (CGPathRef)drawClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(NSInteger)count points:(CGPoint *)points;
 
-- (NSRect)insetRect:(NSRect)srcRect byPercentage:(CGFloat) percentage;
+
 
 @end

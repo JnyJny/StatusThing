@@ -7,6 +7,7 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import "CALayer+LayoutUtilties.h"
 
 #define SymbolShapeLayerName @"SymbolShapeLayer"
 

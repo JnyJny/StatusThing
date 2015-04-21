@@ -1,9 +1,10 @@
 BROKEN
     JSON sourced dictionaries not distributed to StatusMenu
-    [fixed]JSON sourced dictionaries not distributed to StatusView
+    JSON sourced dictionaries not distributed to StatusView (broke again)
 
 
 Command line argument processing
+    store user specified options to NSUserDefaults
     specify listening port number
     specify starting shape|color|symbol|symbolcolor|animation
 
@@ -15,6 +16,7 @@ StatusView
     [done]StatusShapeNone ?
     range checking on user supplied symbol string
     centering symbols within a shape automatically, masking/clipping?
+    center StatusView in the NSStatusItem's button's view
     
 
 
@@ -40,6 +42,7 @@ Error Handling
 JSON dispatch object
     [fixed]Take the smarts out of the various Status* objects
     Use more KVC
+    May need a few command-type verbs like reset and help ( JSON fragments enabled)
 
 StatusMenu
     messages menuItem with sub-menus holding message list and a clear item

@@ -12,6 +12,15 @@
 
 @synthesize path = _path;
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.name = GeometricShapeOctogon;
+    }
+    return self;
+}
+
 - (CGPathRef)path
 {
     if (_path == nil) {

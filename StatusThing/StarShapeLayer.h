@@ -1,5 +1,5 @@
 //
-//  TriangleShapeLayer.h
+//  StarShapeLayer.h
 //  StatusThing
 //
 //  Created by Erik on 4/20/15.
@@ -8,8 +8,8 @@
 
 #import "GeometricShapeLayer.h"
 
-#define GeometricShapeTriangle @"triangle"
+#define GeometricShapeStar @"star"
 
-@interface TriangleShapeLayer : GeometricShapeLayer
+@interface StarShapeLayer : GeometricShapeLayer
 
 @end

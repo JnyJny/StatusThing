@@ -1,18 +1,27 @@
 //
-//  BaseShapeLayer.m
+//  GeometricShapeLayer.m
 //  StatusThing
 //
 //  Created by Erik on 4/19/15.
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-#import "BaseShapeLayer.h"
+#import "GeometricShapeLayer.h"
 
-@implementation BaseShapeLayer
+@implementation GeometricShapeLayer
 
 + (instancetype)layer
 {
     return [super layer];
+}
+
+- (void)layoutSublayerOfLayer:(CALayer *)layer
+{
+    CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds),
+                                 CGRectGetMidY(layer.bounds));
+    self.bounds = self.bounds;
+    self.position = center;
+    
 }
 
 

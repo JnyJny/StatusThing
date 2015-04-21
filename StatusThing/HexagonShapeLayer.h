@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-#import "BaseShapeLayer.h"
+#import "GeometricShapeLayer.h"
 
-@interface HexagonShapeLayer : BaseShapeLayer
+#define GeometricShapeHexagon @"hexagon"
+
+@interface HexagonShapeLayer : GeometricShapeLayer
 
 @end

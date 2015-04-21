@@ -1,14 +1,14 @@
 //
-//  PentagonShapeLayer.m
+//  StarShapeLayer.m
 //  StatusThing
 //
 //  Created by Erik on 4/20/15.
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-#import "PentagonShapeLayer.h"
+#import "StarShapeLayer.h"
 
-@implementation PentagonShapeLayer
+@implementation StarShapeLayer
 
 @synthesize path = _path;
 
@@ -16,7 +16,7 @@
 {
     self = [super init];
     if (self) {
-        self.name = GeometricShapePentagon;
+        self.name = GeometricShapeStar;
     }
     return self;
 }
@@ -26,13 +26,13 @@
     if (_path == nil) {
         CGFloat dx = CGRectGetWidth(self.bounds);
         CGPoint points[5] = {
-            CGPointMake(CGRectGetMinX(self.bounds)+dx,CGRectGetMinY(self.bounds)),
-            CGPointMake(CGRectGetMaxX(self.bounds)-dx,CGRectGetMinY(self.bounds)),
-            CGPointMake(CGRectGetMaxX(self.bounds),CGRectGetMidY(self.bounds)),
-            CGPointMake(CGRectGetMidX(self.bounds),CGRectGetMaxY(self.bounds)),
-            CGPointMake(CGRectGetMinX(self.bounds),CGRectGetMidY(self.bounds))
+            CGPointMake(CGRectGetMinX(self.bounds) + dx,CGRectGetMinY(self.bounds)), //0
+            CGPointMake(CGRectGetMaxX(self.bounds),     CGRectGetMidY(self.bounds)), //2
+            CGPointMake(CGRectGetMinX(self.bounds),     CGRectGetMidY(self.bounds)),  //4
+            CGPointMake(CGRectGetMaxX(self.bounds) - dx,CGRectGetMinY(self.bounds)), //1
+            CGPointMake(CGRectGetMidX(self.bounds),     CGRectGetMaxY(self.bounds)), //3
         };
-
+        
         _path = [self drawClosedPathWithTransform:nil
                                       havingCount:sizeof(points) / sizeof(CGPoint)
                                            points:points];
