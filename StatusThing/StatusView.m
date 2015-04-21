@@ -75,9 +75,9 @@
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
 
-    [self.shape centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
-    [self.outline centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
-    [self.symbol centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.shape centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
+    [self.outline centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
+    [self.symbol centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
 }
 
 

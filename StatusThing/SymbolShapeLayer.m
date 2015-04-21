@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.fontSize = 16;
+        self.fontSize = 12;
         self.name = SymbolShapeLayerName;
         self.backgroundColor = nil;
         self.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1);
