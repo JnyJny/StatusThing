@@ -12,6 +12,7 @@
 
 - (void)layoutSublayerOfLayer:(CALayer *)layer;
 
-- (void)centerInBounds:(CGRect)bounds andInset:(CGPoint)delta;
+- (void)centerInRect:(CGRect)rect;
+- (void)centerInRect:(CGRect)rect andInset:(CGPoint)delta;
 
 @end

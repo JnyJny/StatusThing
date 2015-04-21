@@ -21,17 +21,18 @@
 
 }
 
-- (void)centerInBounds:(CGRect)bounds andInset:(CGPoint)delta
+- (void)centerInRect:(CGRect)rect
 {
-
-
-    CGRect inset = CGRectInset(bounds, delta.x, delta.y);
+    self.position = CGPointMake(CGRectGetMidX(rect),
+                                CGRectGetMidY(rect));
     
+}
+
+- (void)centerInRect:(CGRect)rect andInset:(CGPoint)delta
+{
+    [self centerInRect:rect];
+    CGRect inset = CGRectInset(rect, delta.x, delta.y);
     self.bounds = CGRectIntegral(inset);
-
-    self.position = CGPointMake(CGRectGetMidX(bounds),
-                                CGRectGetMidY(bounds));
-    
 }
 
 

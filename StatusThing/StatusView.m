@@ -69,9 +69,9 @@
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    [self.shape centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
-    [self.outline centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
-    [self.symbol centerInBounds:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.shape centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.outline centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
+    [self.symbol centerInRect:layer.bounds andInset:CGPointMake(2, 2)];
     
     self.symbol.bounds = layer.bounds;
     self.symbol.position = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
