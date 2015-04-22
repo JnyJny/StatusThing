@@ -81,7 +81,9 @@ Dictionaries control the attributes of three main elements in StatusThing: shape
 { "shape":"circle|barredCircle|square|roundedSquare|diamond|pentagon|hexagon|octogon" }
 ```
 
-Broken or debugging shapes include; star, cross, strike.
+Ok, barredCircle. It's sort of weird looking, but I'm hoping when I get to the animating and rotating this can be turned into the more familiar circle with a slash through it. 
+
+Broken or debugging shapes include; star, cross, strike.  Use at your own risk, don't say I didn't warn you.
 
 ### Colors
 ```sh
@@ -89,9 +91,9 @@ Broken or debugging shapes include; star, cross, strike.
 {"fillColor|strokeColor|foregroundColor":{ "red":float,"green":float,"blue":float,"alpha" }}
 ```
 
-fillColor: the color used to fill whichever shape you choose.
-strokeColor: color used to outline the shape
-foregroundColor: color used to fill the symbol
+- fillColor: the color used to fill whichever shape you choose.
+- strokeColor: color used to outline the shape
+- foregroundColor: color used to fill the symbol
 
 Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0.  If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1.  I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
 
