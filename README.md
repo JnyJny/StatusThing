@@ -51,7 +51,7 @@ Shapes are rendered on the fly, making ThingStatus resolution independent.  Clie
 
   - <img src="Screenshots/Circle.png"/> circle 
   - <img src="Screenshots/Triangle.png"/> triangle
-  - <img src="Screenshots/Square.png"/>square
+  - <img src="Screenshots/Sqiare.png"/>square
   - <img src="Screenshots/RoundedSquare.png"/>roundedsquare
   - <img src="Screenshots/Diamond.png"/>diamond
   - <img src="Screenshots/Pentagon.png"/>pentagon
