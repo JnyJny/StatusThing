@@ -25,7 +25,7 @@
 {
     if (_path == nil) {
         CGMutablePathRef mPath = CGPathCreateMutable();
-        CGPathAddRoundedRect(mPath, nil, self.bounds, 1.0, 1.0);
+        CGPathAddRoundedRect(mPath, nil, self.bounds, 3,3);
         _path = CGPathRetain(mPath);
     }
     return _path;
