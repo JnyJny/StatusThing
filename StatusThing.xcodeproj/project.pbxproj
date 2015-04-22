@@ -49,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D2C85F41AE748DA00761F49 /* thingstatus.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = thingstatus.py; sourceTree = "<group>"; };
 		1D6DB44F1AE2AD0000277C13 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
 		1D6DB4501AE2AD0000277C13 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
 		1D6DB4521AE2C16000277C13 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TODO; path = StatusThing/TODO; sourceTree = "<group>"; };
@@ -128,6 +129,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D2C85F01AE748DA00761F49 /* Bindings */ = {
+			isa = PBXGroup;
+			children = (
+				1D2C85F11AE748DA00761F49 /* Python */,
+			);
+			path = Bindings;
+			sourceTree = "<group>";
+		};
+		1D2C85F11AE748DA00761F49 /* Python */ = {
+			isa = PBXGroup;
+			children = (
+				1D2C85F41AE748DA00761F49 /* thingstatus.py */,
+			);
+			path = Python;
+			sourceTree = "<group>";
+		};
 		1D6DB4541AE3185000277C13 /* Screenshots */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,6 +255,7 @@
 		1DAF8F671ADFFEE2009CE2BE = {
 			isa = PBXGroup;
 			children = (
+				1D2C85F01AE748DA00761F49 /* Bindings */,
 				1D6DB45D1AE3308400277C13 /* Meta Data */,
 				1DAF8F721ADFFEE2009CE2BE /* StatusThing */,
 				1DAF8F861ADFFEE2009CE2BE /* StatusThingTests */,

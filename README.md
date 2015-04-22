@@ -87,6 +87,7 @@ Broken or debugging shapes include; star, cross, strike.
 {"fillColor|strokeColor|foregroundColor":{ "red":float,"green":float,"blue":float,"alpha" }}
 ```
 
+fillColor: the color used to fill whichever shape you choose. Can also be "none"
 ### Toggling Element Visibility
 ```sh
 {"shape.hidden":0|1}
@@ -96,9 +97,9 @@ Broken or debugging shapes include; star, cross, strike.
 
 ### Symbol Text and Attributes
 ```sh
-{"symbol.text":"Your text here but only the first two characters will likely show"}
-{"symbol.font":"fontName"}
-{"symbol.fontSize":float}
+{"text":"Your text here but only the first two characters will likely show"}
+{"font":"fontName"}
+{"fontSize":float}
 ```
 
 

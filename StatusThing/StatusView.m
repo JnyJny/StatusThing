@@ -131,6 +131,21 @@
     [self.symbol setForegroundColor:[[NSColor colorForObject:object] CGColor]];
 }
 
+- (void)setTextForObject:(id)object
+{
+    self.symbol.string = object;
+}
+
+- (void)setFontForObject:(id)object
+{
+    self.symbol.font = CFBridgingRetain(object);
+}
+
+- (void)setFontSizeForObject:(id)object
+{
+    self.symbol.fontSize = [object floatValue];
+}
+
 - (void)centerInRect:(CGRect)rect
 {
     CGFloat dx = (CGRectGetWidth(rect) - CGRectGetWidth(self.frame)) / 2.;
@@ -150,6 +165,7 @@
         //     the found dance keeps it from happening
         @try {
             [self setValue:obj forKey:[key stringByAppendingString:@"ForObject"] ];
+            NSLog(@"setValue %@ forKey %@",obj,key);
         }
         @catch (NSException *exception) {
             //NSLog(@"%@ForObject - updateWithDictionary: %@",key,exception);
@@ -159,7 +175,7 @@
         if ( !found ) {
             @try {
                 [self setValue:obj forKeyPath:key];
-                //NSLog(@"set %@ for %@",obj,key);
+                NSLog(@"setValue %@ forKeyPath %@",obj,key);
             }
             @catch (NSException *exception) {
                 //NSLog(@"%@ - updateKeyPathsWithDictionary: %@",key,exception);
@@ -168,12 +184,6 @@
     }];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    NSLog(@"statusView got %@ %@",keyPath,change);
-}
+
 
 @end
