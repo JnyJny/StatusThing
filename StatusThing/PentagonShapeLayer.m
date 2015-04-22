@@ -24,7 +24,7 @@
 - (CGPathRef)path
 {
     if (_path == nil) {
-        CGFloat dx = CGRectGetWidth(self.bounds);
+        CGFloat dx = CGRectGetWidth(self.bounds) / 3.;
         CGPoint points[5] = {
             CGPointMake(CGRectGetMinX(self.bounds)+dx,CGRectGetMinY(self.bounds)),
             CGPointMake(CGRectGetMaxX(self.bounds)-dx,CGRectGetMinY(self.bounds)),

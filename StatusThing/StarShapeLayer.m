@@ -17,6 +17,7 @@
     self = [super init];
     if (self) {
         self.name = GeometricShapeStar;
+        self.fillRule = kCAFillRuleEvenOdd;
     }
     return self;
 }
@@ -24,7 +25,7 @@
 - (CGPathRef)path
 {
     if (_path == nil) {
-        CGFloat dx = CGRectGetWidth(self.bounds);
+        CGFloat dx = CGRectGetWidth(self.bounds) / 3.;
         CGPoint points[5] = {
             CGPointMake(CGRectGetMinX(self.bounds) + dx,CGRectGetMinY(self.bounds)), //0
             CGPointMake(CGRectGetMaxX(self.bounds),     CGRectGetMidY(self.bounds)), //2
