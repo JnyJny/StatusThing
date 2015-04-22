@@ -73,6 +73,8 @@ Future Feature: Client supplied short messages to help give context to changes i
 
 ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain silently to itself and ignore ill-formed JSON dictionaries until I teach it better manners.  Each line sent is expected to be a complete JSON dictionary, so no embedded newlines or carriage returns.  Multiple dictionaries can be sent, or you can send one big dictionary.  When you are done, shutdown your side of the socket and call it a day.
 
+Dictionaries control the attributes of three main elements in StatusThing: shape, outline and symbol.
+
 ### Shapes
 
 ```sh
@@ -87,13 +89,24 @@ Broken or debugging shapes include; star, cross, strike.
 {"fillColor|strokeColor|foregroundColor":{ "red":float,"green":float,"blue":float,"alpha" }}
 ```
 
-fillColor: the color used to fill whichever shape you choose. Can also be "none"
+fillColor: the color used to fill whichever shape you choose.
+strokeColor: color used to outline the shape
+foregroundColor: color used to fill the symbol
+
+Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0.  If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1.  I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
+
+Colors can also be specified by name.  The more common names are support, as are "banana" and "strawberry" and all the crayonbox color names.
+
+Of course, if an element is hidden changing it's color won't be immediately apparent.
+
 ### Toggling Element Visibility
 ```sh
 {"shape.hidden":0|1}
 {"outline.hidden":0|1}
 {"symbol.hidden":0|1}
 ```
+
+Sending a number one will hide the specified element and a zero un-hides it.  Sending it a string '1' or '0' will not accomplish what you think should happen. Yet. 
 
 ### Symbol Text and Attributes
 ```sh
@@ -102,7 +115,9 @@ fillColor: the color used to fill whichever shape you choose. Can also be "none"
 {"fontSize":float}
 ```
 
+The font for the symbol text is given by name, stuff like 'Courier', 'Helvetica Bold', 'Super Made-up Font Light Italic'.
 
+The fontSize is specified in points and frankly the symbol positioning code is really unsatisfactory and disappointing. My advice is to keep it between 12 and 12 for now.
 
 
 ## Bindings
