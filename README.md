@@ -11,7 +11,7 @@ telnet: connect to address ::1: Connection refused
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
-Connected to ThingStatus
+Connected to StatusThing
 Feed Me JSON
 { "shape":"circle","color":"white","symbol":"\u018F","symbolColor":"black" }
 ^]
@@ -27,7 +27,7 @@ telnet: connect to address ::1: Connection refused
 Trying 127.0.0.1...
 Connected to localhost.
 Escape character is '^]'.
-Connected to ThingStatus
+Connected to StatusThing
 Feed Me JSON
 { "color":"red","symbolColor":"yellow" } }
 ^]
@@ -47,29 +47,22 @@ telnet> q
 
 
 ### Shapes
-Shapes are rendered on the fly, making ThingStatus resolution independent.  Clients can also toggle the shape outline to get that extra level of customization.
+Shapes are rendered on the fly, making StatusThing resolution independent.  Clients can also toggle the shape outline to get that extra level of customization.
 
-  - <img src="Screenshots/Circle.png"/> circle 
-  - <img src="Screenshots/Triangle.png"/> triangle
-  - <img src="Screenshots/Sqiare.png"/>square
-  - <img src="Screenshots/RoundedSquare.png"/>roundedsquare
-  - <img src="Screenshots/Diamond.png"/>diamond
-  - <img src="Screenshots/Pentagon.png"/>pentagon
-  - <img src="Screenshots/Hexagon.png"/>hexagon
-  - <img src="Screenshots/Octogon.png"/>octogon
-  - <img src="Screenshots/Star.png"/>star
-  - <img src="Screenshots/Cross.png"/>cross
-  - <img src="Screenshots/Strike.png"/>strike
+Shapes include: circle, square, rounded square, triangle, pentagon, hexagon,
+septagon, octagon, nonagon, decagon, endecagon, star and cross-hair.
+
+Endecagon was added mainly for the star shape since you can make three different star patterns with an eleven-sided regular polygon. 
 
 Future Feature: Animation
 
 ### Symbols
 
-Client supplied symbol displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem!
+Client supplied symbol displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem!  Want to display a message?   See the next section.
 
 ### Messages
 
-Future Feature: Client supplied short messages to help give context to changes in status.
+Future Feature: Client supplied short messages to help give context to changes in status. 
 
 # JSON
 
