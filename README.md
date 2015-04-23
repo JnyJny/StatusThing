@@ -49,15 +49,17 @@ telnet> q
 ### Shapes
 Shapes are rendered on the fly, making ThingStatus resolution independent.  Clients can also toggle the shape outline to get that extra level of customization.
 
-  - circle
-  - triangle
-  - square
-  - roundedsquare
-  - diamond
-  - pentagon
-  - hexagon
-  - octogon
-  - ...
+  - <img src="Screenshots/Circle.png"/> circle 
+  - <img src="Screenshots/Triangle.png"/> triangle
+  - <img src="Screenshots/Sqiare.png"/>square
+  - <img src="Screenshots/RoundedSquare.png"/>roundedsquare
+  - <img src="Screenshots/Diamond.png"/>diamond
+  - <img src="Screenshots/Pentagon.png"/>pentagon
+  - <img src="Screenshots/Hexagon.png"/>hexagon
+  - <img src="Screenshots/Octogon.png"/>octogon
+  - <img src="Screenshots/Star.png"/>star
+  - <img src="Screenshots/Cross.png"/>cross
+  - <img src="Screenshots/Strike.png"/>strike
 
 Future Feature: Animation
 
