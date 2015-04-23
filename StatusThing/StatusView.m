@@ -16,9 +16,9 @@
 
 @implementation StatusView
 
-@synthesize shape = _shape;
-@synthesize outline = _outline;
-@synthesize symbol = _symbol;
+@synthesize background = _background;
+@synthesize foreground = _foreground;
+@synthesize symbol =     _symbol;
 
 #pragma mark -
 #pragma mark Initialization Methods
@@ -28,16 +28,17 @@
     self = [super initWithFrame:rect];
     if ( self ) {
         self.wantsLayer = YES;
-        [self.layer addSublayer:self.shape];
-        [self.layer addSublayer:self.outline];
+        [self.layer addSublayer:self.background];
+        [self.layer addSublayer:self.foreground];
         [self.layer addSublayer:self.symbol];
+
+        [self.background setVisibleLayer:GeometricShapeStar];
+        self.background.strokeColor = nil;
+        self.background.fillColor = CGColorCreateGenericRGB(1, 0, 0, 1);
         
-        [self.shape setVisibleShape:GeometricShapeCircle];
-        self.shape.strokeColor = nil;
-        
-        [self.outline setVisibleShape:GeometricShapeCircle];
-        self.outline.fillColor = nil;
-        self.outline.lineWidth = 2.;
+        [self.foreground setVisibleLayer:GeometricShapeStar];
+        self.foreground.fillColor = nil;
+        self.foreground.lineWidth = 2.;
         
         [self setNeedsDisplay:YES];
     }
@@ -66,9 +67,10 @@
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    [self.shape centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
-    [self.outline centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
-    [self.symbol centerInRect:layer.bounds andInset:CGPointMake(4, 4)];
+#define kInset(X) CGPointMake((X),(X))
+    [self.background centerInRect:layer.bounds andInset:kInset(3)];
+    [self.foreground centerInRect:layer.bounds andInset:kInset(3)];
+    [self.symbol centerInRect:layer.bounds andInset:kInset(3)];
 }
 
 
@@ -76,20 +78,20 @@
 #pragma mark -
 #pragma mark Properties
 
-- (PolyShapeLayer *)shape
+- (PolyShapeLayer *)background
 {
-    if (_shape == nil) {
-        _shape = [PolyShapeLayer layer];
+    if (_background == nil) {
+        _background = [PolyShapeLayer layer];
      }
-    return _shape;
+    return _background;
 }
 
-- (PolyShapeLayer *)outline
+- (PolyShapeLayer *)foreground
 {
-    if (_outline == nil) {
-        _outline = [PolyShapeLayer layer];
+    if (_foreground == nil) {
+        _foreground = [PolyShapeLayer layer];
     }
-    return _outline;
+    return _foreground;
 }
 
 - (SymbolShapeLayer *)symbol
@@ -107,10 +109,8 @@
 
 - (void)setShapeForObject:(NSString *)name
 {
-    GeometricShapeLayer *s = [self.shape setVisibleShape:name];
-    GeometricShapeLayer *o = [self.outline setVisibleShape:name];
-    
-    NSLog(@"shape: %@ outline: %@",s.name,o.name);
+    GeometricShapeLayer *s = [self.background setVisibleLayer:name];
+    GeometricShapeLayer *o = [self.foreground setVisibleLayer:name];
     
     [self setNeedsDisplay:(s!=nil)||(o!=nil)];
 }
@@ -118,12 +118,12 @@
 - (void)setFillColorForObject:(id)object
 {
     
-    [self.shape setFillColor:[[NSColor colorForObject:object] CGColor]];
+    [self.background setFillColor:[[NSColor colorForObject:object] CGColor]];
 }
 
 - (void)setStrokeColorForObject:(id)object
 {
-    [self.shape setStrokeColor:[[NSColor colorForObject:object] CGColor]];
+    [self.background setStrokeColor:[[NSColor colorForObject:object] CGColor]];
 }
 
 - (void)setForegroundColorForObject:(id)object
@@ -156,31 +156,11 @@
     [self setFrameOrigin:newOrigin];
 }
 
-- (void)updateKeyPathsWithDictionary:(NSDictionary *)info
+- (void)updateWithDictionary:(NSDictionary *)info
 {
     
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        BOOL found = YES;
-        // XXX weird bug here
-        //     the found dance keeps it from happening
-        @try {
-            [self setValue:obj forKey:[key stringByAppendingString:@"ForObject"] ];
-            NSLog(@"setValue %@ forKey %@",obj,key);
-        }
-        @catch (NSException *exception) {
-            //NSLog(@"%@ForObject - updateWithDictionary: %@",key,exception);
-            found = NO;
-        }
-
-        if ( !found ) {
-            @try {
-                [self setValue:obj forKeyPath:key];
-                NSLog(@"setValue %@ forKeyPath %@",obj,key);
-            }
-            @catch (NSException *exception) {
-                //NSLog(@"%@ - updateKeyPathsWithDictionary: %@",key,exception);
-            }
-        }
+        
     }];
 }
 

@@ -12,6 +12,8 @@
 
 @synthesize path = _path;
 
+#define kCornerMetric 3
+
 - (instancetype)init
 {
     self = [super init];
@@ -24,8 +26,13 @@
 - (CGPathRef)path
 {
     if (_path == nil) {
+        
+        CGRect rect = CGRectInset(self.bounds, kCornerMetric/2, kCornerMetric/2);
+        
         CGMutablePathRef mPath = CGPathCreateMutable();
-        CGPathAddRoundedRect(mPath, nil, self.bounds, 3,3);
+        
+        CGPathAddRoundedRect(mPath, nil, rect, kCornerMetric,kCornerMetric);
+
         _path = CGPathRetain(mPath);
     }
     return _path;

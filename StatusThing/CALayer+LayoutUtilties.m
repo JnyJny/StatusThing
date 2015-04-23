@@ -28,7 +28,6 @@
 
 - (void)centerInRect:(CGRect)rect andInset:(CGPoint)delta
 {
-
     CGRect inset = CGRectInset(rect, delta.x, delta.y);
     self.bounds = CGRectIntegral(inset);
     

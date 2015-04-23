@@ -10,20 +10,15 @@
 #import "CALayer+LayoutUtilties.h"
 
 
-#define GeometricShapeNone           @"none"
-#define GeometricShapeCircle         @"circle"
-#define GeometricShapeSquare         @"square"
-#define GeometricShapeRoundedSquare  @"roundedSquare"
-#define GeometricShapeDiamond        @"diamond"
-#define GeometricShapeTriangle       @"triangle"
-#define GeometricShapePentagon       @"pentagon"
-#define GeometricShapeHexagon        @"hexagon"
-#define GeometricShapeOctogon        @"octogon"
-
-
 @interface GeometricShapeLayer : CAShapeLayer
 
+
+// initialAngle is the angle between the x axis and the first vertex in the figure in radians
+
+
 - (NSRect)insetRect:(NSRect)srcRect byPercentage:(CGFloat) percentage;
+
+
 
 - (CGPathRef)drawClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(NSInteger)count points:(CGPoint *)points;
 

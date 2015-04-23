@@ -14,23 +14,16 @@
 @interface PolyShapeLayer : CAShapeLayer
 
 @property (strong,nonatomic,readonly) CircleShapeLayer        *circle;
-@property (strong,nonatomic,readonly) TriangleShapeLayer      *triangle;
-@property (strong,nonatomic,readonly) SquareShapeLayer        *square;
+@property (strong,nonatomic,readonly) RegularPolygonLayer     *regularPolygon;
 @property (strong,nonatomic,readonly) RoundedSquareShapeLayer *roundedSquare;
-@property (strong,nonatomic,readonly) DiamondShapeLayer       *diamond;
-@property (strong,nonatomic,readonly) PentagonShapeLayer      *pentagon;
 @property (strong,nonatomic,readonly) StarShapeLayer          *star;
-@property (strong,nonatomic,readonly) HexagonShapeLayer       *hexagon;
-@property (strong,nonatomic,readonly) OctogonShapeLayer       *octogon;
-@property (strong,nonatomic,readonly) CrossShapeLayer         *cross;
-@property (strong,nonatomic,readonly) StrikeShapeLayer        *strike;
-@property (strong,nonatomic,readonly) BarredCircleShapeLayer  *barredCircle;
 
 
 
-- (GeometricShapeLayer *)setVisibleShape:(NSString *)shapeName;
 
-- (GeometricShapeLayer *)visibleShape;
+- (GeometricShapeLayer *)setVisibleLayer:(NSString *)layerName;
+
+- (GeometricShapeLayer *)visibleLayer;
 
 
 

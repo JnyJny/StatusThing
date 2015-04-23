@@ -10,18 +10,12 @@
 
 @implementation PolyShapeLayer
 
-@synthesize circle = _circle;
-@synthesize triangle = _triangle;
-@synthesize square = _square;
-@synthesize roundedSquare = _roundedSquare;
-@synthesize diamond = _diamond;
-@synthesize pentagon = _pentagon;
-@synthesize star = _star;
-@synthesize hexagon = _hexagon;
-@synthesize octogon = _octogon;
-@synthesize cross = _cross;
-@synthesize strike = _strike;
-@synthesize barredCircle = _barredCircle;
+@synthesize regularPolygon = _regularPolygon;
+@synthesize circle =         _circle;
+@synthesize roundedSquare =  _roundedSquare;
+@synthesize star =           _star;
+
+
 
 + (instancetype)layer
 {
@@ -33,17 +27,9 @@
     self = [super init];
     if (self) {
         [self addSublayer:self.circle];
-        [self addSublayer:self.triangle];
-        [self addSublayer:self.square];
+        [self addSublayer:self.regularPolygon];
         [self addSublayer:self.roundedSquare];
-        [self addSublayer:self.diamond];
-        [self addSublayer:self.pentagon];
         [self addSublayer:self.star];
-        [self addSublayer:self.hexagon];
-        [self addSublayer:self.octogon];
-        [self addSublayer:self.cross];
-        [self addSublayer:self.strike];
-        [self addSublayer:self.barredCircle];
         
         self.strokeColor = CGColorCreateGenericRGB(0, 0, 0, 1);
         self.fillColor = CGColorCreateGenericRGB(1, 0, 0, 1);
@@ -60,7 +46,7 @@
 - (void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];
-    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(CAShapeLayer *obj, NSUInteger idx, BOOL *stop) {
         obj.bounds = bounds;
     }];
 }
@@ -68,7 +54,7 @@
 - (void)setPosition:(CGPoint)position
 {
     [super setPosition:position];
-    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(CAShapeLayer *obj, NSUInteger idx, BOOL *stop) {
         obj.position = position;
     }];
 }
@@ -76,7 +62,7 @@
 - (void)setBackgroundColor:(CGColorRef)backgroundColor
 {
     [super setBackgroundColor:backgroundColor];
-    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(CAShapeLayer *obj, NSUInteger idx, BOOL *stop) {
         obj.backgroundColor = backgroundColor;
     }];
 }
@@ -84,7 +70,7 @@
 - (void)setFillColor:(CGColorRef)fillColor
 {
     [super setFillColor:fillColor];
-    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(CAShapeLayer *obj, NSUInteger idx, BOOL *stop) {
         obj.fillColor = fillColor;
     }];
 }
@@ -100,7 +86,7 @@
 - (void)setLineWidth:(CGFloat)lineWidth
 {
     [super setLineWidth:lineWidth];
-    [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(CAShapeLayer *obj, NSUInteger idx, BOOL *stop) {
         obj.lineWidth = lineWidth;
     }];
 }
@@ -117,22 +103,14 @@
     return _circle;
 }
 
-- (TriangleShapeLayer *)triangle
+- (RegularPolygonLayer *)regularPolygon
 {
-    if (_triangle == nil) {
-        _triangle = [TriangleShapeLayer layer];
-        _triangle.hidden = YES;
+    if (_regularPolygon == nil) {
+        _regularPolygon = [RegularPolygonLayer layer];
+        _regularPolygon.hidden = YES;
+        _regularPolygon.sides = 4;
     }
-    return _triangle;
-}
-
-- (SquareShapeLayer *)square
-{
-    if (_square == nil) {
-        _square =[SquareShapeLayer layer];
-        _square.hidden = YES;
-    }
-    return _square;
+    return _regularPolygon;
 }
 
 - (RoundedSquareShapeLayer *)roundedSquare
@@ -144,24 +122,6 @@
     return _roundedSquare;
 }
 
-- (DiamondShapeLayer *)diamond
-{
-    if (_diamond == nil) {
-        _diamond = [DiamondShapeLayer layer];
-        _diamond.hidden = YES;
-    }
-    return _diamond;
-}
-
-- (PentagonShapeLayer *)pentagon
-{
-    if (_pentagon == nil) {
-        _pentagon = [PentagonShapeLayer layer];
-        _pentagon.hidden = YES;
-    }
-    return _pentagon;
-}
-
 - (StarShapeLayer *)star
 {
     if (_star == nil) {
@@ -171,50 +131,7 @@
     return _star;
 }
 
-- (HexagonShapeLayer *)hexagon
-{
-    if (_hexagon == nil) {
-        _hexagon = [HexagonShapeLayer layer];
-        _hexagon.hidden = YES;
-    }
-    return _hexagon;
-}
 
-- (OctogonShapeLayer *)octogon
-{
-    if (_octogon == nil) {
-        _octogon = [OctogonShapeLayer layer];
-        _octogon.hidden = YES;
-    }
-    return _octogon;
-}
-
-- (CrossShapeLayer *)cross
-{
-    if (_cross == nil) {
-        _cross = [CrossShapeLayer layer];
-        _cross.hidden = YES;
-    }
-    return _cross;
-}
-
-- (StrikeShapeLayer *)strike
-{
-    if (_strike == nil) {
-        _strike = [StrikeShapeLayer layer];
-        _strike.hidden = YES;
-    }
-    return _strike;
-}
-
-- (BarredCircleShapeLayer *)barredCircle
-{
-    if (_barredCircle == nil) {
-        _barredCircle = [BarredCircleShapeLayer layer];
-        _barredCircle.hidden = YES;
-    }
-    return _barredCircle;
-}
 
 
 #pragma mark -
@@ -222,12 +139,12 @@
 
 
 
-- (GeometricShapeLayer *)setVisibleShape:(NSString *)shapeName
+- (GeometricShapeLayer *)setVisibleLayer:(NSString *)layerName
 {
     __block GeometricShapeLayer *found = nil;
     
     [self.sublayers enumerateObjectsUsingBlock:^(GeometricShapeLayer *obj, NSUInteger idx, BOOL *stop) {
-        obj.hidden = ![obj.name isEqualToString:shapeName];
+        obj.hidden = ![obj.name isEqualToString:layerName];
         if ( obj.hidden == NO) {
             found = obj;
         }
@@ -235,7 +152,7 @@
     return found;
 }
 
-- (GeometricShapeLayer *)visibleShape
+- (GeometricShapeLayer *)visibleLayer
 {
     __block GeometricShapeLayer *found = nil;
     
@@ -247,6 +164,11 @@
     }];
     
     return found;
+}
+
+- (void)updateWithDictionary:(NSDictionary *)info
+{
+    
 }
 
 @end

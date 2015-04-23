@@ -9,20 +9,15 @@
 #ifndef StatusThing_GeometricShapes_h
 #define StatusThing_GeometricShapes_h
 
-
-#import "CircleShapeLayer.h"
-#import "BarredCircleShapeLayer.h"
-#import "TriangleShapeLayer.h"
-#import "SquareShapeLayer.h"
-#import "RoundedSquareShapeLayer.h"
-#import "DiamondShapeLayer.h"
-#import "PentagonShapeLayer.h"
-#import "StarShapeLayer.h"
-#import "HexagonShapeLayer.h"
-#import "OctogonShapeLayer.h"
-#import "CrossShapeLayer.h"
-#import "StrikeShapeLayer.h"
-
 #define GeometricShapeNone           @"none"
+
+#import "RegularPolygonLayer.h"
+#import "CircleShapeLayer.h"
+#import "RoundedSquareShapeLayer.h"
+#import "StarShapeLayer.h"
+#import "CrossShapeLayer.h"
+
+
+
 
 #endif

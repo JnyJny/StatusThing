@@ -6,10 +6,13 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-#import "GeometricShapeLayer.h"
+#import "RegularPolygonLayer.h"
 
 #define GeometricShapeStar @"star"
 
-@interface StarShapeLayer : GeometricShapeLayer
+@interface StarShapeLayer : RegularPolygonLayer
 
+@property (assign,nonatomic) CGFloat points;
+@property (assign,nonatomic) CGFloat minorRadius;
+@property (assign,nonatomic,readonly) CGFloat minorTheta;
 @end

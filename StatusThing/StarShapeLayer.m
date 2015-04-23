@@ -16,28 +16,69 @@
 {
     self = [super init];
     if (self) {
-        self.name = GeometricShapeStar;
-        self.fillRule = kCAFillRuleEvenOdd;
+        self.sides = 5;
     }
     return self;
+}
+
+- (NSString *)name
+{
+    return GeometricShapeStar;
+}
+
+- (CGFloat)points
+{
+    return self.sides;
+}
+
+- (void)setPoints:(CGFloat)points
+{
+    self.sides = points;
+}
+
+- (CGFloat)minorRadius
+{
+    return 12;
 }
 
 - (CGPathRef)path
 {
     if (_path == nil) {
-        CGFloat dx = CGRectGetWidth(self.bounds) / 3.;
-        CGPoint points[5] = {
-            CGPointMake(CGRectGetMinX(self.bounds) + dx,CGRectGetMinY(self.bounds)), //0
-            CGPointMake(CGRectGetMaxX(self.bounds),     CGRectGetMidY(self.bounds)), //2
-            CGPointMake(CGRectGetMinX(self.bounds),     CGRectGetMidY(self.bounds)),  //4
-            CGPointMake(CGRectGetMaxX(self.bounds) - dx,CGRectGetMinY(self.bounds)), //1
-            CGPointMake(CGRectGetMidX(self.bounds),     CGRectGetMaxY(self.bounds)), //3
-        };
+        CGPoint *interior;
+        CGPoint *exterior;
+        CGPoint *allpoints;
         
+        CGFloat dx = CGRectGetWidth(self.bounds) - self.minorRadius;
+        CGFloat dy = CGRectGetHeight(self.bounds) - self.minorRadius;
+        
+        CGRect minorRect = CGRectInset(self.bounds, dx, dy);
+        
+        CGFloat minorTheta = M_2PI / self.points;
+    
+        interior = [self verticesCenteredInRect:minorRect
+                              withNumberOfSides:self.points withInitialAngleInRadians:self.initialAngle+minorTheta];
+    
+        exterior = [self verticesCenteredInRect:self.bounds
+                              withNumberOfSides:self.points
+                      withInitialAngleInRadians:self.initialAngle];
+        
+        allpoints = calloc(self.points * 2, sizeof(CGPoint));
+        // aaaaa bbbbb -> ababababab
+        for(int i=0;i<self.points;i++) {
+            allpoints[i*2] = exterior[i];
+            allpoints[(i*2)+1] = interior[i];
+        }
+    
         _path = [self drawClosedPathWithTransform:nil
-                                      havingCount:sizeof(points) / sizeof(CGPoint)
-                                           points:points];
+                                      havingCount:self.points * 2
+                                           points:allpoints];
+        
+        free(interior);
+        free(exterior);
+        free(allpoints);
     }
     return _path;
 }
+
+
 @end

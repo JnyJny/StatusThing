@@ -106,7 +106,7 @@
 {
     //    NSLog(@"got: %@",info);
     
-    [self.statusView updateKeyPathsWithDictionary:info];
+    [self.statusView updateWithDictionary:info];
   
 }
 

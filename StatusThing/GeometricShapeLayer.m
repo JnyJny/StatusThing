@@ -7,6 +7,9 @@
 //
 
 #import "GeometricShapeLayer.h"
+#import <math.h>
+
+
 
 @implementation GeometricShapeLayer
 
@@ -15,26 +18,23 @@
     return [super layer];
 }
 
+#pragma mark -
+#pragma mark Overridden Properties
+
+
+#pragma mark -
+#pragma mark Category Overriding Methods
+
 - (void)layoutSublayerOfLayer:(CALayer *)layer
 {
     CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds),
                                  CGRectGetMidY(layer.bounds));
-    self.bounds = self.bounds;
+    self.bounds = layer.bounds;
     self.position = center;
-    
-}
-
-
-- (CGRect)insetRect:(CGRect)srcRect byPercentage:(CGFloat) percentage
-{
-    CGFloat dx = srcRect.size.width * percentage;
-    CGFloat dy = srcRect.size.height * percentage;
-    
-    return CGRectIntegral(CGRectInset(srcRect, dx, dy));
 }
 
 #pragma mark -
-#pragma mark Utility Method
+#pragma mark Class Methods
 
 - (CGPathRef)drawClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(NSInteger)count points:(CGPoint *)points
 {
@@ -48,5 +48,17 @@
     
     return CGPathRetain(p);
 }
+
+- (CGRect)insetRect:(CGRect)srcRect byPercentage:(CGFloat) percentage
+{
+    CGFloat dx = srcRect.size.width * percentage;
+    CGFloat dy = srcRect.size.height * percentage;
+    
+    return CGRectIntegral(CGRectInset(srcRect, dx, dy));
+}
+
+
+
+
 
 @end
