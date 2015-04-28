@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "NSColor+NamedColorUtilities.h"
+
 #import "Konstants.h"
 
 @interface AppDelegate ()
@@ -17,7 +19,9 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
+
+    [self installApplicationDefaults];
+    
     [self.statusController start];
 }
 
@@ -29,16 +33,33 @@
 
 
 
+
+
 - (StatusController *)statusController
 {
     if (_statusController == nil) {
-        NSString *env = [[[NSProcessInfo processInfo] environment] objectForKey:kPortEnvVar];
-        NSNumber *port = env?[NSNumber numberWithInteger:[env integerValue]]:nil;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         
-        _statusController = [[StatusController alloc] initWithPort:port];
+        NSDictionary *prefs = [userDefaults objectForKey:kStatusThingDomain];
+        
+        _statusController = [[StatusController alloc] initWithPort:[prefs valueForKey:@"port"]];
+        
+        [_statusController.statusView updateWithDictionary:[prefs objectForKey:@"statusView"]];
+        
         
     }
     return _statusController;
+}
+
+- (void)installApplicationDefaults
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *prefPath = [[NSBundle mainBundle] pathForResource:KDefaultPrefPlist ofType:@"plist"];
+    
+    NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:prefPath];
+    
+    [userDefaults registerDefaults:prefs];
 }
 
 @end

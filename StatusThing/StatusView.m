@@ -16,9 +16,10 @@
 
 @implementation StatusView
 
+@synthesize shape      = _shape;
 @synthesize background = _background;
 @synthesize foreground = _foreground;
-@synthesize symbol =     _symbol;
+@synthesize symbol     = _symbol;
 
 #pragma mark -
 #pragma mark Initialization Methods
@@ -32,13 +33,14 @@
         [self.layer addSublayer:self.foreground];
         [self.layer addSublayer:self.symbol];
 
-        [self.background setVisibleLayer:GeometricShapeStar];
-        self.background.strokeColor = nil;
-        self.background.fillColor = CGColorCreateGenericRGB(1, 0, 0, 1);
-        
-        [self.foreground setVisibleLayer:GeometricShapeStar];
         self.foreground.fillColor = nil;
-        self.foreground.lineWidth = 2.;
+        self.foreground.backgroundColor = nil;
+        self.foreground.lineWidth = 2.0;
+        self.foreground.strokeColor = [[NSColor blackColor] CGColor];
+        
+        self.background.strokeColor = nil;
+        self.background.backgroundColor = nil;
+        self.background.fillColor = [[NSColor redColor] CGColor];
         
         [self setNeedsDisplay:YES];
     }
@@ -68,15 +70,17 @@
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
 #define kInset(X) CGPointMake((X),(X))
-    [self.background centerInRect:layer.bounds andInset:kInset(3)];
-    [self.foreground centerInRect:layer.bounds andInset:kInset(3)];
-    [self.symbol centerInRect:layer.bounds andInset:kInset(3)];
+    CGPoint d = kInset(3);
+    [self.background centerInRect:layer.bounds andInset:d];
+    [self.foreground centerInRect:layer.bounds andInset:d];
+    [self.symbol     centerInRect:layer.bounds andInset:d];
 }
 
 
 
 #pragma mark -
 #pragma mark Properties
+
 
 - (PolyShapeLayer *)background
 {
@@ -102,49 +106,21 @@
     return _symbol;
 }
 
+- (void)setShape:(NSString *)shape
+{
+    // XXX no error propagation if shape is unrecognized
+    _shape = shape;
+    
+    self.foreground.shape = shape;
+    self.background.shape = shape;
+
+    [self setNeedsDisplay:YES];
+
+}
 
 
 #pragma mark -
 #pragma mark Methods
-
-- (void)setShapeForObject:(NSString *)name
-{
-    GeometricShapeLayer *s = [self.background setVisibleLayer:name];
-    GeometricShapeLayer *o = [self.foreground setVisibleLayer:name];
-    
-    [self setNeedsDisplay:(s!=nil)||(o!=nil)];
-}
-
-- (void)setFillColorForObject:(id)object
-{
-    
-    [self.background setFillColor:[[NSColor colorForObject:object] CGColor]];
-}
-
-- (void)setStrokeColorForObject:(id)object
-{
-    [self.background setStrokeColor:[[NSColor colorForObject:object] CGColor]];
-}
-
-- (void)setForegroundColorForObject:(id)object
-{
-    [self.symbol setForegroundColor:[[NSColor colorForObject:object] CGColor]];
-}
-
-- (void)setTextForObject:(id)object
-{
-    self.symbol.string = object;
-}
-
-- (void)setFontForObject:(id)object
-{
-    self.symbol.font = CFBridgingRetain(object);
-}
-
-- (void)setFontSizeForObject:(id)object
-{
-    self.symbol.fontSize = [object floatValue];
-}
 
 - (void)centerInRect:(CGRect)rect
 {
@@ -156,14 +132,33 @@
     [self setFrameOrigin:newOrigin];
 }
 
+
 - (void)updateWithDictionary:(NSDictionary *)info
 {
-    
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+        BOOL handled = NO;
         
+        if (!handled && [key isEqualToString:@"shape"]) {
+            self.shape = obj;
+            handled = YES;
+        }
+        
+        if (!handled && [key isEqualToString:@"foreground"]) {
+            [self.foreground updateWithDictionary:obj];
+            handled = YES;
+        }
+        if (!handled && [key isEqualToString:@"background"]) {
+            [self.background updateWithDictionary:obj];
+            handled = YES;
+        }
+
+        if (!handled && [key isEqualToString:@"symbol"]) {
+            [self.symbol updateWithDictionary:obj];
+            handled = YES;
+        }
+
     }];
 }
-
 
 
 @end

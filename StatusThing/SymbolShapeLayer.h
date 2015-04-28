@@ -13,5 +13,6 @@
 
 @interface SymbolShapeLayer : CATextLayer;
 
+- (void)updateWithDictionary:(NSDictionary *)info;
 
 @end

@@ -19,6 +19,8 @@
 @property (strong,nonatomic,readonly) PolyShapeLayer   *foreground;
 @property (strong,nonatomic,readonly) SymbolShapeLayer *symbol;
 
+@property (strong,nonatomic) NSString *shape;
+
 - (void)centerInRect:(CGRect)rect;
 - (void)updateWithDictionary:(NSDictionary *)info;
 

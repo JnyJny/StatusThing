@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "StatusController.h"
 
+
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (strong, nonatomic) StatusController *statusController;

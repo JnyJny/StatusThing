@@ -20,14 +20,21 @@
 
 - (instancetype)initWithPort:(NSNumber *)port
 {
-    if (self = [super init]) {
+    self = [super init];
+    if (self) {
         self.port = port;
         [self.statusListener setDelegate:self];
         self.statusItem.menu = self.statusMenu;
         self.statusItem.highlightMode = YES;
+        self.statusItem.button.image = nil;
         [self.statusItem.button addSubview:self.statusView];
-        
+
         [self.statusView centerInRect:self.statusItem.button.bounds];
+
+        // connect statusView and statusMenu
+        // get userDefaults
+        // invoke updateConfigurationWithDictionary: on statusView with userDefaults
+        //
     }
     
     return self;
@@ -107,7 +114,6 @@
     //    NSLog(@"got: %@",info);
     
     [self.statusView updateWithDictionary:info];
-  
 }
 
 

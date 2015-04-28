@@ -12,7 +12,6 @@
 
 @optional
 - (void)processClientRequest:(NSDictionary *)info;
-
 @end
 
 @interface StatusListener : NSObject <NSStreamDelegate>
@@ -20,6 +19,8 @@
 @property (strong, nonatomic) id<StatusListenerDelegate> delegate;
    
 - (instancetype)initWithPort:(NSNumber *)port;
+
+@property (strong,nonatomic,readonly) NSNumber *port;
 
 - (void)start;
 - (void)stop;

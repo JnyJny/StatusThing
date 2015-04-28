@@ -48,6 +48,7 @@ JSON dispatch object
 
 StatusMenu
     messages menuItem with sub-menus holding message list and a clear item
+    message dict: { from:"Girl Behind You" text:"Do you like me" reply:{ "YES":"sweet!,"NO":"bogus!"}}
     Preferences
 
 Preference Pane - per running instance?

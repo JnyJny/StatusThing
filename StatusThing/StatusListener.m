@@ -12,7 +12,7 @@
 #include <netinet/in.h>
 
 @interface StatusListener()
-@property (strong,nonatomic,readonly) NSNumber *port;
+
 @property (strong,nonatomic) NSSocketPort *sock;
 @property (strong,nonatomic) NSFileHandle *listening;
 @property (strong,nonatomic) NSNotificationCenter *noteCenter;
@@ -20,6 +20,7 @@
 
 @implementation StatusListener
 
+@synthesize port = _port;
 
 - (instancetype)initWithPort:(NSNumber *)port
 {
@@ -29,6 +30,24 @@
 
     }
     return self;
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (NSNumber *)port
+{
+    if (_port == nil) {
+        _port = [NSNumber numberWithUnsignedInteger:kDefaultPort];
+    }
+    return _port;
+}
+
+- (void)setPort:(NSNumber *)port
+{
+    _port = port;
+    // shutdown existing socket? restart with new port?
+    // or wait for caller to "start" again.
 }
 
 #pragma mark -

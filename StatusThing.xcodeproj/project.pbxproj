@@ -7,16 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D2C85F71AE82B2B00761F49 /* RegularPolygonLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2C85F61AE82B2B00761F49 /* RegularPolygonLayer.m */; };
+		1D2C85FA1AE9890600761F49 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D2C85F91AE9890600761F49 /* Preferences.plist */; };
 		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
 		1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */; };
-		1D6DB47A1AE4620200277C13 /* GeometricShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4791AE4620200277C13 /* GeometricShapeLayer.m */; };
-		1D774C271AE60744004B14F1 /* CrossShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D774C261AE60744004B14F1 /* CrossShapeLayer.m */; };
-		1DA2B4311AE580BC00BFCC5E /* CircleShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B4301AE580BC00BFCC5E /* CircleShapeLayer.m */; };
-		1DA2B4371AE583C300BFCC5E /* RoundedSquareShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B4361AE583C300BFCC5E /* RoundedSquareShapeLayer.m */; };
-		1DA2B4491AE58BC000BFCC5E /* StarShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B4481AE58BC000BFCC5E /* StarShapeLayer.m */; };
-		1DA2B44D1AE598D800BFCC5E /* PolyShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B44C1AE598D800BFCC5E /* PolyShapeLayer.m */; };
+		1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */; };
 		1DA2B4501AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
@@ -40,8 +35,7 @@
 
 /* Begin PBXFileReference section */
 		1D2C85F41AE748DA00761F49 /* thingstatus.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = thingstatus.py; sourceTree = "<group>"; };
-		1D2C85F51AE82B2B00761F49 /* RegularPolygonLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegularPolygonLayer.h; sourceTree = "<group>"; };
-		1D2C85F61AE82B2B00761F49 /* RegularPolygonLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegularPolygonLayer.m; sourceTree = "<group>"; };
+		1D2C85F91AE9890600761F49 /* Preferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Preferences.plist; sourceTree = "<group>"; };
 		1D6DB44F1AE2AD0000277C13 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
 		1D6DB4501AE2AD0000277C13 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
 		1D6DB4521AE2C16000277C13 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TODO; path = StatusThing/TODO; sourceTree = "<group>"; };
@@ -50,19 +44,8 @@
 		1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+NamedColorUtilities.m"; sourceTree = "<group>"; };
 		1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolShapeLayer.h; sourceTree = "<group>"; };
 		1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolShapeLayer.m; sourceTree = "<group>"; };
-		1D6DB4781AE4620200277C13 /* GeometricShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometricShapeLayer.h; sourceTree = "<group>"; };
-		1D6DB4791AE4620200277C13 /* GeometricShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeometricShapeLayer.m; sourceTree = "<group>"; };
-		1D774C251AE60744004B14F1 /* CrossShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrossShapeLayer.h; sourceTree = "<group>"; };
-		1D774C261AE60744004B14F1 /* CrossShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossShapeLayer.m; sourceTree = "<group>"; };
-		1DA2B42F1AE580BC00BFCC5E /* CircleShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleShapeLayer.h; sourceTree = "<group>"; };
-		1DA2B4301AE580BC00BFCC5E /* CircleShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleShapeLayer.m; sourceTree = "<group>"; };
-		1DA2B4351AE583C300BFCC5E /* RoundedSquareShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoundedSquareShapeLayer.h; sourceTree = "<group>"; };
-		1DA2B4361AE583C300BFCC5E /* RoundedSquareShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoundedSquareShapeLayer.m; sourceTree = "<group>"; };
-		1DA2B4471AE58BC000BFCC5E /* StarShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarShapeLayer.h; sourceTree = "<group>"; };
-		1DA2B4481AE58BC000BFCC5E /* StarShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarShapeLayer.m; sourceTree = "<group>"; };
-		1DA2B44A1AE5933500BFCC5E /* GeometricShapes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeometricShapes.h; sourceTree = "<group>"; };
-		1DA2B44B1AE598D800BFCC5E /* PolyShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyShapeLayer.h; sourceTree = "<group>"; };
-		1DA2B44C1AE598D800BFCC5E /* PolyShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyShapeLayer.m; sourceTree = "<group>"; };
+		1D7E26831AEFD7E300FA5E71 /* PolyShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyShapeLayer.h; sourceTree = "<group>"; };
+		1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyShapeLayer.m; sourceTree = "<group>"; };
 		1DA2B44E1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+LayoutUtilties.h"; sourceTree = "<group>"; };
 		1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+LayoutUtilties.m"; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -118,17 +101,6 @@
 			path = Python;
 			sourceTree = "<group>";
 		};
-		1D2C85F81AE82B3600761F49 /* Regular Polygons */ = {
-			isa = PBXGroup;
-			children = (
-				1D2C85F51AE82B2B00761F49 /* RegularPolygonLayer.h */,
-				1D2C85F61AE82B2B00761F49 /* RegularPolygonLayer.m */,
-				1DA2B4471AE58BC000BFCC5E /* StarShapeLayer.h */,
-				1DA2B4481AE58BC000BFCC5E /* StarShapeLayer.m */,
-			);
-			name = "Regular Polygons";
-			sourceTree = "<group>";
-		};
 		1D6DB45D1AE3308400277C13 /* Meta Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -182,30 +154,12 @@
 		1D6DB46E1AE4539600277C13 /* Layers */ = {
 			isa = PBXGroup;
 			children = (
-				1DA2B44B1AE598D800BFCC5E /* PolyShapeLayer.h */,
-				1DA2B44C1AE598D800BFCC5E /* PolyShapeLayer.m */,
-				1DA2B42E1AE57FCD00BFCC5E /* Geometric Shapes */,
 				1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */,
 				1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */,
+				1D7E26831AEFD7E300FA5E71 /* PolyShapeLayer.h */,
+				1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */,
 			);
 			name = Layers;
-			sourceTree = "<group>";
-		};
-		1DA2B42E1AE57FCD00BFCC5E /* Geometric Shapes */ = {
-			isa = PBXGroup;
-			children = (
-				1DA2B44A1AE5933500BFCC5E /* GeometricShapes.h */,
-				1D6DB4781AE4620200277C13 /* GeometricShapeLayer.h */,
-				1D6DB4791AE4620200277C13 /* GeometricShapeLayer.m */,
-				1DA2B42F1AE580BC00BFCC5E /* CircleShapeLayer.h */,
-				1DA2B4301AE580BC00BFCC5E /* CircleShapeLayer.m */,
-				1DA2B4351AE583C300BFCC5E /* RoundedSquareShapeLayer.h */,
-				1DA2B4361AE583C300BFCC5E /* RoundedSquareShapeLayer.m */,
-				1D774C251AE60744004B14F1 /* CrossShapeLayer.h */,
-				1D774C261AE60744004B14F1 /* CrossShapeLayer.m */,
-				1D2C85F81AE82B3600761F49 /* Regular Polygons */,
-			);
-			name = "Geometric Shapes";
 			sourceTree = "<group>";
 		};
 		1DAF8F671ADFFEE2009CE2BE = {
@@ -250,6 +204,7 @@
 				1DAF8F9F1AE01848009CE2BE /* Konstants.h */,
 				1DAF8F741ADFFEE2009CE2BE /* Info.plist */,
 				1DAF8F781ADFFEE2009CE2BE /* main.m */,
+				1D2C85F91AE9890600761F49 /* Preferences.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -352,6 +307,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
+				1D2C85FA1AE9890600761F49 /* Preferences.plist in Resources */,
 				1DAF8F7E1ADFFEE2009CE2BE /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -374,18 +330,12 @@
 				1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */,
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
-				1DA2B4371AE583C300BFCC5E /* RoundedSquareShapeLayer.m in Sources */,
 				1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */,
+				1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */,
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
-				1DA2B44D1AE598D800BFCC5E /* PolyShapeLayer.m in Sources */,
-				1D774C271AE60744004B14F1 /* CrossShapeLayer.m in Sources */,
-				1D2C85F71AE82B2B00761F49 /* RegularPolygonLayer.m in Sources */,
-				1D6DB47A1AE4620200277C13 /* GeometricShapeLayer.m in Sources */,
-				1DA2B4311AE580BC00BFCC5E /* CircleShapeLayer.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,
 				1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */,
-				1DA2B4491AE58BC000BFCC5E /* StarShapeLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
