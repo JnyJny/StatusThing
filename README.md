@@ -5,7 +5,7 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 <img src="Screenshots/ScreenShot0.png"/>
 
 ```sh
-$ telnet localhost 55000
+$ telnet localhost 12121
 Trying ::1...
 telnet: connect to address ::1: Connection refused
 Trying 127.0.0.1...
@@ -24,7 +24,7 @@ telnet> q
 <img src="Screenshots/ScreenShot1.png"/>
 
 ```sh
-$ telnet localhost 55000
+$ telnet localhost 12121
 Trying ::1...
 telnet: connect to address ::1: Connection refused
 Trying 127.0.0.1...
@@ -40,7 +40,7 @@ telnet> q
 <img src="Screenshots/ScreenShot2.png"/>
 
 ## Features
-- Listens for client TCP connections (port 55000 by default)
+- Listens for client TCP connections (port 12121 by default)
 - Clients can send JSON dictionaries to change the appearance of the icon:
   - shape
   - color
