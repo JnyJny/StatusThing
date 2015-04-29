@@ -1,0 +1,46 @@
+StatusThing Help
+================
+See https://github.com/JnyJny/StatusThing
+
+Commands:
+q|Q   - quit  : ask the server to terminate this connection
+r|R   - reset : reset the StatusThing to default values
+h|H|? - help  : this help
+
+JSON:
+{"shape":..,"background":{..}"foreground":{..},"symbol":{..}}
+
+One dictionary per line, dictionaries may be nested.
+
+Shape:
+The shape key has a string value which should be one of the following:
+
+none|circle|line|triangle|square|diamond|roundedsquare
+pentagon|hexagon|septagon|octagon|nonagon|decagon|endecagon
+triagram|quadragram|pentagram|hexagram|septagram|octagram
+nonagram|decagram|endecagram
+
+Background and Foreground Dictionaries:
+{"fill"     :color,
+ "stroke"   :color,
+ "lineWidth":float,
+ "hidden"   :0|1}}
+
+Symbol Dictionary:
+{"string"    :string,
+ "font"      :string,
+ "fontSize"  :float,
+ "foreground":color,
+ "hidden"    :0|1"}
+
+Strings matching "\[uU][0-9a-fA-F]+" can be used to specify a
+Unicode character. Note that not all fonts implement all characters.
+
+Colors:
+"colorName"
+{"red":float,"green":float,"blue":float,"alpha":float}
+
+Color dictionary components default to zero if they are missing.
+Component values are expected to be between 0.0 and 1.0 or 0 and 255.
+
+>

@@ -7,6 +7,7 @@
 //
 
 #import "SymbolShapeLayer.h"
+#import "Konstants.h"
 #import "NSColor+NamedColorUtilities.h"
 
 @implementation SymbolShapeLayer
@@ -19,7 +20,7 @@
         self.backgroundColor = nil;
         self.alignmentMode = kCAAlignmentCenter;
         self.string = @"";
-        self.font = CFBridgingRetain(@"Courier");
+        self.font = CFBridgingRetain(StatusThingDefaultFontName);
         self.fontSize = 12;
     }
     return self;
@@ -55,7 +56,7 @@
         }
         
         if (!handled && [key isEqualToString:@"font"]) {
-            self.font = CFBridgingRetain(obj);
+            [self setFont:(CTFontRef)obj];
             handled = YES;
         }
         
@@ -63,8 +64,6 @@
             self.fontSize = [obj floatValue];
             handled = YES;
         }
-
-
         
         if (!handled && [key isEqualToString:@"foreground"]) {
             self.foregroundColor = [[NSColor colorForObject:obj] CGColor];
@@ -84,11 +83,6 @@
         if (!handled && [key isEqualToString:@"rotate"]) {
             [self rotateBy:[obj floatValue]];
         }
-
-        
-        
-        
-        
     }];
     
 }

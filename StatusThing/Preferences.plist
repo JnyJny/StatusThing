@@ -5,7 +5,7 @@
 	<key>com.symbolicarmageddon.StatusThing</key>
 	<dict>
 		<key>port</key>
-		<real>12121</real>
+		<integer>21212</integer>
 		<key>statusView</key>
 		<dict>
 			<key>shape</key>

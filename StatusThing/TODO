@@ -1,12 +1,12 @@
 BROKEN
     JSON sourced dictionaries not distributed to StatusMenu
-    JSON sourced dictionaries not distributed to StatusView (broke again)
+    [fixed]JSON sourced dictionaries not distributed to StatusView
 
 
 Command line argument processing
-    store user specified options to NSUserDefaults
-    specify listening port number
-    specify starting shape|color|symbol|symbolcolor|animation
+    store user specified options to NSUserDefaults - started this
+    specify listening port number - prefs, cmd-line not done
+    specify starting shape|colors|symbol|animation
 
 StatusView
     range checking on user supplied symbol string
@@ -69,6 +69,7 @@ StatusListener
     use HTTP, seems.. overkill-y?
     Publish Bonjour service
     bind to port 0 by default, OS picks an unused non-privileged port
+    close down connection when client sends EOF
 
 
 AppleScript
@@ -98,6 +99,9 @@ Strategy
         when a client sets an attribute on an item, creates if DNE?
         associate StatusView with a client supplied tag
         restrict client access to only the statusviews they initiate?
+
+Startup
+    auto-startup-ing-ness (need to find out what that's really called).
 
 Update Checking Stuff
     Sparkle?

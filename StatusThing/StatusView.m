@@ -16,7 +16,6 @@
 
 @implementation StatusView
 
-@synthesize shape      = _shape;
 @synthesize background = _background;
 @synthesize foreground = _foreground;
 @synthesize symbol     = _symbol;
@@ -33,15 +32,6 @@
         [self.layer addSublayer:self.foreground];
         [self.layer addSublayer:self.symbol];
 
-        self.foreground.fillColor = nil;
-        self.foreground.backgroundColor = nil;
-        self.foreground.lineWidth = 2.0;
-        self.foreground.strokeColor = [[NSColor blackColor] CGColor];
-        
-        self.background.strokeColor = nil;
-        self.background.backgroundColor = nil;
-        self.background.fillColor = [[NSColor redColor] CGColor];
-        
         [self setNeedsDisplay:YES];
     }
     return self;
@@ -59,11 +49,7 @@
 #pragma mark -
 #pragma mark Layer Drawing Methods
 
-- (BOOL)opaque
-{
-    return NO;
-}
-
+- (BOOL)opaque { return NO; }
 - (BOOL)wantsUpdateLayer { return YES; }
 
 
@@ -109,13 +95,17 @@
 - (void)setShape:(NSString *)shape
 {
     // XXX no error propagation if shape is unrecognized
-    _shape = shape;
     
     self.foreground.shape = shape;
     self.background.shape = shape;
-
+    
+    NSLog(@"foreground.shape %@",self.foreground.shape);
+    NSLog(@"foreground.path  %p",self.foreground.path);
+    
+    NSLog(@"background.shape %@",self.background.shape);
+    NSLog(@"background.path  %p",self.background.path);
+    
     [self setNeedsDisplay:YES];
-
 }
 
 
@@ -127,7 +117,8 @@
     CGFloat dx = (CGRectGetWidth(rect) - CGRectGetWidth(self.frame)) / 2.;
     CGFloat dy = (CGRectGetHeight(rect) - CGRectGetHeight(self.frame)) / 2.;
     
-    CGPoint newOrigin = CGPointMake(self.frame.origin.x + dx, self.frame.origin.y + dy);
+    CGPoint newOrigin = CGPointMake(self.frame.origin.x + dx,
+                                    self.frame.origin.y + dy);
     
     [self setFrameOrigin:newOrigin];
 }
@@ -135,6 +126,7 @@
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
+    NSLog(@"statusView.updateWithDictionary: %@",info);
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         BOOL handled = NO;
         
@@ -154,9 +146,8 @@
 
         if (!handled && [key isEqualToString:@"symbol"]) {
             [self.symbol updateWithDictionary:obj];
-            handled = YES;
+            //handled = YES;
         }
-
     }];
 }
 

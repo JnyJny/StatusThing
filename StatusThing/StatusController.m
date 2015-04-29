@@ -18,43 +18,34 @@
 
 @implementation StatusController
 
-- (instancetype)initWithPort:(NSNumber *)port
+- (instancetype)initWithPreferences:(NSDictionary *)preferences
 {
     self = [super init];
     if (self) {
-        self.port = port;
         [self.statusListener setDelegate:self];
-        self.statusItem.menu = self.statusMenu;
+        self.statusListener.resetInfo = [preferences objectForKey:StatusThingStatusView];
+        
+        self.statusItem.menu          = self.statusMenu;
         self.statusItem.highlightMode = YES;
-        self.statusItem.button.image = nil;
+        self.statusItem.button.image  = nil;
+        
         [self.statusItem.button addSubview:self.statusView];
 
         [self.statusView centerInRect:self.statusItem.button.bounds];
+        
+        [self updateWithDictionary:preferences];
 
         // connect statusView and statusMenu
-        // get userDefaults
-        // invoke updateConfigurationWithDictionary: on statusView with userDefaults
-        //
     }
     
     return self;
 }
 
-- (instancetype)init
-{
-    return [self initWithPort:nil];
-}
+
 
 #pragma mark -
 #pragma mark Implementation Private Properties
 
-- (NSNumber *)port
-{
-    if( _port == nil ) {
-        _port = [NSNumber numberWithUnsignedInteger:kDefaultPort];
-    }
-    return _port;
-}
 
 - (NSStatusItem *)statusItem
 {
@@ -79,7 +70,7 @@
 - (StatusMenu *)statusMenu
 {
     if ( _statusMenu == nil ){
-        _statusMenu = [[StatusMenu alloc]  initWithPort:self.port];
+        _statusMenu = [[StatusMenu alloc]  init];
     }
     return _statusMenu;
 }
@@ -87,7 +78,8 @@
 - (StatusListener *)statusListener
 {
     if ( _statusListener == nil ){
-        _statusListener = [[StatusListener alloc] initWithPort:self.port];
+        _statusListener = [[StatusListener alloc] init];
+
     }
     return _statusListener;
 }
@@ -98,6 +90,9 @@
 - (void)start
 {
     [self.statusListener start];
+    NSLog(@"listening on port %@",self.statusListener.port);
+    
+    self.statusMenu.port = self.statusListener.port;
 }
 
 - (void)stop
@@ -106,12 +101,27 @@
     [self.statusListener stop];
 }
 
+- (void)updateWithDictionary:(NSDictionary *)info
+{
+    
+ [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+     if ( [key isEqualToString:StatusThingStatusView]) {
+         [self.statusView updateWithDictionary:obj];
+     }
+     
+     if ( [key isEqualToString:@"port"]) {
+         self.statusListener.port = obj;
+     }
+     
+ }];
+}
+
 #pragma mark -
 #pragma mark StatusListenerDelegate
 
 - (void)processClientRequest:(NSDictionary *)info
 {
-    //    NSLog(@"got: %@",info);
+    NSLog(@"processClientRequest: %@",info);
     
     [self.statusView updateWithDictionary:info];
 }

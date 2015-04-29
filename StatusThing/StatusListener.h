@@ -12,17 +12,22 @@
 
 @optional
 - (void)processClientRequest:(NSDictionary *)info;
+
+- (void)updateWithDictionary:(NSDictionary *)info;
+- (void)updateWithArray:(NSArray *)list;
+
 @end
 
 @interface StatusListener : NSObject <NSStreamDelegate>
 
 @property (strong, nonatomic) id<StatusListenerDelegate> delegate;
    
-- (instancetype)initWithPort:(NSNumber *)port;
+@property (strong,nonatomic) NSNumber *port;
 
-@property (strong,nonatomic,readonly) NSNumber *port;
+@property (strong,nonatomic) NSString *helpText;
+@property (strong,nonatomic) NSDictionary *resetInfo;
 
-- (void)start;
+- (BOOL)start;
 - (void)stop;
 
 

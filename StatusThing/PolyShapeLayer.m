@@ -28,8 +28,8 @@
 @interface PolyShapeLayer()
 
 @property (strong,nonatomic,readonly) NSDictionary *shapes;
-@property (assign,nonatomic,readonly) NSInteger vertices;
-@property (assign,nonatomic,readonly) BOOL      convex;
+@property (assign,nonatomic,readonly) NSInteger     vertices;
+@property (assign,nonatomic,readonly) BOOL          convex;
 
 
 @end
@@ -94,6 +94,7 @@
 {
     if (_shape == nil) {
         _shape = PolyShapeNameNone;
+        self.path = nil;
     }
     return _shape;
 }
@@ -109,23 +110,27 @@
         return;
     }
     
-    //NSLog(@"shape:%@  info: %@",shape,info);
     
     _convex = [[info valueForKey:PolyShapeKeyConvex] boolValue];
     _angle = [[info valueForKey:PolyShapeKeyAngle] floatValue];
     _vertices = [[info valueForKey:PolyShapeKeyVertices] integerValue];
     self.cornerRadius = [[info valueForKey:PolyShapeKeyCornerRadius] floatValue];
     _shape = shape;
-    _path = nil;
+    CGPathRelease(self.path);
+    self.path = nil;
     [self setNeedsDisplay];
+
 }
 
 
 - (CGPathRef)convexRegularPolygonWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
 {
     CGPoint   *points;
+    CGPathRef  pathRef;
     
     CGRect rect = CGRectIntegral(CGRectInset(self.bounds, 0, 0));
+    
+    NSLog(@"convex making a %@",self.shape);
     
     switch (vertices) {
         case 0:
@@ -133,14 +138,15 @@
             break;
         case 1:
             // Circle
-            return CGPathCreateWithEllipseInRect(rect, nil);
-            // NOTREACHED
+            pathRef = CGPathCreateWithEllipseInRect(rect, nil);
+            break;
         case 4:
             // Square
             if ( self.cornerRadius > 0) {
-                return CGPathCreateWithRoundedRect(rect, self.cornerRadius, self.cornerRadius, nil);
-                // NOTREACHED
+                pathRef = CGPathCreateWithRoundedRect(rect, self.cornerRadius, self.cornerRadius, nil);
+                break;
             }
+            // FALLTHRU
         case 2:
         case 3:
         case 5:
@@ -154,16 +160,18 @@
                                 withNumberOfSides:vertices
                                         withAngle:DegToRad(degrees)];
             
-            return [self createClosedPathWithTransform:nil
-                                           havingCount:vertices
-                                                points:points
-                                         andFreePoints:YES];
-            // NOTREACHED
+            pathRef = [self createClosedPathWithTransform:nil
+                                              havingCount:vertices
+                                                   points:points
+                                            andFreePoints:YES];
+            break;
         default:
             NSLog(@"convexRegularPolygonWithNumberOfVertices:%ld startingAtAngle:%f",vertices,degrees);
+            pathRef = nil;
             break;
     }
-    return nil;
+    
+    return pathRef;
 }
 
 - (CGPathRef)concaveRegularPolygramWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
@@ -175,12 +183,13 @@
     NSInteger npoints = vertices / 2;
     CGFloat interiorThetaOffset = (M_2PI / npoints)/2.;
     
-    // concave, ASSERT( (nverts % 2 == 0) && (nverts>2) &&(nverts<23))
+    // concave, ASSERT( (n % 2 == 0) && (nverts>2) &&(nverts<23))
     
-    if ( vertices%2 || (vertices<3) || (vertices>22)) {
+    if ( (vertices%2) || (vertices<6) || (vertices>22)) {
         NSLog(@"concaveRegularPlolygramWithNumberOfVertices:%ld startingAtAngle:%f",vertices,degrees);
         return nil;
     }
+    NSLog(@"concave making a %@",self.shape);
 
     rect = CGRectInset(self.bounds, self.radius/4, self.radius/4);
     
@@ -223,6 +232,8 @@
     return _path;
 }
 
+
+
 #pragma mark -
 #pragma mark Path Creation Methods
 
@@ -237,7 +248,7 @@
     if (freePoints)
         free(points);
     
-    return CGPathRetain(newPath);
+    return newPath;
 }
 
 #pragma mark -
@@ -299,11 +310,10 @@
 
         if (!handled && [key isEqualToString:@"background"]) {
             self.backgroundColor = [[NSColor colorForObject:obj] CGColor];
-            handled = YES;
+            //handled = YES;
         }
 
     }];
-    
 }
 
 

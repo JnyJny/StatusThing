@@ -11,8 +11,8 @@
 @interface StatusMenu : NSMenu
 
 
-- (instancetype)initWithPort:(NSNumber *)port;
-- (instancetype)initWithPort:(NSNumber *)port andMessage:(NSString *)message;
+@property (strong, nonatomic) NSNumber *port;
+@property (strong, nonatomic) NSMenu *messageSubmenu;
 
 - (void)setMessage:(NSString *)message;
 

@@ -12,16 +12,16 @@
 #import "StatusListener.h"
 #import "StatusView.h"
 
+#define StatusThingStatusView @"statusView"
+
 @interface StatusController : NSObject <StatusListenerDelegate>
 
-@property (strong, nonatomic) NSNumber *port;
 @property (strong, nonatomic) NSStatusItem *statusItem;
 @property (strong, nonatomic) StatusView *statusView;
 @property (strong, nonatomic) StatusMenu *statusMenu;
 @property (strong, nonatomic) StatusListener *statusListener;
 
-- (instancetype)init;
-- (instancetype)initWithPort:(NSNumber *)port;
+- (instancetype)initWithPreferences:(NSDictionary *)preferences;
 
 - (void)start;
 - (void)stop;

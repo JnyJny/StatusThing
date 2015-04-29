@@ -9,18 +9,25 @@
 #ifndef StatusThing_Konstants_h
 #define StatusThing_Konstants_h
 
-#define kDefaultPort 55000
-#define kDefaultMessage @"<No Message>"
-#define kLocalHost      @"localhost"
-#define kWelcome @"Connected to StatusThing\nFeed Me JSON\n"
+#define StatusThingDefaultMessage @"<No Message>"
+#define StatusThingWelcome        @"Connected to StatusThing\nFeed Me JSON\n> "
+#define StatusThingGoodbye        @"\nBe seeing you space cowboy!\n"
+#define StatusThingResponseOK     @"Ok\n> "
+#define StatusThingResponseErrFmt @"Err: %@\n> "
+
+#define StatusThingBonjourType    @"_statusthing._tcp."
+
 
 #define kAppleInterfaceThemeChangedNotification @"AppleInterfaceThemeChangedNotification"
 #define kAppleInterfaceStyle                    @"AppleInterfaceStyle"
 
-#define kDefaultFontName @"Courier"
+#define StatusThingDefaultFontName @"Courier"
 
-#define kStatusThingDomain @"com.symbolicarmageddon.StatusThing"
-#define KDefaultPrefPlist @"Preferences"
+#define StatusThingDomain        @"com.symbolicarmageddon.StatusThing"
+#define StatusThingPrefFile      @"Preferences"
+#define StatusThingHelpFile      @"HelpText"
+#define StatusThingPrefKeyPort   @"port"
+
 
 #define DegToRad(D) (((D)*(M_PI))/180.)
 #define RadToDeg(R) (((R)*180.)/M_PI)

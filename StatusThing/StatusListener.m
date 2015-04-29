@@ -13,21 +13,23 @@
 
 @interface StatusListener()
 
-@property (strong,nonatomic) NSSocketPort *sock;
-@property (strong,nonatomic) NSFileHandle *listening;
+@property (strong,nonatomic) NSSocketPort         *socketPort;
+@property (strong,nonatomic) NSFileHandle         *listening;
 @property (strong,nonatomic) NSNotificationCenter *noteCenter;
+@property (strong,nonatomic) NSNetService         *netService;
+@property (assign,nonatomic) BOOL                  running;
+
 @end
 
 @implementation StatusListener
 
 @synthesize port = _port;
 
-- (instancetype)initWithPort:(NSNumber *)port
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        _port = port;
-
+        self.running = NO;
     }
     return self;
 }
@@ -38,72 +40,71 @@
 - (NSNumber *)port
 {
     if (_port == nil) {
-        _port = [NSNumber numberWithUnsignedInteger:kDefaultPort];
+        _port = @0;
     }
     return _port;
 }
 
 - (void)setPort:(NSNumber *)port
 {
-    _port = port;
-    // shutdown existing socket? restart with new port?
-    // or wait for caller to "start" again.
+    if (self.running == NO) {
+        _port = port;
+    }
+    else {
+        NSLog(@"stop listener first to change ports");
+    }
 }
+
+- (NSString *)helpText
+{
+    if (_helpText == nil) {
+        _helpText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:StatusThingHelpFile ofType:@""]
+                                              encoding:NSUTF8StringEncoding
+                                                 error:nil];
+        if (_helpText == nil)
+            _helpText = @"NO HELP TEXT AVAILABLE.\n> ";
+    }
+    return _helpText;
+}
+
 
 #pragma mark -
 #pragma mark Private Properties
-- (NSSocketPort *)sock
+
+- (NSSocketPort *)socketPort
 {
-    if ( _sock == nil ) {
-        _sock = [[NSSocketPort alloc] initWithTCPPort:self.port.unsignedIntValue];
+    if ( _socketPort == nil ) {
+        struct sockaddr_in addr;
+        
+        _socketPort = [[NSSocketPort alloc] initWithTCPPort:self.port.unsignedIntegerValue];
+        
+        [_socketPort.address getBytes:&addr length:sizeof(addr)];
+        
+        _port = [NSNumber numberWithUnsignedShort:ntohs(addr.sin_port)];
     }
-    return _sock;
+    return _socketPort;
 }
 
-/* this method exists for debugging. creating the socket the long way allows
- * us to set SO_REUSEADDR which must be done before the socket is allocated.
- *
- */
-- (int)socket
+
+
+- (NSNetService *)netService
 {
-    int fd = -1;
-    CFSocketRef socket;
-    
-    socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM,
-                            IPPROTO_TCP, 0, NULL, NULL);
-    if( socket ) {
-        fd = CFSocketGetNative(socket);
-        int yes = 1;
-        setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, (void *)&yes, sizeof(yes));
-        struct sockaddr_in addr;
-        memset(&addr, 0, sizeof(addr));
-        addr.sin_len = sizeof(addr);
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(self.port.unsignedIntValue);
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        NSData *address = [NSData dataWithBytes:&addr length:sizeof(addr)];
-        if( CFSocketSetAddress(socket, (CFDataRef)address) !=
-           kCFSocketSuccess ) {
-            NSLog(@"Could not bind to address");
-            return -1;
-        }
-    } else {
-        NSLog(@"No server socket");
-        return -1;
+    if (_netService == nil) {
+        _netService = [[NSNetService alloc] initWithDomain:@""
+                                                      type:StatusThingBonjourType
+                                                      name:@""
+                                                      port:self.port.unsignedShortValue];
     }
-    
-    return fd;
+    return _netService;
 }
+
+
 
 - (NSFileHandle *)listening
 {
     if (_listening == nil) {
-#if 0
-        _listening = [[NSFileHandle alloc] initWithFileDescriptor:[self.sock socket]];
-#else
-        _listening = [[NSFileHandle alloc] initWithFileDescriptor:[self socket]
-                                                   closeOnDealloc:YES];
-#endif
+        _listening = [[NSFileHandle alloc] initWithFileDescriptor:self.socketPort.socket
+                                                   closeOnDealloc:NO];
     }
     return _listening;
 }
@@ -120,7 +121,7 @@
 #pragma mark Methods
 
 
-- (void)start
+- (BOOL)start
 {
     [self.noteCenter addObserver:self
                         selector:@selector(handleNewConnection:)
@@ -128,19 +129,43 @@
                           object:self.listening];
     
     [self.listening acceptConnectionInBackgroundAndNotify];
+    
+    [self.netService publish];
+    
+    self.running = YES;
+    
+    return YES;
+}
 
+- (void)stop
+{
+    
+    [self.netService stop];
+    
+    self.netService = nil;
+    
+    [self.noteCenter removeObserver:self
+                               name:NSFileHandleConnectionAcceptedNotification
+                             object:self.listening];
+    
+    [self.listening closeFile];
+    
+    self.socketPort = nil;
+    
+    self.running = NO;
 }
 
 - (void)handleNewConnection:(NSNotification *)note
 {
     NSFileHandle *connected = [note.userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
-
+    
     [self.noteCenter addObserver:self
                         selector:@selector(sendDataToDelegate:)
                             name:NSFileHandleReadCompletionNotification
                           object:connected];
 
-    [connected writeData:[kWelcome dataUsingEncoding:NSUTF8StringEncoding]];
+    [connected writeData:[StatusThingWelcome dataUsingEncoding:NSUTF8StringEncoding]];
+    
     [connected readInBackgroundAndNotify];
     
     [self.listening acceptConnectionInBackgroundAndNotify];
@@ -150,41 +175,82 @@
 {
     NSFileHandle *connected = [note object];
     NSData *data = [[note userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSString *response;
     NSError *error;
-    
+    char c;
+    id obj;
 
-    if ( data.length == 0 ) {
-        [self.noteCenter removeObserver:self
-                                   name:NSFileHandleReadCompletionNotification
-                                 object:connected];
-        [connected closeFile];
-        return;
-    }
-    
-    id obj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
-    if ( obj == nil ) {
-        NSLog(@"NSJSONSerialization error: %@",error);
-    }
+
+    if (data.length)
+        [data getBytes:&c length:sizeof(c)];
     else {
-        if ( self.delegate != nil ) {
-            [self.delegate performSelector:@selector(processClientRequest:)
-                                withObject:obj];
-        }
+        c = 'q';
     }
     
+    switch (c) {
+        case 0x4:
+        case 'q':
+        case 'Q':
+            // q|Q|ctl-D|zero length read - tell the client goodbye and hang up
+            [connected writeData:[StatusThingGoodbye dataUsingEncoding:NSUTF8StringEncoding]];
+            [self.noteCenter removeObserver:self
+                                       name:NSFileHandleReadCompletionNotification
+                                     object:connected];
+            [connected closeFile];
+            return;
+            // NOTREACHED
+            
+        case 'h':
+        case 'H':
+        case '?':
+            response = self.helpText;
+            break;
+            
+        case 'r':
+        case 'R':
+            if ( self.resetInfo )
+                [self.delegate performSelector:@selector(processClientRequest:) withObject:self.resetInfo];
+            response = self.resetInfo?StatusThingResponseOK:@"reset is unavailable.";
+            break;
+            
+        default:
+            
+            if (self.delegate == nil) {
+                response = [NSString stringWithFormat:StatusThingResponseErrFmt,@"author forgot to set the delegate. Author sucks."];
+                break;
+            }
+            
+            obj = [NSJSONSerialization JSONObjectWithData:data
+                                                  options:0
+                                                    error:&error];
+    
+            if ( obj == nil ) {
+                response = [NSString stringWithFormat:StatusThingResponseErrFmt,error.localizedFailureReason];
+                break;
+            }
+
+            if ([obj isKindOfClass:[NSDictionary class]]){
+                [self.delegate performSelector:@selector(processClientRequest:)
+                                    withObject:obj];
+                response = StatusThingResponseOK;
+                break;
+            }
+            
+            if ([obj isKindOfClass:[NSArray class]]) {
+                [self.delegate performSelector:@selector(updateWithArray:)
+                                    withObject:obj];
+                response = StatusThingResponseOK;
+            }
+            break;
+    }
+    
+    [connected writeData:[response dataUsingEncoding:NSUTF8StringEncoding]];
+
     [[note object] readInBackgroundAndNotify];
 }
 
 
-- (void)stop
-{
-    [self.noteCenter removeObserver:self
-                               name:NSFileHandleConnectionAcceptedNotification
-                             object:self.listening  ];
 
-    [self.listening closeFile];
-}
 
 
 @end

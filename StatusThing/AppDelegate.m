@@ -7,14 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import "NSColor+NamedColorUtilities.h"
-
 #import "Konstants.h"
 
-@interface AppDelegate ()
-
-@property (weak) IBOutlet NSWindow *window;
-@end
 
 @implementation AppDelegate
 
@@ -27,12 +21,9 @@
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+
     [self.statusController stop];
 }
-
-
-
 
 
 - (StatusController *)statusController
@@ -40,13 +31,10 @@
     if (_statusController == nil) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         
-        NSDictionary *prefs = [userDefaults objectForKey:kStatusThingDomain];
+        NSDictionary *prefs = [userDefaults objectForKey:StatusThingDomain];
         
-        _statusController = [[StatusController alloc] initWithPort:[prefs valueForKey:@"port"]];
-        
-        [_statusController.statusView updateWithDictionary:[prefs objectForKey:@"statusView"]];
-        
-        
+        _statusController = [[StatusController alloc] initWithPreferences:prefs];
+
     }
     return _statusController;
 }
@@ -55,7 +43,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    NSString *prefPath = [[NSBundle mainBundle] pathForResource:KDefaultPrefPlist ofType:@"plist"];
+    NSString *prefPath = [[NSBundle mainBundle] pathForResource:StatusThingPrefFile ofType:@"plist"];
     
     NSDictionary *prefs = [NSDictionary dictionaryWithContentsOfFile:prefPath];
     

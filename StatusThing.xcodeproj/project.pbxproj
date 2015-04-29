@@ -12,11 +12,12 @@
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
 		1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */; };
 		1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */; };
+		1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E268A1AF15B4200FA5E71 /* HelpText */; };
+		1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E26901AF171D000FA5E71 /* MainMenu.xib */; };
 		1DA2B4501AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
 		1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */; };
-		1DAF8F7E1ADFFEE2009CE2BE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7C1ADFFEE2009CE2BE /* MainMenu.xib */; };
 		1DAF8F8A1ADFFEE2009CE2BE /* StatusThingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F891ADFFEE2009CE2BE /* StatusThingTests.m */; };
 		1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F941ADFFF50009CE2BE /* StatusController.m */; };
 		1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */; };
@@ -46,6 +47,8 @@
 		1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolShapeLayer.m; sourceTree = "<group>"; };
 		1D7E26831AEFD7E300FA5E71 /* PolyShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyShapeLayer.h; sourceTree = "<group>"; };
 		1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyShapeLayer.m; sourceTree = "<group>"; };
+		1D7E268A1AF15B4200FA5E71 /* HelpText */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HelpText; sourceTree = "<group>"; };
+		1D7E26901AF171D000FA5E71 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		1DA2B44E1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+LayoutUtilties.h"; sourceTree = "<group>"; };
 		1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+LayoutUtilties.m"; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,7 +57,6 @@
 		1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1DAF8F781ADFFEE2009CE2BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		1DAF8F7D1ADFFEE2009CE2BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1DAF8F831ADFFEE2009CE2BE /* StatusThingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusThingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DAF8F881ADFFEE2009CE2BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DAF8F891ADFFEE2009CE2BE /* StatusThingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThingTests.m; sourceTree = "<group>"; };
@@ -185,14 +187,13 @@
 		1DAF8F721ADFFEE2009CE2BE /* StatusThing */ = {
 			isa = PBXGroup;
 			children = (
+				1DAF8F9F1AE01848009CE2BE /* Konstants.h */,
 				1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */,
 				1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */,
 				1D6DB4641AE3411700277C13 /* Models */,
 				1D6DB4631AE3410B00277C13 /* Controllers */,
 				1D6DB4621AE3410200277C13 /* Views */,
 				1D6DB4611AE340EE00277C13 /* Categories */,
-				1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */,
-				1DAF8F7C1ADFFEE2009CE2BE /* MainMenu.xib */,
 				1DAF8F731ADFFEE2009CE2BE /* Supporting Files */,
 			);
 			path = StatusThing;
@@ -201,10 +202,12 @@
 		1DAF8F731ADFFEE2009CE2BE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1DAF8F9F1AE01848009CE2BE /* Konstants.h */,
 				1DAF8F741ADFFEE2009CE2BE /* Info.plist */,
-				1DAF8F781ADFFEE2009CE2BE /* main.m */,
 				1D2C85F91AE9890600761F49 /* Preferences.plist */,
+				1D7E268A1AF15B4200FA5E71 /* HelpText */,
+				1DAF8F781ADFFEE2009CE2BE /* main.m */,
+				1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */,
+				1D7E26901AF171D000FA5E71 /* MainMenu.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -308,7 +311,8 @@
 			files = (
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1D2C85FA1AE9890600761F49 /* Preferences.plist in Resources */,
-				1DAF8F7E1ADFFEE2009CE2BE /* MainMenu.xib in Resources */,
+				1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */,
+				1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,17 +360,6 @@
 			targetProxy = 1DAF8F841ADFFEE2009CE2BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		1DAF8F7C1ADFFEE2009CE2BE /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1DAF8F7D1ADFFEE2009CE2BE /* Base */,
-			);
-			name = MainMenu.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1DAF8F8B1ADFFEE2009CE2BE /* Debug */ = {
