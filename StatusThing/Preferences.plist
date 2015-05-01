@@ -9,7 +9,7 @@
 		<key>statusView</key>
 		<dict>
 			<key>shape</key>
-			<string>circle</string>
+			<string>roundedsquare</string>
 			<key>foreground</key>
 			<dict>
 				<key>hidden</key>

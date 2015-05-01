@@ -14,7 +14,6 @@
 		1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */; };
 		1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E268A1AF15B4200FA5E71 /* HelpText */; };
 		1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E26901AF171D000FA5E71 /* MainMenu.xib */; };
-		1DA2B4501AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
 		1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */; };
@@ -22,6 +21,7 @@
 		1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F941ADFFF50009CE2BE /* StatusController.m */; };
 		1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */; };
 		1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */; };
+		1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,8 +49,6 @@
 		1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyShapeLayer.m; sourceTree = "<group>"; };
 		1D7E268A1AF15B4200FA5E71 /* HelpText */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HelpText; sourceTree = "<group>"; };
 		1D7E26901AF171D000FA5E71 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		1DA2B44E1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+LayoutUtilties.h"; sourceTree = "<group>"; };
-		1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+LayoutUtilties.m"; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DAF8F741ADFFEE2009CE2BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -67,6 +65,8 @@
 		1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusListener.h; sourceTree = "<group>"; };
 		1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusListener.m; sourceTree = "<group>"; };
 		1DAF8F9F1AE01848009CE2BE /* Konstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Konstants.h; sourceTree = "<group>"; };
+		1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeFactory.h; sourceTree = "<group>"; };
+		1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShapeFactory.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +117,6 @@
 			children = (
 				1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */,
 				1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */,
-				1DA2B44E1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.h */,
-				1DA2B44F1AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -147,6 +145,8 @@
 		1D6DB4641AE3411700277C13 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */,
+				1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */,
 				1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */,
 				1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */,
 			);
@@ -330,9 +330,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DA2B4501AE5FA6200BFCC5E /* CALayer+LayoutUtilties.m in Sources */,
 				1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */,
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
+				1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
 				1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */,
 				1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */,

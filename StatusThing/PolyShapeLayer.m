@@ -123,10 +123,10 @@
 }
 
 
-- (CGPathRef)convexRegularPolygonWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
+- (CGPathRef)newConvexRegularPolygonWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
 {
     CGPoint   *points;
-    CGPathRef  pathRef;
+    CGPathRef  pathRef = nil;
     
     CGRect rect = CGRectIntegral(CGRectInset(self.bounds, 0, 0));
     
@@ -160,10 +160,10 @@
                                 withNumberOfSides:vertices
                                         withAngle:DegToRad(degrees)];
             
-            pathRef = [self createClosedPathWithTransform:nil
-                                              havingCount:vertices
-                                                   points:points
-                                            andFreePoints:YES];
+            pathRef = [self newClosedPathWithTransform:nil
+                                           havingCount:vertices
+                                                points:points
+                                         andFreePoints:YES];
             break;
         default:
             NSLog(@"convexRegularPolygonWithNumberOfVertices:%ld startingAtAngle:%f",vertices,degrees);
@@ -174,7 +174,7 @@
     return pathRef;
 }
 
-- (CGPathRef)concaveRegularPolygramWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
+- (CGPathRef)newConcaveRegularPolygramWithNumberOfVertices:(NSInteger)vertices startingAtAngle:(CGFloat)degrees
 {
     CGRect rect;
     CGPoint *points;
@@ -182,6 +182,7 @@
     CGPoint *interior;
     NSInteger npoints = vertices / 2;
     CGFloat interiorThetaOffset = (M_2PI / npoints)/2.;
+    CGPathRef path;
     
     // concave, ASSERT( (n % 2 == 0) && (nverts>2) &&(nverts<23))
     
@@ -211,22 +212,25 @@
     free(interior);
     free(exterior);
 
-    return [self createClosedPathWithTransform:nil
-                                   havingCount:vertices
-                                        points:points
-                                 andFreePoints:YES];
+    path = [self newClosedPathWithTransform:nil
+                                havingCount:vertices
+                                     points:points
+                              andFreePoints:YES];
+    
+    
+    return path;
 }
 
 - (CGPathRef)path
 {
     if (_path == nil) {
         if ( self.convex) {
-            _path = [self convexRegularPolygonWithNumberOfVertices:self.vertices
-                                                   startingAtAngle:self.angle];
+            _path = [self newConvexRegularPolygonWithNumberOfVertices:self.vertices
+                                                      startingAtAngle:self.angle];
         }
         else {
-            _path = [self concaveRegularPolygramWithNumberOfVertices:self.vertices
-                                                     startingAtAngle:self.angle];
+            _path = [self newConcaveRegularPolygramWithNumberOfVertices:self.vertices
+                                                        startingAtAngle:self.angle];
         }
     }
     return _path;
@@ -237,7 +241,7 @@
 #pragma mark -
 #pragma mark Path Creation Methods
 
-- (CGPathRef)createClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(size_t)count points:(CGPoint *)points andFreePoints:(BOOL)freePoints
+- (CGPathRef)newClosedPathWithTransform:(CGAffineTransform *)transform havingCount:(size_t)count points:(CGPoint *)points andFreePoints:(BOOL)freePoints
 {
     CGMutablePathRef newPath = CGPathCreateMutable();
     
@@ -285,6 +289,7 @@
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
+    NSLog(@"%@ updateWithDictionary:%@",self.name,info);
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         BOOL handled = NO;
         
