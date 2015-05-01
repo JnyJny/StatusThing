@@ -2,11 +2,10 @@ BROKEN
     JSON sourced dictionaries not distributed to StatusMenu
     [fixed]JSON sourced dictionaries not distributed to StatusView
 
-
 Command line argument processing
-    store user specified options to NSUserDefaults - started this
-    specify listening port number - prefs, cmd-line not done
-    specify starting shape|colors|symbol|animation
+    [done]store user specified options to NSUserDefaults - started this
+    [done]specify listening port number - prefs, cmd-line not done
+    [done]specify starting shape|colors|symbol|animation, see Preferences.plist
 
 StatusView
     range checking on user supplied symbol string
@@ -19,8 +18,6 @@ StatusView
     [done]shape toggle
     [done]StatusShapeNone ?
     [done]center StatusView in the NSStatusItem's button's view
-    
-
 
 StatusView animations
     intensity throb - animate alpha
@@ -36,20 +33,19 @@ StatusView animations
 StatusViewArrayController
 StatusViewArray
 
-
 Error Handling
     Fail when unable to bind the given port
     Send error notices back to clients when JSON doesn't work out
 
 JSON dispatch object
     [fixed]Take the smarts out of the various Status* objects
-    Use more KVC
-    May need a few command-type verbs like reset and help ( JSON fragments enabled)
+    [done]May need a few command-type verbs like reset and help ( JSON fragments enabled)
 
 StatusMenu
     messages menuItem with sub-menus holding message list and a clear item
     message dict: { from:"Girl Behind You" text:"Do you like me" reply:{ "YES":"sweet!,"NO":"bogus!"}}
     Preferences
+
 
 Preference Pane - per running instance?
     allow remote connections
@@ -63,13 +59,14 @@ Preference Pane - per running instance?
     change port on the fly
 
 StatusListener
-    sends a welcome string, probably not necessary?
-    should respond to "help" with a list of things that it understands
-    need to look into REST interface patterns?
-    use HTTP, seems.. overkill-y?
-    Publish Bonjour service
-    bind to port 0 by default, OS picks an unused non-privileged port
-    close down connection when client sends EOF
+    Modify protocol to include peer address (or insert it into the JSON message)
+    [kept]sends a welcome string, probably not necessary?
+    [done]should respond to "help" with a list of things that it understands
+    [done]need to look into REST interface patterns?
+    [rejected]use HTTP, seems.. overkill-y?
+    [done]Publish Bonjour service
+    [done]bind to port 0 by default, OS picks an unused non-privileged port
+    [done]close down connection when client sends EOF
 
 
 AppleScript
