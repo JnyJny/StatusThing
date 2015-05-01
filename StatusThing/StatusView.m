@@ -9,17 +9,17 @@
 
 #import "StatusView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "NSColor+NamedColorUtilities.h"
 #import "ShapeFactory.h"
 #import "Konstants.h"
 
-typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
-
+typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 @interface StatusView ()
 
-@property (strong,nonatomic) ShapeFactory *shapeFactory;
-@property (copy,nonatomic) DictionaryEnumerationBlock shapeLayerBlock;
-@property (copy,nonatomic) DictionaryEnumerationBlock textLayerBlock;
+@property (strong,nonatomic) ShapeFactory         *shapeFactory;
+@property (copy,nonatomic  ) ApplyDictionaryBlock updateShapeLayer;
+@property (copy,nonatomic  ) ApplyDictionaryBlock updateTextLayer;
 
 @end
 
@@ -33,7 +33,6 @@ typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
 
 #pragma mark - Initialization Methods
 
-
 - (instancetype)initWithFrame:(NSRect )rect
 {
     self = [super initWithFrame:rect];
@@ -43,7 +42,6 @@ typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
         [self.layer addSublayer:self.background];
         [self.layer addSublayer:self.foreground];
         [self.layer addSublayer:self.symbol];
-
     }
     return self;
 }
@@ -57,32 +55,29 @@ typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
 
 // missing: - (instancetype)initWithCoder:(NSCoder *)coder
 
-#pragma mark - Initialization Methods
+#pragma mark - CALayerDelegate Drawing Methods
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    NSLog(@"layoutSublayersOfLayer:%@",layer.name);
+    //NSLog(@"layoutSublayersOfLayer:%@",layer.name);
     CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
     self.background.position = center;
     self.foreground.position = center;
     self.symbol.position     = center;
 }
 
-
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
-    NSLog(@"drawLayer:%@ inContext:",layer.name);
+    //NSLog(@"drawLayer:%@ inContext:",layer.name);
     
-    [self createPathsInRect:self.insetRect];
-
-    
+    self.foreground.path = [self createShapePath:self.shape inRect:self.insetRect];
+    self.background.path = [self createShapePath:self.shape inRect:self.insetRect];
 }
 
+// drawLayer:inContext isn't called unless there is an empty drawRect:
 - (void)drawRect:(NSRect)dirtyRect{ }
 
 #pragma mark - Properties
-
-
 
 - (CAShapeLayer *)background
 {
@@ -130,7 +125,7 @@ typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
 - (NSString *)shape
 {
     if (_shape == nil) {
-        _shape = ShapeNamePentagram;
+        _shape = ShapeNameLine;
     }
     return _shape;
 }
@@ -150,66 +145,108 @@ typedef void (^DictionaryEnumerationBlock)(NSString *key, id obj, BOOL *stop);
         _shapeFactory = [[ShapeFactory alloc] init];
     }
     return _shapeFactory;
-} 
-
+}
 
 - (CGRect)insetRect
 {
     return CGRectIntegral(CGRectInset(self.layer.bounds, 3, 3));
 }
 
-#pragma mark -
-#pragma mark Methods
 
+- (ApplyDictionaryBlock)updateShapeLayer
+{
+    return ^void(CAShapeLayer *target,NSDictionary *info) {
+        [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+            if ([key isEqualToString:@"fillColor"]) {
+                target.fillColor = [NSColor colorForObject:obj].CGColor;
+            }
+            if ([key isEqualToString:@"strokeColor"]) {
+                target.strokeColor = [NSColor colorForObject:obj].CGColor;
+            }
+            if ([key isEqualToString:@"backgroundColor"]) {
+                target.backgroundColor = [NSColor colorForObject:obj].CGColor;
+            }
+            if ([key isEqualToString:@"lineWidth"]) {
+                target.lineWidth = [obj floatValue];
+            }
+            if ([key isEqualToString:@"hidden"]) {
+                target.hidden = [obj boolValue];
+            }
+        }];
+    };
+}
 
-- (void)createPathsInRect:(CGRect)rect;
+- (ApplyDictionaryBlock)updateTextLayer
+{
+    return ^void(CATextLayer *target,NSDictionary *info) {
+        [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+            if ([key isEqualToString:@"string"]) {
+                target.string = obj;
+            }
+            if ([key isEqualToString:@"foreground"]) {
+                target.foregroundColor = [NSColor colorForObject:obj].CGColor;
+            }
+            if ([key isEqualToString:@"background"]) {
+                target.backgroundColor = [NSColor colorForObject:obj].CGColor;
+            }
+            if ([key isEqualToString:@"font"]) {
+                target.font = CFBridgingRetain(obj);
+            }
+            if ([key isEqualToString:@"fontSize"]) {
+                target.fontSize = [obj floatValue];
+            }
+            if ([key isEqualToString:@"hidden"]) {
+                target.hidden = [obj boolValue];
+            }
+        }];
+        
+    };
+}
+
+#pragma mark - Methods
+
+- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
 {
     CGPathRef pathRef = nil;
     
+    shape = [shape lowercaseString];
     
-    if ([self.shape isEqualToString:ShapeNameNone]) {
+    if ([shape isEqualToString:ShapeNameNone]) {
         // draw nothing
         self.foreground.path = nil;
         self.background.path = nil;
-        return;
+        return nil;
     }
     
-    if ([self.shape isEqualToString:ShapeNameCircle]) {
+    if ([shape isEqualToString:ShapeNameCircle]) {
         pathRef = CGPathCreateWithEllipseInRect(rect, nil);
-        goto copyPath;
+        return pathRef;
     }
 
-    if ([self.shape isEqualToString:ShapeNameRoundedSquare]) {
+    if ([shape isEqualToString:ShapeNameRoundedSquare]) {
         pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
-        goto copyPath;
+        return pathRef;
     }
 
-    if (pathRef == nil) {
-        __block CGMutablePathRef mPathRef = CGPathCreateMutable();
-        
-        NSArray *points = [self.shapeFactory pointsForShape:self.shape
-                                             centeredInRect:self.insetRect
-                                                  rotatedBy:0];
-        
-        CGPathMoveToPoint(mPathRef, nil,
-                          [[points firstObject] pointValue].x,
-                          [[points firstObject] pointValue].y);
 
+    __block CGMutablePathRef mPathRef = CGPathCreateMutable();
         
-        [points enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
-            CGPathAddLineToPoint(mPathRef, nil, [obj pointValue].x, [obj pointValue].y);
-        }];
-
-        CGPathCloseSubpath(mPathRef);
-        pathRef = mPathRef;
-    }
+    NSArray *points = [self.shapeFactory pointsForShape:self.shape
+                                         centeredInRect:self.insetRect
+                                              rotatedBy:0];
     
-copyPath:
+    CGPathMoveToPoint(mPathRef, nil,
+                      [[points firstObject] pointValue].x,
+                      [[points firstObject] pointValue].y);
 
-    self.foreground.path = CGPathCreateCopy(pathRef);
-    self.background.path = CGPathCreateCopy(pathRef);
     
-    CGPathRelease(pathRef);
+    [points enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
+        CGPathAddLineToPoint(mPathRef, nil, [obj pointValue].x, [obj pointValue].y);
+    }];
+
+    CGPathCloseSubpath(mPathRef);
+    
+    return mPathRef;
 }
 
 
@@ -223,24 +260,27 @@ copyPath:
     [self setFrameOrigin:newOrigin];
 }
 
+
+
 - (void)updateWithDictionary:(NSDictionary *)info
 {
-    NSLog(@"statusView.updateWithDictionary: %@",info);
+    //NSLog(@"statusView.updateWithDictionary: %@",info);
+    
+    BlockWeakSelf weakSelf = self;
+    
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         
         if ([key isEqualToString:@"shape"]) {
-            self.shape = obj;
+            weakSelf.shape = obj;
         }
-        
         if ([key isEqualToString:@"foreground"]) {
-            //            [self.foreground updateWithDictionary:obj];
+            weakSelf.updateShapeLayer(weakSelf.foreground,obj);
         }
         if ([key isEqualToString:@"background"]) {
-            //            [self.background updateWithDictionary:obj];
+            weakSelf.updateShapeLayer(weakSelf.background,obj);
         }
-
         if ([key isEqualToString:@"symbol"]) {
-            //            [self.symbol updateWithDictionary:obj];
+            weakSelf.updateTextLayer(weakSelf.symbol,obj);
         }
     }];
 }

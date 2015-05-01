@@ -32,5 +32,8 @@
 #define DegToRad(D) (((D)*(M_PI))/180.)
 #define RadToDeg(R) (((R)*180.)/M_PI)
 
+#define BlockWeakObject(o) __typeof(o) __weak
+#define BlockWeakSelf BlockWeakObject(self)
+
 
 #endif /* StatusThing_Konstants_h */

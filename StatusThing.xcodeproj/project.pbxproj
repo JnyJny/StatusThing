@@ -10,8 +10,6 @@
 		1D2C85FA1AE9890600761F49 /* Preferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D2C85F91AE9890600761F49 /* Preferences.plist */; };
 		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
-		1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */; };
-		1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */; };
 		1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E268A1AF15B4200FA5E71 /* HelpText */; };
 		1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E26901AF171D000FA5E71 /* MainMenu.xib */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
@@ -43,10 +41,6 @@
 		1D6DB45B1AE3187400277C13 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+NamedColorUtilities.h"; sourceTree = "<group>"; };
 		1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+NamedColorUtilities.m"; sourceTree = "<group>"; };
-		1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SymbolShapeLayer.h; sourceTree = "<group>"; };
-		1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SymbolShapeLayer.m; sourceTree = "<group>"; };
-		1D7E26831AEFD7E300FA5E71 /* PolyShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PolyShapeLayer.h; sourceTree = "<group>"; };
-		1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PolyShapeLayer.m; sourceTree = "<group>"; };
 		1D7E268A1AF15B4200FA5E71 /* HelpText */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HelpText; sourceTree = "<group>"; };
 		1D7E26901AF171D000FA5E71 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,7 +120,6 @@
 			children = (
 				1D6DB44F1AE2AD0000277C13 /* StatusView.h */,
 				1D6DB4501AE2AD0000277C13 /* StatusView.m */,
-				1D6DB46E1AE4539600277C13 /* Layers */,
 				1DAF8F991AE002D9009CE2BE /* StatusMenu.h */,
 				1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */,
 			);
@@ -151,17 +144,6 @@
 				1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		1D6DB46E1AE4539600277C13 /* Layers */ = {
-			isa = PBXGroup;
-			children = (
-				1D6DB4751AE4540300277C13 /* SymbolShapeLayer.h */,
-				1D6DB4761AE4540300277C13 /* SymbolShapeLayer.m */,
-				1D7E26831AEFD7E300FA5E71 /* PolyShapeLayer.h */,
-				1D7E26841AEFD7E300FA5E71 /* PolyShapeLayer.m */,
-			);
-			name = Layers;
 			sourceTree = "<group>";
 		};
 		1DAF8F671ADFFEE2009CE2BE = {
@@ -334,8 +316,6 @@
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
 				1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
-				1D6DB4771AE4540300277C13 /* SymbolShapeLayer.m in Sources */,
-				1D7E26851AEFD7E300FA5E71 /* PolyShapeLayer.m in Sources */,
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,

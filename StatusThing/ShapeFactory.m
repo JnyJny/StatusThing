@@ -34,7 +34,7 @@
 
 // These shapes are easier to generate using Core Graphics functions
 //ShapeNameCircle:       @{ ShapeKeySides:@1,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
-//ShapeNameLine:         @{ ShapeKeySides:@2,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
+
 //ShapeNameRoundedSquare:@{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
 
 - (NSDictionary *)shapes
@@ -42,6 +42,7 @@
     
     if (_shapes ==nil) {
         _shapes = @{ShapeNameNone:         @{ ShapeKeySides:@0,  ShapeKeyConvex:@NO,  ShapeKeyAngle:@0 },
+                    ShapeNameLine:         @{ ShapeKeySides:@2,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
                     ShapeNameTriangle:     @{ ShapeKeySides:@3,  ShapeKeyConvex:@YES, ShapeKeyAngle:@90 },
                     ShapeNameSquare:       @{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
                     ShapeNameDiamond:      @{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },

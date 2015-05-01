@@ -121,7 +121,7 @@
 
 - (void)processClientRequest:(NSDictionary *)info
 {
-    NSLog(@"processClientRequest: %@",info);
+    //NSLog(@"processClientRequest: %@",info);
     
     [self.statusView updateWithDictionary:info];
 }
