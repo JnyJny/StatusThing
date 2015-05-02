@@ -10,7 +10,7 @@ Command line argument processing
 StatusView
     range checking on user supplied symbol string
     centering symbols within a shape automatically, masking/clipping?
-    statusItem.button blue highlight is being clipped 
+    [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
 
     [done]Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
     [done]implement shapes as layers to help with animations

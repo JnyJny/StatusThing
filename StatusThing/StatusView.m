@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Symbolic Armageddon. All rights reserved.
 //
 
-
 #import "StatusView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "NSColor+NamedColorUtilities.h"
@@ -33,7 +32,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @synthesize shapeFactory = _shapeFactory;
 @synthesize shape        = _shape;
 
-#pragma mark - Initialization Methods
+#pragma mark - Lifecycle Methods
 
 - (instancetype)initWithFrame:(NSRect )rect
 {
@@ -57,40 +56,33 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 // missing: - (instancetype)initWithCoder:(NSCoder *)coder
 
-#pragma mark - CALayerDelegate Drawing Methods
+#pragma mark - CALayerDelegate Methods
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer
 {
-    //NSLog(@"layoutSublayersOfLayer:%@",layer.name);
     CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
     self.background.position = center;
     self.foreground.position = center;
 
     self.symbol.bounds = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
     self.symbol.position     = center;
-    
-    [self displayViewInfo:self.opaqueAncestor];
-
 }
 
-- (void)displayViewInfo:(NSView *)view
-{
-    NSLog(@"view %@ isOpaque %d, vibrancy %d super %@",view,view.isOpaque,view.allowsVibrancy, view.superview);
-    for (NSView *v in view.subviews){
-        [self displayViewInfo:v];
-    }
-}
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
-
-    //NSLog(@"drawLayer:%@ inContext:",layer.name);
+    // XXX this will hinder per-layer shape assignments, but good enough for now.
+    
     CGPathRef path = [self createShapePath:self.shape inRect:self.insetRect];
-    //    CGPathRelease(self.foreground.path);
-    //    CGPathRelease(self.background.path);
-    self.foreground.path = CGPathCreateCopy(path);
-    self.background.path = CGPathCreateCopy(path);
-    CGPathRelease(path);
+    if (path) {
+        self.foreground.path = CGPathCreateCopy(path);
+        self.background.path = CGPathCreateCopy(path);
+        CGPathRelease(path);
+    }
+    else {
+        self.foreground.path = nil;
+        self.background.path = nil;
+    }
 }
 
 // drawLayer:inContext isn't called unless there is an empty drawRect:
@@ -101,29 +93,29 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [super mouseDown:theEvent];
+    
     // cancel animations here..
-
     [self.background removeAllAnimations];
     [self.foreground removeAllAnimations];
     [self.symbol     removeAllAnimations];
-
 }
-
-
-
 
 #pragma mark - Overridden Properties
 
 // removes the opaque border around the view
 // when the NSStatusItem highlight mode is activated.
+
 - (BOOL)allowsVibrancy { return YES; }
 
-    
+// XXX need to do some work here:
+//     switch to contrasting stroke color for UI dark mode
+//     and mouse down.
+
 
 #pragma mark - Properties
 - (CAShapeLayer *)background
 {
-    if (_background == nil) {
+    if (!_background) {
         _background = [CAShapeLayer layer];
         _background.name = @"BackgroundLayer";
         _background.bounds = self.layer.bounds;
@@ -136,7 +128,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (CAShapeLayer *)foreground
 {
-    if (_foreground == nil) {
+    if (!_foreground) {
         _foreground = [CAShapeLayer layer];
         _foreground.name = @"ForegroundLayer";
         _foreground.bounds = self.layer.bounds;
@@ -150,7 +142,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (CATextLayer *)symbol
 {
-    if (_symbol == nil) {
+    if (!_symbol) {
         _symbol = [CATextLayer layer];
         _symbol.name = @"SymbolLayer";
         _symbol.bounds = self.layer.bounds;
@@ -166,7 +158,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (NSString *)shape
 {
-    if (_shape == nil) {
+    if (!_shape) {
         _shape = ShapeNameLine;
     }
     return _shape;
@@ -183,10 +175,18 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (ShapeFactory *)shapeFactory
 {
-    if (_shapeFactory == nil) {
+    if (!_shapeFactory) {
         _shapeFactory = [[ShapeFactory alloc] init];
     }
     return _shapeFactory;
+}
+
+- (AnimationFactory *)animationFactory
+{
+    if (!_animationFactory) {
+        _animationFactory = [[AnimationFactory alloc] init];
+    }
+    return _animationFactory;
 }
 
 - (CGRect)insetRect
