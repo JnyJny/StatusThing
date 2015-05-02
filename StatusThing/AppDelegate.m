@@ -29,8 +29,7 @@
 
 - (StatusController *)statusController
 {
-    if (_statusController == nil) {
-        
+    if (!_statusController) {
         _statusController = [[StatusController alloc] initWithPreferences:[StatusThingUtilities preferences]];
 
     }

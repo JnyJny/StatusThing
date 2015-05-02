@@ -7,9 +7,23 @@
 //
 
 #import "StatusListener.h"
-#import "Konstants.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#pragma mark - Constants
+
+static NSString * const StatusThingHelpFile                       = @"HelpText";
+static NSString * const StatusThingBonjourType                    = @"_statusthing._tcp.";
+
+static NSString * const StatusThingResponseWelcome                = @"Connected to StatusThing\nFeed Me JSON\n> ";
+static NSString * const StatusThingResponseGoodbye                = @"\nBe seeing you space cowboy!\n";
+static NSString * const StatusThingResponseOk                     = @"Ok\n> ";
+static NSString * const StatusThingResponseErrorFormat            = @"Err: %@\n> ";
+static NSString * const StatusThingResponseNoHelpText             = @"Oops: NO HELP TEXT AVAILABLE.\n> ";
+static NSString * const StatusThingResponseResetUnavilable        = @"Oops: reset is unavailable.\n> ";
+static NSString * const StatusThingResponseDelegateError          = @"Oops: delegate error. Author sucks.\n> ";
+static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSONSerialization returned something that was neither a dictionary nor an array: %@";
+
 
 @interface StatusListener()
 
@@ -25,6 +39,8 @@
 
 @synthesize port = _port;
 
+#pragma mark - Lifecycle
+
 - (instancetype)init
 {
     self = [super init];
@@ -38,7 +54,7 @@
 
 - (NSNumber *)port
 {
-    if (_port == nil) {
+    if (!_port) {
         _port = @0;
     }
     return _port;
@@ -56,12 +72,12 @@
 
 - (NSString *)helpText
 {
-    if (_helpText == nil) {
+    if (!_helpText) {
         _helpText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:StatusThingHelpFile ofType:@""]
                                               encoding:NSUTF8StringEncoding
                                                  error:nil];
-        if (_helpText == nil)
-            _helpText = @"NO HELP TEXT AVAILABLE.\n> ";
+        if (!_helpText)
+            _helpText = StatusThingResponseNoHelpText;
     }
     return _helpText;
 }
@@ -72,7 +88,7 @@
 
 - (NSSocketPort *)socketPort
 {
-    if ( _socketPort == nil ) {
+    if (!_socketPort) {
         struct sockaddr_in addr;
         
         _socketPort = [[NSSocketPort alloc] initWithTCPPort:self.port.unsignedIntegerValue];
@@ -88,7 +104,7 @@
 
 - (NSNetService *)netService
 {
-    if (_netService == nil) {
+    if (!_netService) {
         _netService = [[NSNetService alloc] initWithDomain:@""
                                                       type:StatusThingBonjourType
                                                       name:@""
@@ -101,7 +117,7 @@
 
 - (NSFileHandle *)listening
 {
-    if (_listening == nil) {
+    if (!_listening) {
         _listening = [[NSFileHandle alloc] initWithFileDescriptor:self.socketPort.socket
                                                    closeOnDealloc:NO];
     }
@@ -110,7 +126,7 @@
 
 - (NSNotificationCenter *)noteCenter
 {
-    if ( _noteCenter == nil ) {
+    if (!_noteCenter) {
         _noteCenter = [NSNotificationCenter defaultCenter];
     }
     return _noteCenter;
@@ -164,12 +180,13 @@
                             name:NSFileHandleReadCompletionNotification
                           object:connected];
 
-    [connected writeData:[StatusThingWelcome dataUsingEncoding:NSUTF8StringEncoding]];
+    [connected writeData:[StatusThingResponseWelcome dataUsingEncoding:NSUTF8StringEncoding]];
     
     [connected readInBackgroundAndNotify];
     
     [self.listening acceptConnectionInBackgroundAndNotify];
 }
+
 
 #pragma mark - Delegate Interaction
 
@@ -194,7 +211,7 @@
         case 'q':
         case 'Q':
             // q|Q|ctl-D|zero length read - tell the client goodbye and hang up
-            [connected writeData:[StatusThingGoodbye dataUsingEncoding:NSUTF8StringEncoding]];
+            [connected writeData:[StatusThingResponseGoodbye dataUsingEncoding:NSUTF8StringEncoding]];
             [self.noteCenter removeObserver:self
                                        name:NSFileHandleReadCompletionNotification
                                      object:connected];
@@ -212,13 +229,13 @@
         case 'R':
             if ( self.resetInfo )
                 [self.delegate performSelector:@selector(processClientRequest:) withObject:self.resetInfo];
-            response = self.resetInfo?StatusThingResponseOK:@"reset is unavailable.";
+            response = self.resetInfo?StatusThingResponseOk:StatusThingResponseResetUnavilable;
             break;
             
         default:
             
-            if (self.delegate == nil) {
-                response = [NSString stringWithFormat:StatusThingResponseErrFmt,@"author forgot to set the delegate. Author sucks."];
+            if (!self.delegate) {
+                response = StatusThingResponseDelegateError;
                 break;
             }
             
@@ -226,23 +243,28 @@
                                                   options:0
                                                     error:&error];
     
-            if ( obj == nil ) {
-                response = [NSString stringWithFormat:StatusThingResponseErrFmt,error.localizedFailureReason];
+            if (!obj) {
+                response = [NSString stringWithFormat:StatusThingResponseErrorFormat,error.localizedFailureReason];
                 break;
             }
+            
 
             if ([obj isKindOfClass:[NSDictionary class]]){
                 [self.delegate performSelector:@selector(processClientRequest:)
                                     withObject:obj];
-                response = StatusThingResponseOK;
+                response = StatusThingResponseOk;
                 break;
             }
             
             if ([obj isKindOfClass:[NSArray class]]) {
                 [self.delegate performSelector:@selector(updateWithArray:)
                                     withObject:obj];
-                response = StatusThingResponseOK;
+                response = StatusThingResponseOk;
+                break;
             }
+            
+            
+            response = [NSString stringWithFormat:StatusThingResponseUnknownContainerFormat,[obj class]];
             break;
     }
     

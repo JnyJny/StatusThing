@@ -9,17 +9,18 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 
-extern NSString *AnimationNameSpin;
-extern NSString *AnimationNameThrob;
-extern NSString *AnimationNameBounce;
-extern NSString *AnimationNameShake;
-extern NSString *AnimationNameFlip;
-extern NSString *AnimationNameWobble;
-extern NSString *AnimationNameFade;
-extern NSString *AnimationNameFlare;
-extern NSString *AnimationNameShine;
-extern NSString *AnimationNameTwinkle;
-extern NSString *AnimationNameShimmy;
+
+extern NSString * const AnimationNameSpin;
+extern NSString * const AnimationNameThrob;
+extern NSString * const AnimationNameBounce;
+extern NSString * const AnimationNameShake;
+extern NSString * const AnimationNameFlip;
+extern NSString * const AnimationNameWobble;
+extern NSString * const AnimationNameFade;
+extern NSString * const AnimationNameFlare;
+extern NSString * const AnimationNameShine;
+extern NSString * const AnimationNameTwinkle;
+extern NSString * const AnimationNameShimmy;
 
 @interface AnimationFactory : NSObject
 

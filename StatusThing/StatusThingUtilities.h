@@ -7,9 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Konstants.h"
+
+extern NSString *const AppleInterfaceThemeChangedNotification;
+extern NSString *const AppleInterfaceStyle;
+extern NSString *const AppleInterfaceStyleDark;
 
 @interface StatusThingUtilities : NSObject
+
+
 
 + (void)registerDefaultsForBundle:(NSBundle *)bundle;
 + (NSDictionary *)preferences;
@@ -17,5 +22,6 @@
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)disableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)isLoginItemEnabledForBundle:(NSBundle *)bundle;
++ (BOOL)isDarkInterfaceStyle;
 
 @end

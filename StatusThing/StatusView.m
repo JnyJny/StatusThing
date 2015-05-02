@@ -9,9 +9,38 @@
 #import "StatusView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "NSColor+NamedColorUtilities.h"
+#import "BlockUtilities.h"
 #import "ShapeFactory.h"
 #import "AnimationFactory.h"
-#import "Konstants.h"
+
+#pragma mark - String Constants
+
+static NSString * const StatusViewPropertyNameShape            = @"shape";
+static NSString * const StatusViewPropertyNameForeground       = @"foreground";
+static NSString * const StatusViewPropertyNameBackground       = @"background";
+static NSString * const StatusViewPropertyNameSymbol           = @"symbol";
+
+static NSString * const CALayerPropertyNameHidden              = @"hidden";
+static NSString * const CALayerPropertyNameBackgroundColor     = @"backgroundColor";
+
+static NSString * const CAShapeLayerPropertyNameFillColor      = @"fillColor";
+static NSString * const CAShapeLayerPropertyNameStrokeColor    = @"strokeColor";
+static NSString * const CAShapeLayerPropertyNameLineWidth      = @"lineWidth";
+
+static NSString * const CATextLayerPropertyNameString          = @"string";
+static NSString * const CATextLayerPropertyNameForegroundColor = @"foreground";
+static NSString * const CATextLayerPropertyNameBackgroundColor = @"background";
+static NSString * const CATextLayerPropertyNameFont            = @"font";
+static NSString * const CATextLayerPropertyNameFontSize        = @"fontSize";
+
+static NSString * const BackgroundLayerName                    = @"BackgroundLayer";
+static NSString * const ForegroundLayerName                    = @"ForegroundLayer";
+static NSString * const SymbolLayerName                        = @"SymbolLayer";
+static NSString * const DefaultFontName                        = @"Courier";
+static CGFloat    const DefaultFontSize                        = 12.;
+static NSString * const DefaultString                          = @"\u018f";
+
+
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
@@ -117,7 +146,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     if (!_background) {
         _background = [CAShapeLayer layer];
-        _background.name = @"BackgroundLayer";
+        _background.name = BackgroundLayerName;
         _background.bounds = self.layer.bounds;
         _background.fillColor = CGColorCreateGenericRGB(0, 1, 0, 1);
         _background.backgroundColor = nil;
@@ -130,7 +159,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     if (!_foreground) {
         _foreground = [CAShapeLayer layer];
-        _foreground.name = @"ForegroundLayer";
+        _foreground.name = ForegroundLayerName;
         _foreground.bounds = self.layer.bounds;
         _foreground.fillColor = nil;
         _foreground.backgroundColor = nil;
@@ -144,11 +173,11 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     if (!_symbol) {
         _symbol = [CATextLayer layer];
-        _symbol.name = @"SymbolLayer";
+        _symbol.name = SymbolLayerName;
         _symbol.bounds = self.layer.bounds;
-        _symbol.string = @"\u018f";
-        _symbol.font = CFBridgingRetain(@"Courier");
-        _symbol.fontSize = 12;
+        _symbol.string = DefaultString;
+        _symbol.font = CFBridgingRetain(DefaultFontName);
+        _symbol.fontSize = DefaultFontSize;
         _symbol.alignmentMode = kCAAlignmentCenter;
         _symbol.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0);
         _symbol.backgroundColor = nil;
@@ -197,23 +226,26 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 #pragma mark - Block Properties
 
+
+
+
 - (ApplyDictionaryBlock)updateShapeLayer
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-            if ([key isEqualToString:@"fillColor"]) {
+            if ([key isEqualToString:CAShapeLayerPropertyNameFillColor]) {
                 target.fillColor = [NSColor colorForObject:obj].CGColor;
             }
-            if ([key isEqualToString:@"strokeColor"]) {
+            if ([key isEqualToString:CAShapeLayerPropertyNameStrokeColor]) {
                 target.strokeColor = [NSColor colorForObject:obj].CGColor;
             }
-            if ([key isEqualToString:@"backgroundColor"]) {
+            if ([key isEqualToString:CALayerPropertyNameBackgroundColor]) {
                 target.backgroundColor = [NSColor colorForObject:obj].CGColor;
             }
-            if ([key isEqualToString:@"lineWidth"]) {
+            if ([key isEqualToString:CAShapeLayerPropertyNameLineWidth]) {
                 target.lineWidth = [obj floatValue];
             }
-            if ([key isEqualToString:@"hidden"]) {
+            if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
             }
         }];
@@ -224,22 +256,22 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     return ^void(CATextLayer *target,NSDictionary *info) {
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-            if ([key isEqualToString:@"string"]) {
+            if ([key isEqualToString:CATextLayerPropertyNameString]) {
                 target.string = obj;
             }
-            if ([key isEqualToString:@"foreground"]) {
+            if ([key isEqualToString:CATextLayerPropertyNameForegroundColor]) {
                 target.foregroundColor = [NSColor colorForObject:obj].CGColor;
             }
-            if ([key isEqualToString:@"background"]) {
+            if ([key isEqualToString:CATextLayerPropertyNameBackgroundColor]) {
                 target.backgroundColor = [NSColor colorForObject:obj].CGColor;
             }
-            if ([key isEqualToString:@"font"]) {
+            if ([key isEqualToString:CATextLayerPropertyNameFont]) {
                 target.font = CFBridgingRetain(obj);
             }
-            if ([key isEqualToString:@"fontSize"]) {
+            if ([key isEqualToString:CATextLayerPropertyNameFontSize]) {
                 target.fontSize = [obj floatValue];
             }
-            if ([key isEqualToString:@"hidden"]) {
+            if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
             }
         }];
@@ -323,16 +355,16 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         
-        if ([key isEqualToString:@"shape"]) {
+        if ([key isEqualToString:StatusViewPropertyNameShape]) {
             weakSelf.shape = obj;
         }
-        if ([key isEqualToString:@"foreground"]) {
+        if ([key isEqualToString:StatusViewPropertyNameForeground]) {
             weakSelf.updateShapeLayer(weakSelf.foreground,obj);
         }
-        if ([key isEqualToString:@"background"]) {
+        if ([key isEqualToString:StatusViewPropertyNameBackground]) {
             weakSelf.updateShapeLayer(weakSelf.background,obj);
         }
-        if ([key isEqualToString:@"symbol"]) {
+        if ([key isEqualToString:StatusViewPropertyNameSymbol]) {
             weakSelf.updateTextLayer(weakSelf.symbol,obj);
         }
     }];

@@ -8,21 +8,16 @@
 
 #import "StatusController.h"
 #import "NSColor+NamedColorUtilities.h"
-#import "Konstants.h"
 
+#pragma mark - String Constants
 
-
-
-/* StatusController
- *
- * Coordinates the input from StatusListener and updates 
- * StatusView and StatusMenu accordingly.
- */
+static NSString *const StatusThingStatusView = @"statusView";
+static NSString *const StatusThingStatusMenu = @"statusMenu";
+static NSString *const StatusThingPort       = @"port";
 
 @implementation StatusController
 
-static NSString *const StatusThingStatusView  = @"statusView";
-
+#pragma mark - Lifecycle
 - (instancetype)initWithPreferences:(NSDictionary *)preferences
 {
     self = [super init];
@@ -45,26 +40,23 @@ static NSString *const StatusThingStatusView  = @"statusView";
 }
 
 
-
-#pragma mark -
-#pragma mark Implementation Private Properties
+#pragma mark - Implementation Private Properties
 
 
 - (NSStatusItem *)statusItem
 {
-    if( _statusItem == nil ){
+    if (!_statusItem) {
         _statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength];
     }
     return _statusItem;
 }
 
-#pragma mark -
-#pragma mark Public Properties
+#pragma mark - Public Properties
 
 
 - (StatusView *)statusView
 {
-    if ( _statusView == nil ) {
+    if (!_statusView) {
         _statusView = [[StatusView alloc] init];
     }
     return _statusView;
@@ -72,7 +64,7 @@ static NSString *const StatusThingStatusView  = @"statusView";
 
 - (StatusMenu *)statusMenu
 {
-    if ( _statusMenu == nil ){
+    if (!_statusMenu) {
         _statusMenu = [[StatusMenu alloc]  init];
     }
     return _statusMenu;
@@ -80,15 +72,15 @@ static NSString *const StatusThingStatusView  = @"statusView";
 
 - (StatusListener *)statusListener
 {
-    if ( _statusListener == nil ){
+    if (!_statusListener) {
         _statusListener = [[StatusListener alloc] init];
 
     }
     return _statusListener;
 }
 
-#pragma mark -
-#pragma mark Methods
+
+#pragma mark - Methods
 
 - (void)start
 {
@@ -104,29 +96,33 @@ static NSString *const StatusThingStatusView  = @"statusView";
     [self.statusListener stop];
 }
 
-- (void)updateWithDictionary:(NSDictionary *)info
-{
-    
- [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-     if ( [key isEqualToString:StatusThingStatusView]) {
-         [self.statusView updateWithDictionary:obj];
-     }
-     
-     if ( [key isEqualToString:@"port"]) {
-         self.statusListener.port = obj;
-     }
-     
- }];
-}
 
-#pragma mark -
-#pragma mark StatusListenerDelegate
+
+#pragma mark - StatusListenerDelegate Methods
 
 - (void)processClientRequest:(NSDictionary *)info
 {
-    //NSLog(@"processClientRequest: %@",info);
-    
     [self.statusView updateWithDictionary:info];
+}
+
+
+- (void)updateWithDictionary:(NSDictionary *)info
+{
+    
+    [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+        if ( [key isEqualToString:StatusThingStatusView]) {
+            [self.statusView updateWithDictionary:obj];
+        }
+        
+        if ( [key isEqualToString:StatusThingStatusMenu]) {
+            [self.statusMenu updateWithDictionary:obj];
+        }
+        
+        if ( [key isEqualToString:StatusThingPort]) {
+            self.statusListener.port = obj;
+        }
+        
+    }];
 }
 
 

@@ -8,13 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const ShapeNameNone;
-extern NSString *const ShapeNameCircle;
+#pragma mark - pointsForShape:centeredInRect:rotatedBy: generates these shapes
+
 extern NSString *const ShapeNameLine;
 extern NSString *const ShapeNameTriangle;
 extern NSString *const ShapeNameSquare;
 extern NSString *const ShapeNameDiamond;
-extern NSString *const ShapeNameRoundedSquare;
 extern NSString *const ShapeNamePentagon;
 extern NSString *const ShapeNameHexagon;
 extern NSString *const ShapeNameSeptagon;
@@ -32,7 +31,14 @@ extern NSString *const ShapeNameNonagram;
 extern NSString *const ShapeNameDecagram;
 extern NSString *const ShapeNameEndecagram;
 
+#pragma mark - pointsForShape:centeredInRect:rotatedBy: DOES NOT generate these shapes
 
+// Generate paths for these shapes with Core Graphics instead.
+extern NSString *const ShapeNameNone;
+extern NSString *const ShapeNameCircle;
+extern NSString *const ShapeNameRoundedSquare;
+
+#pragma mark -
 @interface ShapeFactory : NSObject
 
 @property (strong,nonatomic,readonly) NSDictionary *shapes;

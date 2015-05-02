@@ -8,9 +8,15 @@
 
 #import "StatusThingUtilities.h"
 
-NSString *const StatusThingDefaultPreferencesFile     = @"com.symbolicarmageddon.StatusThing.defaults";
-NSString *const StatusThingDefaultPreferencesFileType = @"plist";
-NSString *const StatusThingPreferencesDomain          = @"com.symbolicarmageddon.StatusThing";
+#pragma mark - Constants
+
+NSString *const StatusThingDefaultPreferencesFile      = @"com.symbolicarmageddon.StatusThing.defaults";
+NSString *const StatusThingDefaultPlistFileExtension   = @"plist";
+NSString *const StatusThingPreferencesDomain           = @"com.symbolicarmageddon.StatusThing";
+
+NSString *const AppleInterfaceThemeChangedNotification = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                    = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                = @"dark";
 
 @implementation StatusThingUtilities
 
@@ -21,7 +27,7 @@ NSString *const StatusThingPreferencesDomain          = @"com.symbolicarmageddon
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     NSString *path = [bundle pathForResource:StatusThingDefaultPreferencesFile
-                                      ofType:StatusThingDefaultPreferencesFileType];
+                                      ofType:StatusThingDefaultPlistFileExtension];
     
     [userDefaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:path]];
 }
@@ -88,7 +94,7 @@ NSString *const StatusThingPreferencesDomain          = @"com.symbolicarmageddon
     LSSharedFileListRef sharedFileList;
     LSSharedFileListItemRef item;
     CFURLRef applicationPathURL;
-    
+
     NSArray *sharedFiles;
     UInt32 seed;
     BOOL success = NO;
@@ -134,6 +140,14 @@ NSString *const StatusThingPreferencesDomain          = @"com.symbolicarmageddon
 + (BOOL)isLoginItemEnabledForBundle:(NSBundle *)bundle
 {
     return [StatusThingUtilities loginItemForBundle:bundle removeIfFound:NO];
+}
+
+#pragma mark - Query Interface Style
+
++ (BOOL)isDarkInterfaceStyle
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    return [[userDefaults stringForKey:AppleInterfaceStyle] isEqualToString:AppleInterfaceStyleDark];
 }
 
 

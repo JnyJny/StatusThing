@@ -15,55 +15,52 @@
 #define DegToRad(D) ((D)*M_PI_180)
 #define RadToDeg(R) ((R)*M_180_PI)
 
-NSString *const ShapeNameNone           = @"none";
-NSString *const ShapeNameCircle         = @"circle";
-NSString *const ShapeNameLine           = @"line";
-NSString *const ShapeNameTriangle       = @"triangle";
-NSString *const ShapeNameSquare         = @"square";
-NSString *const ShapeNameDiamond        = @"diamond";
-NSString *const ShapeNameRoundedSquare  = @"roundedsquare";
-NSString *const ShapeNamePentagon       = @"pentagon";
-NSString *const ShapeNameHexagon        = @"hexagon";
-NSString *const ShapeNameSeptagon       = @"septagon";
-NSString *const ShapeNameOctagon        = @"octagon";
-NSString *const ShapeNameNonagon        = @"nonagon";
-NSString *const ShapeNameDecagon        = @"decagon";
-NSString *const ShapeNameEndecagon      = @"endecagon";
-NSString *const ShapeNameTrigram        = @"trigram";
-NSString *const ShapeNameQuadragram     = @"quadragram";
-NSString *const ShapeNamePentagram      = @"pentagram";
-NSString *const ShapeNameHexagram       = @"hexagram";
-NSString *const ShapeNameSeptagram      = @"septagram";
-NSString *const ShapeNameOctagram       = @"octagram";
-NSString *const ShapeNameNonagram       = @"nonagram";
-NSString *const ShapeNameDecagram       = @"decagram";
-NSString *const ShapeNameEndecagram     = @"endecagram";
+#pragma mark - Shape Name Constants
+NSString *const ShapeNameNone          = @"none";
+NSString *const ShapeNameCircle        = @"circle";
+NSString *const ShapeNameLine          = @"line";
+NSString *const ShapeNameTriangle      = @"triangle";
+NSString *const ShapeNameSquare        = @"square";
+NSString *const ShapeNameDiamond       = @"diamond";
+NSString *const ShapeNameRoundedSquare = @"roundedsquare";
+NSString *const ShapeNamePentagon      = @"pentagon";
+NSString *const ShapeNameHexagon       = @"hexagon";
+NSString *const ShapeNameSeptagon      = @"septagon";
+NSString *const ShapeNameOctagon       = @"octagon";
+NSString *const ShapeNameNonagon       = @"nonagon";
+NSString *const ShapeNameDecagon       = @"decagon";
+NSString *const ShapeNameEndecagon     = @"endecagon";
+NSString *const ShapeNameTrigram       = @"trigram";
+NSString *const ShapeNameQuadragram    = @"quadragram";
+NSString *const ShapeNamePentagram     = @"pentagram";
+NSString *const ShapeNameHexagram      = @"hexagram";
+NSString *const ShapeNameSeptagram     = @"septagram";
+NSString *const ShapeNameOctagram      = @"octagram";
+NSString *const ShapeNameNonagram      = @"nonagram";
+NSString *const ShapeNameDecagram      = @"decagram";
+NSString *const ShapeNameEndecagram    = @"endecagram";
 
-static NSString *const ShapeKeySides  = @"sides";
-static NSString *const ShapeKeyConvex = @"convex";
-static NSString *const ShapeKeyAngle  = @"angle";
+#pragma mark - Private Constants
+static NSString *const ShapeKeySides   = @"sides";
+static NSString *const ShapeKeyConvex  = @"convex";
+static NSString *const ShapeKeyAngle   = @"angle";
 
 @implementation ShapeFactory
 
 @synthesize shapes = _shapes;
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-
-    }
-    return self;
-}
 
 // These shapes are easier to generate using Core Graphics functions
+//
 //ShapeNameCircle:       @{ ShapeKeySides:@1,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
 //ShapeNameRoundedSquare:@{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
+
+#pragma mark - Properties
 
 - (NSDictionary *)shapes
 {
     
-    if (_shapes ==nil) {
+    if (!_shapes) {
         _shapes = @{ShapeNameNone:         @{ ShapeKeySides:@0,  ShapeKeyConvex:@NO,  ShapeKeyAngle:@0 },
                     ShapeNameLine:         @{ ShapeKeySides:@2,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
                     ShapeNameTriangle:     @{ ShapeKeySides:@3,  ShapeKeyConvex:@YES, ShapeKeyAngle:@90 },
@@ -89,6 +86,8 @@ static NSString *const ShapeKeyAngle  = @"angle";
     return _shapes;
 }
 
+#pragma mark - Private Methods
+
 - (NSArray *)pointsForConvex:(BOOL)convex shapeWithSides:(NSInteger)sides centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees
 {
     NSMutableArray *points = [[NSMutableArray alloc] init];
@@ -108,7 +107,7 @@ static NSString *const ShapeKeyAngle  = @"angle";
         p.y = origin.y + radius * sinf(theta);
         [points addObject:[NSValue valueWithPoint:p]];
         
-        if (convex == NO) {
+        if (!convex) {
             // drawing inside vertices of a star thing
             p.x = origin.x + (radius/2.) * cosf(theta + deltaTheta);
             p.y = origin.y + (radius/2.) * sinf(theta + deltaTheta);
@@ -119,13 +118,14 @@ static NSString *const ShapeKeyAngle  = @"angle";
     return (NSArray *)points;
 }
 
+#pragma mark - Public Methods
 
 - (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees
 {
     
     NSDictionary *info = [self.shapes valueForKey:shape];
     
-    if ( info == nil) {
+    if (!info) {
         NSLog(@"pointsForShape:%@ not defined",shape);
         return nil;
     }

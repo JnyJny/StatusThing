@@ -15,6 +15,6 @@
 @property (strong, nonatomic) NSMenu   *messageSubmenu;
 
 - (void)setMessage:(NSString *)message;
-
+- (void)updateWithDictionary:(NSDictionary *)info;
 
 @end
