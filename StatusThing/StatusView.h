@@ -15,10 +15,8 @@
 @property (strong,nonatomic,readonly) CAShapeLayer *background;
 @property (strong,nonatomic,readonly) CAShapeLayer *foreground;
 @property (strong,nonatomic,readonly) CATextLayer  *symbol;
-
-@property (assign,nonatomic,readonly) CGRect insetRect;
-
-@property (strong,nonatomic) NSString *shape;
+@property (assign,nonatomic,readonly) CGRect       insetRect;
+@property (strong,nonatomic         ) NSString     *shape;
 
 - (void)updateWithDictionary:(NSDictionary *)info;
 - (void)centerInRect:(CGRect)rect;

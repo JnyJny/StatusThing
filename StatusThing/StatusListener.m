@@ -34,8 +34,7 @@
     return self;
 }
 
-#pragma mark -
-#pragma mark Properties
+#pragma mark - Properties
 
 - (NSNumber *)port
 {
@@ -68,8 +67,8 @@
 }
 
 
-#pragma mark -
-#pragma mark Private Properties
+
+#pragma mark - Private Properties
 
 - (NSSocketPort *)socketPort
 {
@@ -117,8 +116,7 @@
     return _noteCenter;
 }
 
-#pragma mark -
-#pragma mark Methods
+#pragma mark - Methods
 
 
 - (BOOL)start
@@ -155,6 +153,8 @@
     self.running = NO;
 }
 
+#pragma mark - Notification Callbacks
+
 - (void)handleNewConnection:(NSNotification *)note
 {
     NSFileHandle *connected = [note.userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
@@ -170,6 +170,8 @@
     
     [self.listening acceptConnectionInBackgroundAndNotify];
 }
+
+#pragma mark - Delegate Interaction
 
 - (void)sendDataToDelegate:(NSNotification *)note
 {

@@ -12,7 +12,7 @@
 
 
 @property (strong, nonatomic) NSNumber *port;
-@property (strong, nonatomic) NSMenu *messageSubmenu;
+@property (strong, nonatomic) NSMenu   *messageSubmenu;
 
 - (void)setMessage:(NSString *)message;
 

@@ -24,7 +24,7 @@
 #define StatusThingDefaultFontName @"Courier"
 
 #define StatusThingDomain        @"com.symbolicarmageddon.StatusThing"
-#define StatusThingPrefFile      @"Preferences"
+
 #define StatusThingHelpFile      @"HelpText"
 #define StatusThingPrefKeyPort   @"port"
 

@@ -11,9 +11,8 @@
 
 @interface StatusMenu()
 
-
-
-@property (strong, nonatomic) NSMenuItem *portItem;
+@property (strong,nonatomic ) NSMutableArray *messages;
+@property (strong, nonatomic) NSMenuItem     *portItem;
 
 @end
 
@@ -24,14 +23,17 @@
     self = [super init];
     if (self) {
         self.port = @0;
-        [self insertItem:[[NSMenuItem alloc] init] atIndex:0];
+        [self insertItem:[[NSMenuItem alloc] initWithTitle:@"Messages"
+                                                    action:nil
+                                             keyEquivalent:@""] atIndex:0];
         [self setSubmenu:self.messageSubmenu forItem:[self itemAtIndex:0]];
         
         [self insertItem:[NSMenuItem separatorItem] atIndex:1];
         [self insertItem:self.portItem atIndex:2];
         [self insertItem:[NSMenuItem separatorItem] atIndex:3];
+        [self addItemWithTitle:@"Preferences" action:nil keyEquivalent:@""];
+        [self insertItem:[NSMenuItem separatorItem] atIndex:5];
         [self addItemWithTitle:@"Quit" action:@selector(terminate:) keyEquivalent:@""];
-
     }
     return self;
 }

@@ -48,6 +48,7 @@ telnet> q
   - symbol color, font and font size
   - hide and show shape, outline and symbol
   - short update messages (not yet)
+  - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant ( srsly )
 
 
 ### Shapes

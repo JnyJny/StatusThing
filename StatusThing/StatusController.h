@@ -12,7 +12,6 @@
 #import "StatusListener.h"
 #import "StatusView.h"
 
-#define StatusThingStatusView @"statusView"
 
 @interface StatusController : NSObject <StatusListenerDelegate>
 

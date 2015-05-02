@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "NSColor+NamedColorUtilities.h"
 #import "ShapeFactory.h"
+#import "AnimationFactory.h"
 #import "Konstants.h"
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
@@ -18,8 +19,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @interface StatusView ()
 
 @property (strong,nonatomic) ShapeFactory         *shapeFactory;
-@property (copy,nonatomic  ) ApplyDictionaryBlock updateShapeLayer;
-@property (copy,nonatomic  ) ApplyDictionaryBlock updateTextLayer;
+@property (strong,nonatomic) AnimationFactory     *animationFactory;
+@property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
+@property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
 
 @end
 
@@ -63,22 +65,62 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
     self.background.position = center;
     self.foreground.position = center;
+
+    self.symbol.bounds = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
     self.symbol.position     = center;
+    
+    [self displayViewInfo:self.opaqueAncestor];
+
+}
+
+- (void)displayViewInfo:(NSView *)view
+{
+    NSLog(@"view %@ isOpaque %d, vibrancy %d super %@",view,view.isOpaque,view.allowsVibrancy, view.superview);
+    for (NSView *v in view.subviews){
+        [self displayViewInfo:v];
+    }
 }
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
+
     //NSLog(@"drawLayer:%@ inContext:",layer.name);
-    
-    self.foreground.path = [self createShapePath:self.shape inRect:self.insetRect];
-    self.background.path = [self createShapePath:self.shape inRect:self.insetRect];
+    CGPathRef path = [self createShapePath:self.shape inRect:self.insetRect];
+    //    CGPathRelease(self.foreground.path);
+    //    CGPathRelease(self.background.path);
+    self.foreground.path = CGPathCreateCopy(path);
+    self.background.path = CGPathCreateCopy(path);
+    CGPathRelease(path);
 }
 
 // drawLayer:inContext isn't called unless there is an empty drawRect:
 - (void)drawRect:(NSRect)dirtyRect{ }
 
-#pragma mark - Properties
+#pragma mark - Event Handling
 
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [super mouseDown:theEvent];
+    // cancel animations here..
+
+    [self.background removeAllAnimations];
+    [self.foreground removeAllAnimations];
+    [self.symbol     removeAllAnimations];
+
+}
+
+
+
+
+#pragma mark - Overridden Properties
+
+// removes the opaque border around the view
+// when the NSStatusItem highlight mode is activated.
+- (BOOL)allowsVibrancy { return YES; }
+
+    
+
+#pragma mark - Properties
 - (CAShapeLayer *)background
 {
     if (_background == nil) {
@@ -153,6 +195,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 }
 
 
+#pragma mark - Block Properties
+
 - (ApplyDictionaryBlock)updateShapeLayer
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
@@ -205,6 +249,11 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 #pragma mark - Methods
 
+#pragma mark - Animation
+
+
+#pragma mark - Shape Path Creation
+
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
 {
     CGPathRef pathRef = nil;
@@ -215,6 +264,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         // draw nothing
         self.foreground.path = nil;
         self.background.path = nil;
+ 
         return nil;
     }
     
@@ -227,7 +277,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
         return pathRef;
     }
-
 
     __block CGMutablePathRef mPathRef = CGPathCreateMutable();
         
@@ -249,6 +298,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     return mPathRef;
 }
 
+#pragma mark - Utility
+
 
 - (void)centerInRect:(CGRect)rect
 {
@@ -259,6 +310,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     
     [self setFrameOrigin:newOrigin];
 }
+
+#pragma mark - Update using blocks
 
 
 

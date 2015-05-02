@@ -15,6 +15,34 @@
 #define DegToRad(D) ((D)*M_PI_180)
 #define RadToDeg(R) ((R)*M_180_PI)
 
+NSString *const ShapeNameNone           = @"none";
+NSString *const ShapeNameCircle         = @"circle";
+NSString *const ShapeNameLine           = @"line";
+NSString *const ShapeNameTriangle       = @"triangle";
+NSString *const ShapeNameSquare         = @"square";
+NSString *const ShapeNameDiamond        = @"diamond";
+NSString *const ShapeNameRoundedSquare  = @"roundedsquare";
+NSString *const ShapeNamePentagon       = @"pentagon";
+NSString *const ShapeNameHexagon        = @"hexagon";
+NSString *const ShapeNameSeptagon       = @"septagon";
+NSString *const ShapeNameOctagon        = @"octagon";
+NSString *const ShapeNameNonagon        = @"nonagon";
+NSString *const ShapeNameDecagon        = @"decagon";
+NSString *const ShapeNameEndecagon      = @"endecagon";
+NSString *const ShapeNameTrigram        = @"trigram";
+NSString *const ShapeNameQuadragram     = @"quadragram";
+NSString *const ShapeNamePentagram      = @"pentagram";
+NSString *const ShapeNameHexagram       = @"hexagram";
+NSString *const ShapeNameSeptagram      = @"septagram";
+NSString *const ShapeNameOctagram       = @"octagram";
+NSString *const ShapeNameNonagram       = @"nonagram";
+NSString *const ShapeNameDecagram       = @"decagram";
+NSString *const ShapeNameEndecagram     = @"endecagram";
+
+static NSString *const ShapeKeySides  = @"sides";
+static NSString *const ShapeKeyConvex = @"convex";
+static NSString *const ShapeKeyAngle  = @"angle";
+
 @implementation ShapeFactory
 
 @synthesize shapes = _shapes;
@@ -28,13 +56,8 @@
     return self;
 }
 
-#define ShapeKeySides  @"sides"
-#define ShapeKeyConvex @"convex"
-#define ShapeKeyAngle  @"angle"
-
 // These shapes are easier to generate using Core Graphics functions
 //ShapeNameCircle:       @{ ShapeKeySides:@1,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
-
 //ShapeNameRoundedSquare:@{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
 
 - (NSDictionary *)shapes

@@ -8,30 +8,30 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const ShapeNameNone;
+extern NSString *const ShapeNameCircle;
+extern NSString *const ShapeNameLine;
+extern NSString *const ShapeNameTriangle;
+extern NSString *const ShapeNameSquare;
+extern NSString *const ShapeNameDiamond;
+extern NSString *const ShapeNameRoundedSquare;
+extern NSString *const ShapeNamePentagon;
+extern NSString *const ShapeNameHexagon;
+extern NSString *const ShapeNameSeptagon;
+extern NSString *const ShapeNameOctagon;
+extern NSString *const ShapeNameNonagon;
+extern NSString *const ShapeNameDecagon;
+extern NSString *const ShapeNameEndecagon;
+extern NSString *const ShapeNameTrigram;
+extern NSString *const ShapeNameQuadragram;
+extern NSString *const ShapeNamePentagram;
+extern NSString *const ShapeNameHexagram;
+extern NSString *const ShapeNameSeptagram;
+extern NSString *const ShapeNameOctagram;
+extern NSString *const ShapeNameNonagram;
+extern NSString *const ShapeNameDecagram;
+extern NSString *const ShapeNameEndecagram;
 
-#define ShapeNameNone          @"none"
-#define ShapeNameCircle        @"circle"
-#define ShapeNameLine          @"line"
-#define ShapeNameTriangle      @"triangle"
-#define ShapeNameSquare        @"square"
-#define ShapeNameDiamond       @"diamond"
-#define ShapeNameRoundedSquare @"roundedsquare"
-#define ShapeNamePentagon      @"pentagon"
-#define ShapeNameHexagon       @"hexagon"
-#define ShapeNameSeptagon      @"septagon"
-#define ShapeNameOctagon       @"octagon"
-#define ShapeNameNonagon       @"nonagon"
-#define ShapeNameDecagon       @"decagon"
-#define ShapeNameEndecagon     @"endecagon"
-#define ShapeNameTrigram       @"trigram"
-#define ShapeNameQuadragram    @"quadragram"
-#define ShapeNamePentagram     @"pentagram"
-#define ShapeNameHexagram      @"hexagram"
-#define ShapeNameSeptagram     @"septagram"
-#define ShapeNameOctagram      @"octagram"
-#define ShapeNameNonagram      @"nonagram"
-#define ShapeNameDecagram      @"decagram"
-#define ShapeNameEndecagram    @"endecagram"
 
 @interface ShapeFactory : NSObject
 

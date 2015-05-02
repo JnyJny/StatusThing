@@ -10,6 +10,9 @@
 #import "NSColor+NamedColorUtilities.h"
 #import "Konstants.h"
 
+
+
+
 /* StatusController
  *
  * Coordinates the input from StatusListener and updates 
@@ -17,6 +20,8 @@
  */
 
 @implementation StatusController
+
+static NSString *const StatusThingStatusView  = @"statusView";
 
 - (instancetype)initWithPreferences:(NSDictionary *)preferences
 {
@@ -27,8 +32,6 @@
         
         self.statusItem.menu          = self.statusMenu;
         self.statusItem.highlightMode = YES;
-        self.statusItem.button.image  = nil;
-        
         [self.statusItem.button addSubview:self.statusView];
 
         [self.statusView centerInRect:self.statusItem.button.bounds];

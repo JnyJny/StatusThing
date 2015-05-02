@@ -45,6 +45,8 @@ StatusMenu
     messages menuItem with sub-menus holding message list and a clear item
     message dict: { from:"Girl Behind You" text:"Do you like me" reply:{ "YES":"sweet!,"NO":"bogus!"}}
     Preferences
+    About?
+    Sparkle check for updates.
 
 
 Preference Pane - per running instance?
@@ -98,7 +100,7 @@ Strategy
         restrict client access to only the statusviews they initiate?
 
 Startup
-    auto-startup-ing-ness (need to find out what that's really called).
+    Start on login
 
 Update Checking Stuff
     Sparkle?
