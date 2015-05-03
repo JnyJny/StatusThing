@@ -9,7 +9,7 @@ Command line argument processing
 
 StatusView
     range checking on user supplied symbol string
-    centering symbols within a shape automatically, masking/clipping?
+    [partial fix]centering symbols within a shape automatically, masking/clipping?
     [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
 
     [done]Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
@@ -39,7 +39,7 @@ Error Handling
 
 JSON dispatch object
     [fixed]Take the smarts out of the various Status* objects
-    [done]May need a few command-type verbs like reset and help ( JSON fragments enabled)
+    [done]May need a few command-type verbs like reset and help
 
 StatusMenu
     messages menuItem with sub-menus holding message list and a clear item

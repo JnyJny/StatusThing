@@ -197,7 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				1DC62BBF1AF411B700127706 /* plists */,
-				1DC62BC31AF41C3500127706 /* Text */,
+				1DC62BC31AF41C3500127706 /* text */,
 				1DAF8F781ADFFEE2009CE2BE /* main.m */,
 				1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */,
 				1D7E26901AF171D000FA5E71 /* MainMenu.xib */,
@@ -232,12 +232,12 @@
 			name = plists;
 			sourceTree = "<group>";
 		};
-		1DC62BC31AF41C3500127706 /* Text */ = {
+		1DC62BC31AF41C3500127706 /* text */ = {
 			isa = PBXGroup;
 			children = (
 				1D7E268A1AF15B4200FA5E71 /* HelpText */,
 			);
-			name = Text;
+			name = text;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

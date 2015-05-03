@@ -9,6 +9,7 @@
 #import "StatusView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "NSColor+NamedColorUtilities.h"
+#import "StatusThingUtilities.h"
 #import "BlockUtilities.h"
 #import "ShapeFactory.h"
 #import "AnimationFactory.h"
@@ -94,15 +95,17 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     self.foreground.position = center;
 
     self.symbol.bounds = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
+    center.y += self.symbol.fontSize / 8.;
     self.symbol.position     = center;
 }
 
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
-    // XXX this will hinder per-layer shape assignments, but good enough for now.
+    // XXX this will hinder per-layer shape assignments later on
     
     CGPathRef path = [self createShapePath:self.shape inRect:self.insetRect];
+    
     if (path) {
         self.foreground.path = CGPathCreateCopy(path);
         self.background.path = CGPathCreateCopy(path);
@@ -127,6 +130,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     [self.background removeAllAnimations];
     [self.foreground removeAllAnimations];
     [self.symbol     removeAllAnimations];
+
 }
 
 #pragma mark - Overridden Properties
@@ -226,9 +230,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 #pragma mark - Block Properties
 
-
-
-
 - (ApplyDictionaryBlock)updateShapeLayer
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
@@ -275,16 +276,12 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
                 target.hidden = [obj boolValue];
             }
         }];
-        
     };
 }
 
+
 #pragma mark - Methods
 
-#pragma mark - Animation
-
-
-#pragma mark - Shape Path Creation
 
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
 {
@@ -344,8 +341,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 }
 
 #pragma mark - Update using blocks
-
-
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
