@@ -29,17 +29,28 @@ NSString *const AppleInterfaceStyleDark                = @"dark";
     NSString *path = [bundle pathForResource:StatusThingDefaultPreferencesFile
                                       ofType:StatusThingDefaultPlistFileExtension];
     
-    [userDefaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:path]];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:path];
+    
+    
+    [userDefaults registerDefaults:defaults];
+}
+
+ + (void)registerDefaults
+{
+    return [StatusThingUtilities registerDefaultsForBundle:[NSBundle mainBundle]];
 }
 
 + (NSDictionary *)preferences
 {
     
-    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] objectForKey:StatusThingPreferencesDomain];
+    NSDictionary *prefs = nil;
 
-    // XXX pretty sure the NSArgumentsDomain is not part of StatusThingPreferenceDomain
-    //     need to get args and fold them into pref, args overriding defaults
-    
+    while (!prefs) {
+        prefs = [[NSUserDefaults standardUserDefaults] objectForKey:StatusThingPreferencesDomain];
+        if (!prefs) {
+            [StatusThingUtilities registerDefaultsForBundle:[NSBundle mainBundle]];
+        }
+    }
     return prefs;
 }
 

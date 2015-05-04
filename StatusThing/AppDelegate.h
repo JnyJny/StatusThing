@@ -12,7 +12,8 @@
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
-@property (strong, nonatomic) StatusController *statusController;
+@property (strong,nonatomic) IBOutlet StatusController *statusController;
+
 
 @end
 

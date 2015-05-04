@@ -11,18 +11,19 @@
 		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
 		1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E268A1AF15B4200FA5E71 /* HelpText */; };
-		1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E26901AF171D000FA5E71 /* MainMenu.xib */; };
+		1D7E26911AF171D000FA5E71 /* StatusThing.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E26901AF171D000FA5E71 /* StatusThing.xib */; };
 		1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */; };
 		1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F781ADFFEE2009CE2BE /* main.m */; };
 		1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */; };
 		1DAF8F8A1ADFFEE2009CE2BE /* StatusThingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F891ADFFEE2009CE2BE /* StatusThingTests.m */; };
 		1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F941ADFFF50009CE2BE /* StatusController.m */; };
-		1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */; };
 		1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */; };
 		1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */; };
 		1DC62BBC1AF3CD6500127706 /* AnimationFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BBB1AF3CD6500127706 /* AnimationFactory.m */; };
 		1DC62BBE1AF4080600127706 /* com.symbolicarmageddon.StatusThing.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DC62BBD1AF4080600127706 /* com.symbolicarmageddon.StatusThing.plist */; };
 		1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BC11AF412F100127706 /* StatusThingUtilities.m */; };
+		1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */; };
+		1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DC62BD71AF5BEA600127706 /* Credits.rtf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +46,7 @@
 		1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+NamedColorUtilities.h"; sourceTree = "<group>"; };
 		1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+NamedColorUtilities.m"; sourceTree = "<group>"; };
 		1D7E268A1AF15B4200FA5E71 /* HelpText */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = HelpText; sourceTree = "<group>"; };
-		1D7E26901AF171D000FA5E71 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		1D7E26901AF171D000FA5E71 /* StatusThing.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatusThing.xib; sourceTree = "<group>"; };
 		1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatusThing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DAF8F741ADFFEE2009CE2BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -57,8 +58,6 @@
 		1DAF8F891ADFFEE2009CE2BE /* StatusThingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThingTests.m; sourceTree = "<group>"; };
 		1DAF8F931ADFFF50009CE2BE /* StatusController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusController.h; sourceTree = "<group>"; };
 		1DAF8F941ADFFF50009CE2BE /* StatusController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusController.m; sourceTree = "<group>"; };
-		1DAF8F991AE002D9009CE2BE /* StatusMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusMenu.h; sourceTree = "<group>"; };
-		1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusMenu.m; sourceTree = "<group>"; };
 		1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusListener.h; sourceTree = "<group>"; };
 		1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusListener.m; sourceTree = "<group>"; };
 		1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeFactory.h; sourceTree = "<group>"; };
@@ -69,6 +68,9 @@
 		1DC62BC01AF412F100127706 /* StatusThingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusThingUtilities.h; sourceTree = "<group>"; };
 		1DC62BC11AF412F100127706 /* StatusThingUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusThingUtilities.m; sourceTree = "<group>"; };
 		1DC62BCA1AF5903300127706 /* BlockUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockUtilities.h; sourceTree = "<group>"; };
+		1DC62BD21AF5BBB700127706 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
+		1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
+		1DC62BD71AF5BEA600127706 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,8 +130,6 @@
 			children = (
 				1D6DB44F1AE2AD0000277C13 /* StatusView.h */,
 				1D6DB4501AE2AD0000277C13 /* StatusView.m */,
-				1DAF8F991AE002D9009CE2BE /* StatusMenu.h */,
-				1DAF8F9A1AE002D9009CE2BE /* StatusMenu.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -139,6 +139,8 @@
 			children = (
 				1DAF8F931ADFFF50009CE2BE /* StatusController.h */,
 				1DAF8F941ADFFF50009CE2BE /* StatusController.m */,
+				1DC62BD21AF5BBB700127706 /* PreferencesWindowController.h */,
+				1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -179,11 +181,9 @@
 		1DAF8F721ADFFEE2009CE2BE /* StatusThing */ = {
 			isa = PBXGroup;
 			children = (
-				1DC62BCA1AF5903300127706 /* BlockUtilities.h */,
 				1DAF8F751ADFFEE2009CE2BE /* AppDelegate.h */,
 				1DAF8F761ADFFEE2009CE2BE /* AppDelegate.m */,
-				1DC62BC01AF412F100127706 /* StatusThingUtilities.h */,
-				1DC62BC11AF412F100127706 /* StatusThingUtilities.m */,
+				1DC62BCB1AF5B87E00127706 /* Utility */,
 				1D6DB4641AE3411700277C13 /* Models */,
 				1D6DB4631AE3410B00277C13 /* Controllers */,
 				1D6DB4621AE3410200277C13 /* Views */,
@@ -196,11 +196,11 @@
 		1DAF8F731ADFFEE2009CE2BE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1DC62BD91AF5BF0800127706 /* images */,
+				1DC62BCC1AF5B9A500127706 /* NIBs */,
 				1DC62BBF1AF411B700127706 /* plists */,
 				1DC62BC31AF41C3500127706 /* text */,
 				1DAF8F781ADFFEE2009CE2BE /* main.m */,
-				1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */,
-				1D7E26901AF171D000FA5E71 /* MainMenu.xib */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -235,9 +235,36 @@
 		1DC62BC31AF41C3500127706 /* text */ = {
 			isa = PBXGroup;
 			children = (
+				1DC62BD71AF5BEA600127706 /* Credits.rtf */,
 				1D7E268A1AF15B4200FA5E71 /* HelpText */,
 			);
 			name = text;
+			sourceTree = "<group>";
+		};
+		1DC62BCB1AF5B87E00127706 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				1DC62BCA1AF5903300127706 /* BlockUtilities.h */,
+				1DC62BC01AF412F100127706 /* StatusThingUtilities.h */,
+				1DC62BC11AF412F100127706 /* StatusThingUtilities.m */,
+			);
+			name = Utility;
+			sourceTree = "<group>";
+		};
+		1DC62BCC1AF5B9A500127706 /* NIBs */ = {
+			isa = PBXGroup;
+			children = (
+				1D7E26901AF171D000FA5E71 /* StatusThing.xib */,
+			);
+			name = NIBs;
+			sourceTree = "<group>";
+		};
+		1DC62BD91AF5BF0800127706 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				1DAF8F7A1ADFFEE2009CE2BE /* Images.xcassets */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,7 +350,8 @@
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1D2C85FA1AE9890600761F49 /* com.symbolicarmageddon.StatusThing.defaults.plist in Resources */,
 				1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */,
-				1D7E26911AF171D000FA5E71 /* MainMenu.xib in Resources */,
+				1D7E26911AF171D000FA5E71 /* StatusThing.xib in Resources */,
+				1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */,
 				1DC62BBE1AF4080600127706 /* com.symbolicarmageddon.StatusThing.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,10 +370,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DAF8F9B1AE002D9009CE2BE /* StatusMenu.m in Sources */,
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
 				1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
+				1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */,
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,

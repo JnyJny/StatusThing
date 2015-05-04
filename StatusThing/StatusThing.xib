@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7702"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
+            <connections>
+                <outlet property="delegate" destination="Voe-Tx-rLC" id="GzC-gU-4Uq"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
+            <connections>
+                <outlet property="statusController" destination="QBa-XY-6PF" id="uBM-Pc-F9w"/>
+            </connections>
+        </customObject>
+        <customObject id="QBa-XY-6PF" customClass="StatusController">
+            <connections>
+                <outlet property="portMenuItem" destination="6oK-Qw-9bf" id="ypE-aJ-wSb"/>
+                <outlet property="statusMenu" destination="6cb-xW-SUs" id="HGz-gx-L6J"/>
+            </connections>
+        </customObject>
+        <customObject id="Qh3-Hb-mVj" customClass="PreferencesWindowController">
+            <connections>
+                <outlet property="window" destination="o4p-KN-6xV" id="kKf-eK-JNe"/>
+            </connections>
+        </customObject>
+        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <menu title="StatusThing Status Item" id="6cb-xW-SUs">
+            <items>
+                <menuItem title="About" id="Isw-Tv-eWg">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="orderFrontStandardAboutPanel:" target="-2" id="GdJ-Ev-60f"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="     Listening On Port XXXXX" enabled="NO" id="6oK-Qw-9bf">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Messages" id="2h2-SD-dvw">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Messages" id="aQx-UM-cb4">
+                        <items>
+                            <menuItem title="Item" id="Uyj-9f-mst">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Check For Updates..." id="IbT-Lq-F3f">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                </menuItem>
+                <menuItem title="Preferences..." id="J6J-eD-1od">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showWindow:" target="Qh3-Hb-mVj" id="ogo-9K-cAr"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="1xO-Sb-ZDD"/>
+                <menuItem title="Quit" id="iu6-up-uw8">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="terminate:" target="-2" id="GaH-kK-BV0"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="36" y="-197.5"/>
+        </menu>
+        <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1577"/>
+            <view key="contentView" id="cB6-PS-dNQ">
+                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="MD3-eT-e6m">
+                        <rect key="frame" x="-8" y="-4" width="491" height="54"/>
+                        <view key="contentView">
+                            <rect key="frame" x="1" y="1" width="489" height="38"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ljI-fO-7lc">
+                                    <rect key="frame" x="16" y="12" width="195" height="18"/>
+                                    <buttonCell key="cell" type="check" title="Launch StatusThing at login" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="YeN-lK-Pif">
+                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                        <font key="font" metaFont="system"/>
+                                    </buttonCell>
+                                </button>
+                            </subviews>
+                        </view>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
+                </subviews>
+            </view>
+            <point key="canvasLocation" x="179" y="80"/>
+        </window>
+    </objects>
+</document>

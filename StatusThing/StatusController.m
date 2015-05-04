@@ -8,31 +8,40 @@
 
 #import "StatusController.h"
 #import "NSColor+NamedColorUtilities.h"
+#import "PreferencesWindowController.h"
+#import "StatusThingUtilities.h"
 
 #pragma mark - String Constants
 
-static NSString *const StatusThingStatusView = @"statusView";
-static NSString *const StatusThingStatusMenu = @"statusMenu";
-static NSString *const StatusThingPort       = @"port";
+static NSString *const StatusThingStatusView   = @"statusView";
+static NSString *const StatusThingStatusMenu   = @"statusMenu";
+static NSString *const StatusThingPort         = @"port";
+static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
+
+@interface StatusController()
+
+@end
+
 
 @implementation StatusController
 
+- (void)awakeFromNib
+{
+    NSDictionary *preferences = [StatusThingUtilities preferences];
+    [self.statusItem setMenu:self.statusMenu];
+    [self.statusListener setResetInfo:preferences];
+    [self updateWithDictionary:preferences];
+}
+
 #pragma mark - Lifecycle
-- (instancetype)initWithPreferences:(NSDictionary *)preferences
+- (instancetype)init
 {
     self = [super init];
     if (self) {
         [self.statusListener setDelegate:self];
-        self.statusListener.resetInfo = [preferences objectForKey:StatusThingStatusView];
-        
-        self.statusItem.menu          = self.statusMenu;
         self.statusItem.highlightMode = YES;
         [self.statusItem.button addSubview:self.statusView];
-
         [self.statusView centerInRect:self.statusItem.button.bounds];
-        
-        [self updateWithDictionary:preferences];
-
         // connect statusView and statusMenu
     }
     
@@ -62,14 +71,6 @@ static NSString *const StatusThingPort       = @"port";
     return _statusView;
 }
 
-- (StatusMenu *)statusMenu
-{
-    if (!_statusMenu) {
-        _statusMenu = [[StatusMenu alloc]  init];
-    }
-    return _statusMenu;
-}
-
 - (StatusListener *)statusListener
 {
     if (!_statusListener) {
@@ -80,14 +81,22 @@ static NSString *const StatusThingPort       = @"port";
 }
 
 
+
 #pragma mark - Methods
 
 - (void)start
 {
+
+    
     [self.statusListener start];
     NSLog(@"listening on port %@",self.statusListener.port);
+
     
-    self.statusMenu.port = self.statusListener.port;
+    
+    [self.portMenuItem setTitle:[NSString stringWithFormat:PortMenuItemTitleFormat,self.statusListener.port]];
+#if 0
+    self.statusMenu.port = self.portMenuItem.port;
+#endif
 }
 
 - (void)stop
@@ -95,6 +104,7 @@ static NSString *const StatusThingPort       = @"port";
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     [self.statusListener stop];
 }
+
 
 
 
@@ -114,9 +124,11 @@ static NSString *const StatusThingPort       = @"port";
             [self.statusView updateWithDictionary:obj];
         }
         
+#if 0
         if ( [key isEqualToString:StatusThingStatusMenu]) {
             [self.statusMenu updateWithDictionary:obj];
         }
+#endif
         
         if ( [key isEqualToString:StatusThingPort]) {
             self.statusListener.port = obj;
@@ -124,9 +136,5 @@ static NSString *const StatusThingPort       = @"port";
         
     }];
 }
-
-
-
-
 
 @end

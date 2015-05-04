@@ -9,13 +9,11 @@
 #import "AppDelegate.h"
 #import "StatusThingUtilities.h"
 
-
-
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-    [StatusThingUtilities registerDefaultsForBundle:[NSBundle mainBundle]];
+    [StatusThingUtilities registerDefaults];
     
     [self.statusController start];
 }
@@ -26,15 +24,6 @@
     [self.statusController stop];
 }
 
-
-- (StatusController *)statusController
-{
-    if (!_statusController) {
-        _statusController = [[StatusController alloc] initWithPreferences:[StatusThingUtilities preferences]];
-
-    }
-    return _statusController;
-}
 
 
 

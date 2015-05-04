@@ -2,12 +2,18 @@ BROKEN
     JSON sourced dictionaries not distributed to StatusMenu
     [fixed]JSON sourced dictionaries not distributed to StatusView
 
+README
+    update examples with new interactive prompts
+    update screenshots
+
+
 Command line argument processing
-    [done]store user specified options to NSUserDefaults - started this
-    [done]specify listening port number - prefs, cmd-line not done
+    [done]store user specified options to NSUserDefaults
+    [done]specify listening port number - prefs, cmd-line not recovered
     [done]specify starting shape|colors|symbol|animation, see Preferences.plist
 
 StatusView
+    add a tooltip on hover to show: version, message, last JSON dictionary, connections
     range checking on user supplied symbol string
     [partial fix]centering symbols within a shape automatically, masking/clipping?
     [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
@@ -29,6 +35,11 @@ StatusView animations
     switch between list of shapes: speed
     bounce within statusBarItem.button's bounding box
     shimmy side to side
+
+Interface builder
+    build menus with IB instead of programatically
+    put something in Credits.rtf
+    
 
 StatusViewArrayController
 StatusViewArray

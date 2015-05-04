@@ -17,6 +17,7 @@ extern NSString *const AppleInterfaceStyleDark;
 
 
 + (void)registerDefaultsForBundle:(NSBundle *)bundle;
++ (void)registerDefaults;
 + (NSDictionary *)preferences;
 
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;

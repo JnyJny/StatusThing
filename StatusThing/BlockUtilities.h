@@ -11,6 +11,10 @@
 
 typedef void (^DictionaryEnumBlock) (NSString *key,id obj,BOOL *STOP);
 
+// These macros provide a means of declaring a "weak" self of whatever
+// type "self" is, automatically.  Weak references avoid capturing an
+// object within a block and allow garbage collection to function
+// correctly. 
 
 #define BlockWeakObject(o) __typeof(o) __weak
 #define BlockWeakSelf BlockWeakObject(self)

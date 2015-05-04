@@ -33,7 +33,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2015 Symbolic Armageddon. All rights reserved.</string>
 	<key>NSMainNibFile</key>
-	<string>MainMenu</string>
+	<string>StatusThing</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

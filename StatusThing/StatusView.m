@@ -125,7 +125,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (void)mouseDown:(NSEvent *)theEvent
 {
     [super mouseDown:theEvent];
-    
+
     // cancel animations here..
     [self.background removeAllAnimations];
     [self.foreground removeAllAnimations];
