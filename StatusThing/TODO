@@ -1,5 +1,5 @@
 BROKEN
-    JSON sourced dictionaries not distributed to StatusMenu
+    message menu needs to be populated with something- <time> <peer> <json>
     [fixed]JSON sourced dictionaries not distributed to StatusView
 
 README
@@ -13,7 +13,7 @@ Command line argument processing
     [done]specify starting shape|colors|symbol|animation, see Preferences.plist
 
 StatusView
-    add a tooltip on hover to show: version, message, last JSON dictionary, connections
+    add a tooltip on hover to show something: version, message, last JSON dictionary, connections
     range checking on user supplied symbol string
     [partial fix]centering symbols within a shape automatically, masking/clipping?
     [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
@@ -37,9 +37,9 @@ StatusView animations
     shimmy side to side
 
 Interface builder
-    build menus with IB instead of programatically
     put something in Credits.rtf
-    
+    [done]build menus with IB instead of programatically
+
 
 StatusViewArrayController
 StatusViewArray
@@ -52,15 +52,15 @@ JSON dispatch object
     [fixed]Take the smarts out of the various Status* objects
     [done]May need a few command-type verbs like reset and help
 
-StatusMenu
-    messages menuItem with sub-menus holding message list and a clear item
-    message dict: { from:"Girl Behind You" text:"Do you like me" reply:{ "YES":"sweet!,"NO":"bogus!"}}
-    Preferences
-    About?
+statusItemMenu
     Sparkle check for updates.
+    messages subMenu holding list of messages
+    message dict: { from:"Girl Behind You" body:"Do you like me" reply:{ "YES":"sweet!","NO":"bogus!"}}
+    [working]Preferences
+    [working]About?
 
-
-Preference Pane - per running instance?
+Preference Pane - global
+    position window at the center of the screen
     allow remote connections
     allow animations
     allow inset symbols
@@ -73,6 +73,7 @@ Preference Pane - per running instance?
 
 StatusListener
     Modify protocol to include peer address (or insert it into the JSON message)
+    Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     [kept]sends a welcome string, probably not necessary?
     [done]should respond to "help" with a list of things that it understands
     [done]need to look into REST interface patterns?
@@ -100,7 +101,7 @@ Shapes
     System template images
 
 Licensing
-    Copyright messages in source need to be replace with CC appropriate verbiage
+    Copyright messages in source needs to be replace with CC appropriate verbiage
 
 Strategy
     One application per port
@@ -111,7 +112,7 @@ Strategy
         restrict client access to only the statusviews they initiate?
 
 Startup
-    Start on login
+    Start on login - in preferences
 
 Update Checking Stuff
     Sparkle?
@@ -121,5 +122,9 @@ Client Bindings
     ruby
     AppleScript
     native cocoa app
+    - bonjour browser
+    - user extendable catalog of configurations
+    - send to one / many
+
 
 

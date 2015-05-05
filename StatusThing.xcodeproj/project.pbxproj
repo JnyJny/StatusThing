@@ -39,6 +39,7 @@
 /* Begin PBXFileReference section */
 		1D2C85F41AE748DA00761F49 /* thingstatus.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = thingstatus.py; sourceTree = "<group>"; };
 		1D2C85F91AE9890600761F49 /* com.symbolicarmageddon.StatusThing.defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.symbolicarmageddon.StatusThing.defaults.plist; sourceTree = "<group>"; };
+		1D67956C1AF7CA1500E075D2 /* Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		1D6DB44F1AE2AD0000277C13 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
 		1D6DB4501AE2AD0000277C13 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
 		1D6DB4521AE2C16000277C13 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TODO; path = StatusThing/TODO; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		1D6DB4641AE3411700277C13 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1D67956C1AF7CA1500E075D2 /* Geometry.h */,
 				1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */,
 				1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */,
 				1DC62BBA1AF3CD6500127706 /* AnimationFactory.h */,

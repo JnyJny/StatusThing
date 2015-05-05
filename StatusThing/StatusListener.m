@@ -9,6 +9,7 @@
 #import "StatusListener.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 
 #pragma mark - Constants
 
@@ -190,6 +191,21 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 #pragma mark - Delegate Interaction
 
+- (NSString *)peerForFileHandle:(NSFileHandle*)fileHandle
+{
+    struct sockaddr_in ip4;
+    socklen_t ip4len = sizeof(ip4);
+    
+    getpeername(fileHandle.fileDescriptor, (struct sockaddr *)&ip4,&ip4len);
+    
+    return [NSString stringWithFormat:@"%s:%u",inet_ntoa(ip4.sin_addr),ntohs(ip4.sin_port)];
+}
+
+
+NSString *const PeerAddressKey = @"peerAddress";
+NSString *const PeerConnectionTimeKey = @"timestamp";
+NSString *const PeerContentKey = @"peerContent";
+
 - (void)sendDataToDelegate:(NSNotification *)note
 {
     NSFileHandle *connected = [note object];
@@ -199,13 +215,13 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
     char c;
     id obj;
 
-
     if (data.length)
         [data getBytes:&c length:sizeof(c)];
     else {
         c = 'q';
     }
     
+
     switch (c) {
         case 0x4:
         case 'q':
@@ -228,7 +244,11 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
         case 'r':
         case 'R':
             if ( self.resetInfo )
-                [self.delegate performSelector:@selector(processClientRequest:) withObject:self.resetInfo];
+                [self.delegate performSelector:@selector(processRequest:fromClient:)
+                                    withObject:self.resetInfo
+                                    withObject:@{ PeerAddressKey:[self peerForFileHandle:connected],
+                                                  PeerContentKey:@"",
+                                                  PeerConnectionTimeKey:[NSDate date] }];
             response = self.resetInfo?StatusThingResponseOk:StatusThingResponseResetUnavilable;
             break;
             
@@ -242,16 +262,25 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
             obj = [NSJSONSerialization JSONObjectWithData:data
                                                   options:0
                                                     error:&error];
-    
+            
+
             if (!obj) {
                 response = [NSString stringWithFormat:StatusThingResponseErrorFormat,error.localizedFailureReason];
                 break;
             }
             
+            NSDictionary *connectionInfo = @{ PeerAddressKey:[self peerForFileHandle:connected],
+                                              PeerContentKey:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],
+                                              PeerConnectionTimeKey:[NSDate date] };
+
+            
 
             if ([obj isKindOfClass:[NSDictionary class]]){
-                [self.delegate performSelector:@selector(processClientRequest:)
-                                    withObject:obj];
+                
+                [self.delegate performSelector:@selector(processRequest:fromClient:)
+                                    withObject:obj
+                                    withObject:connectionInfo];
+                
                 response = StatusThingResponseOk;
                 break;
             }

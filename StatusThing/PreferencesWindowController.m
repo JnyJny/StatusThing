@@ -17,7 +17,7 @@
 
 - (void)awakeFromNib
 {
-    NSLog(@"awakeFromNib:%@",self);
+
 }
 
 

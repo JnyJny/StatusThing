@@ -7,6 +7,7 @@
 //
 
 #import "StatusController.h"
+#import <Foundation/Foundation.h>
 #import "NSColor+NamedColorUtilities.h"
 #import "PreferencesWindowController.h"
 #import "StatusThingUtilities.h"
@@ -90,13 +91,10 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
     
     [self.statusListener start];
     NSLog(@"listening on port %@",self.statusListener.port);
-
-    
     
     [self.portMenuItem setTitle:[NSString stringWithFormat:PortMenuItemTitleFormat,self.statusListener.port]];
-#if 0
-    self.statusMenu.port = self.portMenuItem.port;
-#endif
+    //[self.portMenuItem setImage: [NSImage imageNamed:NSImageNameBonjour]];
+
 }
 
 - (void)stop
@@ -110,8 +108,13 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
 
 #pragma mark - StatusListenerDelegate Methods
 
-- (void)processClientRequest:(NSDictionary *)info
+- (void)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo  
 {
+    //NSLog(@"clientInfo %@",clientInfo);
+    // PeerAddressKey
+    // PeerContentKey
+    // PeerTimestampKey
+    
     [self.statusView updateWithDictionary:info];
 }
 

@@ -73,6 +73,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         [self.layer addSublayer:self.background];
         [self.layer addSublayer:self.foreground];
         [self.layer addSublayer:self.symbol];
+
+        //        [self.animationFactory rotateLayer:self.symbol];
     }
     return self;
 }
@@ -93,10 +95,12 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
     self.background.position = center;
     self.foreground.position = center;
+    
+    self.symbol.bounds   = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
+    self.symbol.position = center;
+    self.symbol.anchorPoint = CGPointMake(0.5, 0.3);
 
-    self.symbol.bounds = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
-    center.y += self.symbol.fontSize / 8.;
-    self.symbol.position     = center;
+    
 }
 
 
@@ -124,13 +128,14 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    [super mouseDown:theEvent];
+
 
     // cancel animations here..
     [self.background removeAllAnimations];
     [self.foreground removeAllAnimations];
     [self.symbol     removeAllAnimations];
 
+    [super mouseDown:theEvent];
 }
 
 #pragma mark - Overridden Properties
@@ -184,7 +189,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         _symbol.fontSize = DefaultFontSize;
         _symbol.alignmentMode = kCAAlignmentCenter;
         _symbol.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0);
-        _symbol.backgroundColor = nil;
+        
+        //        _symbol addAnimation:[self.animationFactory ] forKey:<#(NSString *)#>
     }
     return _symbol;
 }
@@ -246,8 +252,20 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             if ([key isEqualToString:CAShapeLayerPropertyNameLineWidth]) {
                 target.lineWidth = [obj floatValue];
             }
+            
+
             if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
+            }
+            
+            if (self.animationFactory.animations[key]) {
+                if ([obj boolValue]) {
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                                  forKey:key];
+                }
+                else {
+                    [target removeAnimationForKey:key];
+                }
             }
         }];
     };
@@ -259,6 +277,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
             if ([key isEqualToString:CATextLayerPropertyNameString]) {
                 target.string = obj;
+                [target setNeedsLayout];
             }
             if ([key isEqualToString:CATextLayerPropertyNameForegroundColor]) {
                 target.foregroundColor = [NSColor colorForObject:obj].CGColor;
@@ -268,16 +287,31 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             }
             if ([key isEqualToString:CATextLayerPropertyNameFont]) {
                 target.font = CFBridgingRetain(obj);
+                [target setNeedsLayout];
             }
             if ([key isEqualToString:CATextLayerPropertyNameFontSize]) {
                 target.fontSize = [obj floatValue];
+                [target setNeedsLayout];
             }
             if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
             }
+            
+            if ([self.animationFactory hasAnimationNamed:key]) {
+                if ([obj boolValue]) {
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                                  forKey:key];
+                }
+                else {
+                    [target removeAnimationForKey:key];
+                }
+            }
         }];
     };
 }
+
+
+
 
 
 #pragma mark - Methods

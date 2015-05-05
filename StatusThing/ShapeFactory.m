@@ -7,13 +7,7 @@
 //
 
 #import "ShapeFactory.h"
-
-
-#define M_2PI       6.283185307179586
-#define M_180_PI    57.29577951308232
-#define M_PI_180    0.017453292519943295
-#define DegToRad(D) ((D)*M_PI_180)
-#define RadToDeg(R) ((R)*M_180_PI)
+#import "Geometry.h"
 
 #pragma mark - Shape Name Constants
 NSString *const ShapeNameNone          = @"none";

@@ -11,7 +11,7 @@
 @protocol StatusListenerDelegate <NSObject>
 
 @optional
-- (void)processClientRequest:(NSDictionary *)info;
+- (void)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
 
 - (void)updateWithDictionary:(NSDictionary *)info;
 - (void)updateWithArray:(NSArray *)list;

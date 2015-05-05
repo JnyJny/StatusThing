@@ -11,7 +11,6 @@
 
 @interface StatusView : NSView
 
-
 @property (strong,nonatomic,readonly) CAShapeLayer *background;
 @property (strong,nonatomic,readonly) CAShapeLayer *foreground;
 @property (strong,nonatomic,readonly) CATextLayer  *symbol;
