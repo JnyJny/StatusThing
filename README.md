@@ -42,12 +42,13 @@ telnet> q
 ## Features
 - Listens for client TCP connections (port 12121 by default)
 - Clients can send JSON dictionaries to change the appearance of the icon:
-  - shape
-  - color
-  - symbol
-  - symbol color, font and font size
-  - hide and show shape, outline and symbol
-  - short update messages (not yet)
+  - Shape of the foreground and background layers.
+  - Colors
+  - Symbols
+  - Symbol color, font and font size.
+  - Hide and show shape, outline and symbol
+  - ANIMATIONS! Yes. Three layers of animation; foreground background and symbol.
+  - Short update messages (not yet).
   - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant ( srsly )
 
 
@@ -56,11 +57,11 @@ Shapes are rendered on the fly, making StatusThing resolution independent.  Clie
 
 Shapes include: circle, line, triangle, square, rounded square, diamond, pentagon, hexagon, septagon, octagon, nonagon, decagon, endecagon, *gasp* trigram, quadragram, pentagram, hexagram, septagram, octagram, nonagram, decagram, and endecagram.
 
-Future Feature: Animations like bounce, shimmy, throb, wink, shine. Oh and rotate.
+The cool thing about the *-gram figures is they are star shaped, and they look totally bad-ass when spinning!
 
 ### Symbols
 
-Client supplied symbol displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem!  Want to display a message?   See the next section.
+Client supplied symbol displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? See the next section.
 
 
 ### Messages
@@ -121,7 +122,16 @@ Colors can also be specified by name.  The more common names are support, as are
 
 Of course, if an element is hidden changing it's color won't be immediately apparent.
 
+### Animations
 
+```sh
+- { "spin[cw]":0|1,
+    "spinccw":0|1,
+    "throb":0|1,
+    "blink":0|1 }
+```
+
+All of these animations can be sent in the dictionaries for "foreground", "background" and "symbol".  Send a value of 1 to active the animation and a zero to deactivate it.  Animations stop when the status bar icon is right clicked.  
 
 
 
