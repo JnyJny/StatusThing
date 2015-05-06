@@ -84,7 +84,11 @@ Dictionaries control the attributes of three main elements in StatusThing: foreg
 
 Specifying a shape in the top level of a dictionary will set the shape for both the foreground and background layers. It may be possible in the future to specify seperate shapes for each layer.  But not right now.
 
-### Foreground and Background Layers
+### Layers
+
+The StatusThing icon is composed of three layers: background, foreground and text in that order.  The three are composited together to make the final icon. 
+
+#### Foreground and Background Layers
 
 ```sh
 { "stroke"    : color-specifier,
@@ -93,7 +97,7 @@ Specifying a shape in the top level of a dictionary will set the shape for both 
   "hidden"    : boolean }
 ```
 
-### text Layer
+#### Text Layer
 
 ```sh
 { "foreground" : color-specifier,
@@ -108,7 +112,7 @@ The font for the text text is given by name, stuff like 'Courier', 'Helvetica Bo
 The fontSize is specified in points and frankly the text positioning code is really unsatisfactory and disappointing. My advice is to keep it between 12 and 12 for now.
 
 
-### Color Specifiers
+#### Color Specifiers
 ```sh
 "fill|stroke|foreground":"colorName"
 "fill|stroke|foreground":{ "red":float,"green":float,"blue":float,"alpha" }
@@ -124,7 +128,7 @@ Colors can also be specified by name.  The more common names are support, as are
 
 Of course, if an element is hidden changing it's color won't be immediately apparent.
 
-### Animations
+#### Animations
 
 ```sh
 - { "spin[cw]":0|1,
@@ -141,7 +145,9 @@ Of course, if an element is hidden changing it's color won't be immediately appa
 }
 ```
 
-All of these animations can be sent in the dictionaries for "foreground", "background" and "text".  Send a value of 1 to active the animation and a zero to deactivate it.  All animations stop when the status bar icon is right clicked. 
+All of these animations can be sent in the dictionaries for any layer and multiple animations may be specified in each dictionary.  Not all of them look good together, but you can do it.  Throbbing background, flipping foreground and an enbiggening, rotating text is pretty distracting. Which I guess is the point.
+
+Send a value of 1 to active the animation and a zero to deactivate it.  All animations stop when the status bar icon is right clicked.
 
 
 

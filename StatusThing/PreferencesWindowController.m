@@ -92,46 +92,27 @@
 
 - (IBAction)toggleRemoteConnections:(NSButton *)sender
 {
-    [StatusThingUtilities saveValue:[NSNumber numberWithBool:sender.state]
-                   forPreferenceKey:StatusThingPreferenceAllowRemoteConnections
-                           toDomain:nil];
+
 }
 
 - (IBAction)toggleAllowAnimations:(NSButton *)sender
 {
-    [StatusThingUtilities saveValue:[NSNumber numberWithBool:sender.state]
-                   forPreferenceKey:StatusThingPreferenceAllowAnimations
-                           toDomain:nil];
+
 }
 
 - (IBAction)toggleUseBonjour:(NSButton *)sender
 {
-    [self.staticPortNumberTextField setEnabled:!sender.integerValue];
-    [StatusThingUtilities saveValue:[NSNumber numberWithBool:sender.integerValue]
-                   forPreferenceKey:StatusThingPreferenceUseBonjour
-                           toDomain:nil];
+
 }
 
 
 - (IBAction)portNumberUpdated:(NSTextField *)sender
 {
-    [StatusThingUtilities saveValue:[NSNumber numberWithInteger:sender.integerValue]
-                   forPreferenceKey:StatusThingPreferencePortNumber
-                           toDomain:nil];
+
 }
 
 - (IBAction)toggleLaunchOnLogin:(NSButton *)sender
 {
-    if (sender.integerValue) {
-        [StatusThingUtilities enableLoginItemForBundle:[NSBundle mainBundle]];
-    }
-    else {
-        [StatusThingUtilities disableLoginItemForBundle:[NSBundle mainBundle]];
-    }
-    
-    [StatusThingUtilities saveValue:[NSNumber numberWithBool:sender.integerValue]
-                   forPreferenceKey:StatusThingPreferenceLaunchOnLogin
-                           toDomain:nil];
     
 }
 

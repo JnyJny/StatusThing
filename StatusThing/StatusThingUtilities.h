@@ -28,8 +28,7 @@ extern NSString *const AppleInterfaceStyleDark;
 + (NSDictionary *)preferences;
 + (id)preferenceForKey:(NSString *)key;
 
-+ (id)valueForKey:(NSString *)key inDomain:(NSString *)domain;
-+ (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey toDomain:(NSString *)domain;
+
 
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)disableLoginItemForBundle:(NSBundle *)bundle;
