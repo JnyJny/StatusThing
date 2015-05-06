@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+extern NSString *const StatusThingPreferencesDomain;
 
 extern NSString *const StatusThingPreferenceLaunchOnLogin;
 extern NSString *const StatusThingPreferenceAllowRemoteConnections;

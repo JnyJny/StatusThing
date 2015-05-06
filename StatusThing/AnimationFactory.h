@@ -17,11 +17,15 @@ extern NSString * const AnimationNameThrob;
 extern NSString * const AnimationNameBounce;
 extern NSString * const AnimationNameShake;
 extern NSString * const AnimationNameFlip;
+extern NSString * const AnimationNameFlipY;
+extern NSString * const AnimationNameFlipX;
 extern NSString * const AnimationNameWobble;
 extern NSString * const AnimationNameFlare;
 extern NSString * const AnimationNameShine;
 extern NSString * const AnimationNameTwinkle;
 extern NSString * const AnimationNameBlink;
+extern NSString * const AnimationNameEnbiggen;
+extern NSString * const AnimationNameStretch;
 
 @interface AnimationFactory : NSObject
 

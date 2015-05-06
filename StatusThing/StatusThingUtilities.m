@@ -66,22 +66,10 @@ NSString *const AppleInterfaceStyleDark                     = @"dark";
     NSDictionary *prefs = [self preferences];
     
     id ret = [prefs valueForKeyPath:key];
-    
-    NSLog(@"preferencesForKey:%@ = %@",key,ret);
-    
+
     return  ret;
 }
 
-+ (id)valueForKey:(NSString *)key inDomain:(NSString *)domain
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if (!domain) {
-        domain = StatusThingPreferencesDomain;
-    }
-    
-    return [defaults objectForKey:[domain stringByAppendingFormat:@".%@",key]];
-}
 
 + (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey toDomain:(NSString *)domain
 {

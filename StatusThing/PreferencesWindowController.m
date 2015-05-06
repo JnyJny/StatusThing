@@ -22,6 +22,8 @@
 
 - (void)awakeFromNib
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
     [self.window setLevel:NSModalPanelWindowLevel];
     
     [self.exampleView addSubview:self.exampleStatusView];
@@ -32,7 +34,11 @@
 
     [self didPushReset:nil];
     
-    [self.allowRemoteConnectionsButton setState:[[StatusThingUtilities preferenceForKey:StatusThingPreferenceAllowRemoteConnections] boolValue]];
+    NSString *keyPath = [StatusThingPreferencesDomain stringByAppendingFormat:@".%@",StatusThingPreferenceAllowRemoteConnections];
+    NSLog(@"key %@ val %@",keyPath,[userDefaults valueForKeyPath:keyPath]);
+    NSLog(@"%@",userDefaults.dictionaryRepresentation);
+    
+    //[self.allowRemoteConnectionsButton setState:[userDefaults valueForKeyPath:StatusThingPreferenceAllowRemoteConnections]];
 
 
     [self.allowAnimationsButton setState:[[StatusThingUtilities preferenceForKey:StatusThingPreferenceAllowAnimations] boolValue]];

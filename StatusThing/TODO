@@ -6,6 +6,8 @@ README
     update examples with new interactive prompts
     update screenshots
     screencast showing features
+    s/symbol/text/
+    document new animations
 
 Command line argument processing
     [done]store user specified options to NSUserDefaults

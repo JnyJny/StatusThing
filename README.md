@@ -16,7 +16,7 @@ Feed Me JSON
 {"shape":"circle"}
 {"background":{"fill":"white"}}
 {"foreground":{"stroke":"black","lineWidth":2}}
-{"symbol":{"string":"\U018F","foreground":"black"}}
+{"text":{"string":"\U018F","foreground":"black"}}
 ^]
 telnet> q
 ```
@@ -32,7 +32,7 @@ Connected to localhost.
 Escape character is '^]'.
 Connected to StatusThing
 Feed Me JSON
-{"symbol":{"foreground":"banana"}}
+{"text":{"foreground":"banana"}}
 {"background":{"fill":{"red":1,"alpha"=1.}}}
 ^]
 telnet> q
@@ -44,10 +44,10 @@ telnet> q
 - Clients can send JSON dictionaries to change the appearance of the icon:
   - Shape of the foreground and background layers.
   - Colors
-  - Symbols
-  - Symbol color, font and font size.
-  - Hide and show shape, outline and symbol
-  - ANIMATIONS! Yes. Three layers of animation; foreground background and symbol.
+  - Arbitrary Unicode Text
+  - Text color, font and font size.
+  - Hide and show shape, outline and text
+  - ANIMATIONS! Yes. Three layers of animation; foreground, background and text.
   - Short update messages (not yet).
   - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant ( srsly )
 
@@ -57,11 +57,11 @@ Shapes are rendered on the fly, making StatusThing resolution independent.  Clie
 
 Shapes include: circle, line, triangle, square, rounded square, diamond, pentagon, hexagon, septagon, octagon, nonagon, decagon, endecagon, *gasp* trigram, quadragram, pentagram, hexagram, septagram, octagram, nonagram, decagram, and endecagram.
 
-The cool thing about the *-gram figures is they are star shaped, and they look totally bad-ass when spinning!
+The cool thing about the *-gram figures is they are star shaped, and they look totally bad-ass when animated!
 
-### Symbols
+### texts
 
-Client supplied symbol displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? See the next section.
+Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? See the next section.
 
 
 ### Messages
@@ -70,9 +70,11 @@ Future Feature: Client supplied short messages to help give context to changes i
 
 # JSON
 
-ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain silently to itself and ignore ill-formed JSON dictionaries until I teach it better manners.  Each line sent is expected to be a complete JSON dictionary, so no embedded newlines or carriage returns.  Multiple dictionaries can be sent, or you can send one big dictionary.  When you are done, shutdown your side of the socket and call it a day.
+ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain tersely if you care to read what it writes. It will ignore JSON dictionaries with unknown content (as per RFC1743).  Each line sent is expected to be a complete JSON dictionary, so no embedded newlines or carriage returns.  Multiple dictionaries can be sent, or you can send one big dictionary.  When you are done, shutdown your side of the socket and call it a day.
 
-Dictionaries control the attributes of three main elements in StatusThing: foreground layer, background layer and symbol.
+Don't worry, the server will give you a hand if you forget what all options can go into a dictionary.  The server responds to "help","reset" and "quit".  Later on the command "get" might be implemented to get the current state of StatusThing. 
+
+Dictionaries control the attributes of three main elements in StatusThing: foreground layer, background layer and text.
 
 ### Shapes
 
@@ -91,7 +93,7 @@ Specifying a shape in the top level of a dictionary will set the shape for both 
   "hidden"    : boolean }
 ```
 
-### Symbol Layer
+### text Layer
 
 ```sh
 { "foreground" : color-specifier,
@@ -101,9 +103,9 @@ Specifying a shape in the top level of a dictionary will set the shape for both 
   "hidden"     : boolean }
 ```
 
-The font for the symbol text is given by name, stuff like 'Courier', 'Helvetica Bold', 'Super Made-up Font Extra-Extra-Light Oblique'.
+The font for the text text is given by name, stuff like 'Courier', 'Helvetica Bold', 'Super Made-up Font Extra-Extra-Light Oblique'.
 
-The fontSize is specified in points and frankly the symbol positioning code is really unsatisfactory and disappointing. My advice is to keep it between 12 and 12 for now.
+The fontSize is specified in points and frankly the text positioning code is really unsatisfactory and disappointing. My advice is to keep it between 12 and 12 for now.
 
 
 ### Color Specifiers
@@ -114,7 +116,7 @@ The fontSize is specified in points and frankly the symbol positioning code is r
 
 - fill       : color used to fill whichever shape you choose.
 - stroke     : color used to outline the shape
-- foreground : color used to fill the symbol
+- foreground : color used to fill the text
 
 Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0.  If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1.  I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
 
@@ -128,10 +130,18 @@ Of course, if an element is hidden changing it's color won't be immediately appa
 - { "spin[cw]":0|1,
     "spinccw":0|1,
     "throb":0|1,
-    "blink":0|1 }
+    "bounce":0|1,
+    "shake":0|1,
+    "flip[y]":0|1,
+    "flipX":0|1,
+    "wobble":0|1,
+    "blink":0|1
+    "enbiggen":0|1,
+    "stretch":0|1 }
+}
 ```
 
-All of these animations can be sent in the dictionaries for "foreground", "background" and "symbol".  Send a value of 1 to active the animation and a zero to deactivate it.  Animations stop when the status bar icon is right clicked.  
+All of these animations can be sent in the dictionaries for "foreground", "background" and "text".  Send a value of 1 to active the animation and a zero to deactivate it.  All animations stop when the status bar icon is right clicked. 
 
 
 
