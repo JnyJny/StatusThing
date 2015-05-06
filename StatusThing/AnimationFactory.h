@@ -18,12 +18,9 @@ extern NSString * const AnimationNameBounce;
 extern NSString * const AnimationNameShake;
 extern NSString * const AnimationNameFlip;
 extern NSString * const AnimationNameWobble;
-extern NSString * const AnimationNameFadeIn;
-extern NSString * const AnimationNameFadeOut;
 extern NSString * const AnimationNameFlare;
 extern NSString * const AnimationNameShine;
 extern NSString * const AnimationNameTwinkle;
-extern NSString * const AnimationNameShimmy;
 extern NSString * const AnimationNameBlink;
 
 @interface AnimationFactory : NSObject
@@ -32,9 +29,8 @@ extern NSString * const AnimationNameBlink;
 
 - (BOOL)hasAnimationNamed:(NSString *)animationName;
 
-- (CAAnimationGroup *)animationGroupForLayer:(CALayer *)layer withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info;
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer  withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info;
+- (CABasicAnimation *)animationForLayer:(CALayer *)layer withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info;
 
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)animationName;
+- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name;
 
 @end

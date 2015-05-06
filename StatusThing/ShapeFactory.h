@@ -43,6 +43,7 @@ extern NSString *const ShapeNameRoundedSquare;
 
 @property (strong,nonatomic,readonly) NSDictionary *shapes;
 
++ (NSArray *)allShapes;
 - (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 
 @end

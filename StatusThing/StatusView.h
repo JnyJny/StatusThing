@@ -13,11 +13,13 @@
 
 @property (strong,nonatomic,readonly) CAShapeLayer *background;
 @property (strong,nonatomic,readonly) CAShapeLayer *foreground;
-@property (strong,nonatomic,readonly) CATextLayer  *symbol;
+@property (strong,nonatomic,readonly) CATextLayer  *text;
 @property (assign,nonatomic,readonly) CGRect       insetRect;
 @property (strong,nonatomic         ) NSString     *shape;
 
+- (void)removeAllAnimations;
 - (void)updateWithDictionary:(NSDictionary *)info;
+- (NSDictionary *)currentConfiguration;
 - (void)centerInRect:(CGRect)rect;
 
 @end

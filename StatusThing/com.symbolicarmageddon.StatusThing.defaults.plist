@@ -4,12 +4,20 @@
 <dict>
 	<key>com.symbolicarmageddon.StatusThing</key>
 	<dict>
-		<key>port</key>
-		<integer>21212</integer>
+		<key>launchOnLogin</key>
+		<true/>
+		<key>allowRemoteConnections</key>
+		<true/>
+		<key>allowAnimations</key>
+		<true/>
+		<key>useBonjour</key>
+		<true/>
+		<key>portNumber</key>
+		<real>21212</real>
 		<key>statusView</key>
 		<dict>
 			<key>shape</key>
-			<string>roundedSquare</string>
+			<string>Rounded Square</string>
 			<key>foreground</key>
 			<dict>
 				<key>hidden</key>
@@ -30,9 +38,9 @@
 					<key>red</key>
 					<real>1</real>
 					<key>green</key>
-					<string>1</string>
+					<string>0</string>
 					<key>blue</key>
-					<string>1</string>
+					<string>0</string>
 					<key>alpha</key>
 					<real>0.5</real>
 				</dict>
@@ -41,10 +49,10 @@
 				<key>lineWidth</key>
 				<integer>0</integer>
 			</dict>
-			<key>symbol</key>
+			<key>text</key>
 			<dict>
 				<key>hidden</key>
-				<false/>
+				<true/>
 				<key>string</key>
 				<string>Ə</string>
 				<key>foreground</key>

@@ -12,22 +12,23 @@
 
 #pragma mark - Constants
 
-NSString * const AnimationNameSpin    = @"spin";
-NSString * const AnimationNameSpinCW  = @"spincw";
-NSString * const AnimationNameSpinCCW = @"spinccw";
-NSString * const AnimationNameThrob   = @"throb";
-NSString * const AnimationNameBounce  = @"bounce";
-NSString * const AnimationNameShake   = @"shake";
-NSString * const AnimationNameFlip    = @"flip";
-NSString * const AnimationNameWobble  = @"wobble";
-NSString * const AnimationNameFadeIn  = @"fadein";
-NSString * const AnimationNameFadeOut = @"fadeout";
-NSString * const AnimationNameFlare   = @"flare";
-NSString * const AnimationNameShine   = @"shine";
-NSString * const AnimationNameTwinkle = @"twinkle";
-NSString * const AnimationNameShimmy  = @"shimmy";
-NSString * const AnimationNameStrobe  = @"strobe";
-NSString * const AnimationNameBlink   = @"blink";
+NSString * const AnimationNameSpin     = @"spin";
+NSString * const AnimationNameSpinCW   = @"spincw";
+NSString * const AnimationNameSpinCCW  = @"spinccw";
+NSString * const AnimationNameThrob    = @"throb";
+NSString * const AnimationNameBounce   = @"bounce";
+NSString * const AnimationNameShake    = @"shake";
+NSString * const AnimationNameFlip     = @"flip";
+NSString * const AnimationNameFlipY    = @"flipy";
+NSString * const AnimationNameFlipX    = @"flipx";
+NSString * const AnimationNameWobble   = @"wobble";
+NSString * const AnimationNameFlare    = @"flare";
+NSString * const AnimationNameShine    = @"shine";
+NSString * const AnimationNameTwinkle  = @"twinkle";
+NSString * const AnimationNameBlink    = @"blink";
+NSString * const AnimationNameEnbiggen = @"enbiggen";
+NSString * const AnimationNameStretch  = @"stretch";
+
 
 
 
@@ -51,25 +52,94 @@ NSString * const AnimationNameBlink   = @"blink";
     return self;
 }
 
+NSString * const AKFromValue      = @"fromvalue";
+NSString * const AKToValue        = @"tovalue";
+NSString * const AKByValue        = @"byvalue";
+NSString * const AKKeyPath        = @"keypath";
+NSString * const AKDuration       = @"duration";
+NSString * const AKAutoreverses   = @"autoreverses";
+NSString * const AKRepeatCount    = @"repeatcount";
+NSString * const AKTimingFunction = @"timingfunction";
 
 - (NSDictionary *)animations
 {
     if (!_animations) {
-        _animations = @{ AnimationNameSpin : @{},
-                         AnimationNameSpinCW : @{},
-                         AnimationNameSpinCCW : @{},
-                         AnimationNameThrob : @{},
-                         AnimationNameBounce : @{},
-                         AnimationNameShake : @{},
-                         AnimationNameFlare : @{},
-                         AnimationNameFlip : @{},
-                         AnimationNameWobble : @{},
-                         AnimationNameFadeIn : @{},
-                         AnimationNameFadeOut : @{},
-                         AnimationNameShine : @{},
+        _animations = @{ AnimationNameSpin   : @{AKKeyPath:@"transform.rotation",
+                                                 AKFromValue:@0,
+                                                 AKToValue:@M_2PI,
+                                                 AKDuration:@0.25},
+                         AnimationNameSpinCW : @{AKKeyPath:@"transform.rotation",
+                                                 AKFromValue:@M_2PI,
+                                                 AKToValue:@0,
+                                                 AKDuration:@0.5,},
+                         AnimationNameSpinCCW : @{AKKeyPath:@"transform.rotation",
+                                                  AKFromValue:@M_2PI,
+                                                  AKToValue:@0,
+                                                  AKDuration:@0.5,},
+                         AnimationNameWobble  : @{AKKeyPath:@"transform.rotation",
+                                                  AKFromValue:@-M_PI_6,
+                                                  AKToValue:@M_PI_6,
+                                                  AKAutoreverses:@YES,
+                                                  AKTimingFunction:kCAMediaTimingFunctionEaseInEaseOut,
+                                                  AKDuration:@0.5},
+                         
+                         AnimationNameThrob   : @{AKKeyPath:@"opacity",
+                                                  AKFromValue:@0,
+                                                  AKToValue:@1,
+                                                  AKAutoreverses:@YES,
+                                                  AKTimingFunction:kCAMediaTimingFunctionLinear,
+                                                  AKDuration:@0.5},
+
+                         AnimationNameBounce  : @{AKKeyPath:@"position.y",
+                                                  AKByValue:@2,
+                                                  AKAutoreverses:@YES,
+                                                  AKDuration:@0.25,
+                                                  AKTimingFunction:kCAMediaTimingFunctionEaseIn},
+
+                         AnimationNameShake   : @{AKKeyPath:@"position.x",
+                                                  AKDuration:@0.25,
+                                                  AKTimingFunction:kCAMediaTimingFunctionEaseOut,
+                                                  AKAutoreverses:@YES,
+                                                  AKByValue:@2},
+                         AnimationNameEnbiggen: @{AKKeyPath:@"transform.scale",
+                                                  AKDuration:@0.25,
+                                                  AKFromValue:@1,
+                                                  AKToValue:@3,
+                                                  AKAutoreverses:@YES,
+                                                  AKTimingFunction:kCAMediaTimingFunctionEaseIn},
+                         AnimationNameFlare   : @{},
+                         AnimationNameFlip    : @{AKKeyPath:@"transform.rotation.x",
+                                                  AKDuration:@0.25,
+                                                  AKAutoreverses:@YES,
+                                                  AKFromValue:@0,
+                                                  AKToValue:@M_2PI},
+                         AnimationNameFlipX   : @{AKKeyPath:@"transform.rotation.x",
+                                                  AKDuration:@0.25,
+                                                  AKAutoreverses:@YES,
+                                                  AKFromValue:@0,
+                                                  AKToValue:@M_2PI},
+
+                         AnimationNameFlipY   : @{AKKeyPath:@"transform.rotation.y",
+                                                  AKDuration:@0.25,
+                                                  AKAutoreverses:@YES,
+                                                  AKFromValue:@0,
+                                                  AKToValue:@M_2PI},
+
+                         AnimationNameStretch : @{ AKKeyPath:@"transform.scale.x",
+                                                   AKDuration:@0.25,
+                                                   AKAutoreverses:@YES,
+                                                   AKFromValue:@1.0,
+                                                   AKToValue:@4.0},
+
+
+                         AnimationNameShine   : @{},
                          AnimationNameTwinkle : @{},
-                         AnimationNameShimmy : @{},
-                         AnimationNameBlink : @{},
+                         
+                         AnimationNameBlink   : @{AKKeyPath:@"hidden",
+                                                  AKFromValue:@YES,
+                                                  AKToValue:@NO,
+                                                  AKDuration:@0.25},
+
                         };
     }
     return _animations;
@@ -81,20 +151,7 @@ NSString * const AnimationNameBlink   = @"blink";
 
 - (BOOL)hasAnimationNamed:(NSString *)animationName
 {
-    return self.animations[animationName] != nil;
-    
-}
-
-- (CAAnimationGroup *)animationGroupForLayer:(CALayer *)layer withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info
-{
-    if(!info) {
-        return nil;
-    }
-    
-    __block CAAnimationGroup *theGroup = [[CAAnimationGroup alloc] init];
-    
-    
-    return theGroup;
+    return self.animations[[animationName lowercaseString]] != nil;
 }
 
 
@@ -106,79 +163,86 @@ NSString * const AnimationNameBlink   = @"blink";
     
     __block CABasicAnimation *theAnimation = [[CABasicAnimation alloc] init];
     
-    
     return theAnimation;
 }
 
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)animationName
+- (CABasicAnimation *)animationForName:(NSString *)name
 {
+    NSDictionary *info = self.animations[name];
+    CABasicAnimation *basic = nil;
+    if (info) {
+        basic = [CABasicAnimation animationWithKeyPath:info[AKKeyPath]];
+        
+        basic.repeatCount = HUGE_VALF;
+        basic.autoreverses = NO;
+        basic.duration = 0.5;
+        
+        if (info[AKAutoreverses]) {
+            basic.autoreverses = [info[AKAutoreverses] boolValue];
+        }
+        
+        if (info[AKByValue]) {
+            basic.byValue = info[AKByValue];
+        }
 
-    if ( [animationName isEqualToString:AnimationNameSpinCCW]) {
-        CABasicAnimation *spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        NSNumber *startRotation = [layer valueForKeyPath:@"transform.rotation"];
+        if (info[AKToValue]) {
+            basic.toValue = info[AKToValue];
+        }
+        
+        if (info[AKFromValue]) {
+            basic.fromValue = info[AKFromValue];
+        }
+        
+        if (info[AKRepeatCount]) {
+            basic.repeatCount = [info[AKRepeatCount] floatValue];
+        }
+        
+        if (info[AKDuration]) {
+            basic.duration = [info[AKDuration] floatValue];
+        }
+    }
+    return basic;
+
+}
+
+- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name
+{
+    name = [name lowercaseString];
+    
+    CABasicAnimation *animation = [self animationForName:name];
+    
+    if (!animation) {
+        return nil;
+    }
+    
+
+    
+    if ([name isEqualToString:AnimationNameFlip]) {
+        CATransform3D invertTransform = CATransform3DInvert(layer.transform);
+        layer.transform = invertTransform;
+        [layer setNeedsDisplay];
+        return animation;
+    }
+    
+    if ([name isEqualToString:AnimationNameSpin] ||
+        [name isEqualToString:AnimationNameSpinCW] ||
+        [name isEqualToString:AnimationNameSpinCCW] ||
+        [name isEqualToString:AnimationNameWobble] ) {
+
+        CGFloat startRotation = [[layer valueForKeyPath:@"transform.rotation"] floatValue];
+        
+        CGFloat toValue = [animation.toValue floatValue];
+        
         CATransform3D rotationTransform = CATransform3DRotate(layer.transform, M_2PI, 0, 0, 1);
         layer.transform = rotationTransform;
-        spin.repeatCount = HUGE_VALF;
-        spin.duration = 1.0;
-        spin.fromValue = @0;
-        spin.toValue = [NSNumber numberWithFloat:startRotation.floatValue + M_2PI];
-        return spin;
+        animation.toValue = [NSNumber numberWithFloat:startRotation + toValue];
+        return animation;
     }
     
-    
-    if ( [animationName isEqualToString:AnimationNameSpinCW] ||
-        [animationName isEqualToString:AnimationNameSpin] ) {
-        CABasicAnimation *spin = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-        NSNumber *startRotation = [layer valueForKeyPath:@"transform.rotation"];
-        CATransform3D rotationTransform = CATransform3DRotate(layer.transform, M_2PI, 0, 0, 1);
-        layer.transform = rotationTransform;
-        spin.repeatCount = HUGE_VALF;
-        spin.duration = 1.0;
-        spin.byValue = @-1;
-        spin.fromValue =[NSNumber numberWithFloat:startRotation.floatValue + M_2PI];
-        spin.toValue = @0;
-        return spin;
-    }
-    
-    if ( [animationName isEqualToString:AnimationNameThrob]) {
-        CABasicAnimation *throb = [CABasicAnimation animationWithKeyPath:@"opacity"];
-        throb.fromValue = @1;
-        throb.toValue = @0;
-        throb.autoreverses = YES;
-        throb.duration = 0.5;
-        throb.repeatCount = HUGE_VALF;
-        return throb;
-    }
-    
-    if ( [animationName isEqualToString:AnimationNameBlink]) {
-        CABasicAnimation *blink = [CABasicAnimation animationWithKeyPath:@"hidden"];
-        blink.fromValue = @YES;
-        blink.toValue = @NO;
-        blink.duration = 0.5;
-        blink.repeatCount = HUGE_VALF;
-        return blink;
-    }
-    
-    return nil;
+    return animation;
 }
 
 
-- (void)rotateLayer:(CALayer *)layer
-{
-    
-    NSNumber *rotationAtStart = [layer valueForKeyPath:@"transform.rotation"];
-    
-    CATransform3D myRotationTransform = CATransform3DRotate(layer.transform, M_2PI, 0.0, 0.0, 1.0);
-    
-    layer.transform = myRotationTransform;
-    
-    CABasicAnimation *myAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-    myAnimation.repeatCount = HUGE_VALF;
-    myAnimation.duration = 0.5;
-    myAnimation.fromValue = 0;
-    myAnimation.toValue = [NSNumber numberWithFloat:([rotationAtStart floatValue] + M_2PI)];
-    [layer addAnimation:myAnimation forKey:@"transform.rotation"];
-}
 
 
 @end

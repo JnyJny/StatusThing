@@ -104,6 +104,11 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
 }
 
 
+- (IBAction)resetToIdleAppearance:(id)sender
+{
+    [self.statusView removeAllAnimations];
+    [self.statusView updateWithDictionary:[StatusThingUtilities preferences][StatusThingStatusView]];
+}
 
 
 #pragma mark - StatusListenerDelegate Methods
@@ -114,6 +119,8 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
     // PeerAddressKey
     // PeerContentKey
     // PeerTimestampKey
+    
+    //NSLog(@"stausController.processRequest:FromClient %@",info);
     
     [self.statusView updateWithDictionary:info];
 }
@@ -133,7 +140,7 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
         }
 #endif
         
-        if ( [key isEqualToString:StatusThingPort]) {
+        if ( [key isEqualToString:StatusThingPreferencePortNumber]) {
             self.statusListener.port = obj;
         }
         

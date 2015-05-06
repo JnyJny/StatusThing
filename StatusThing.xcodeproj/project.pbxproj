@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D2C85FA1AE9890600761F49 /* com.symbolicarmageddon.StatusThing.defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D2C85F91AE9890600761F49 /* com.symbolicarmageddon.StatusThing.defaults.plist */; };
+		1D6795721AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6795711AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m */; };
 		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
 		1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */ = {isa = PBXBuildFile; fileRef = 1D7E268A1AF15B4200FA5E71 /* HelpText */; };
@@ -40,6 +41,8 @@
 		1D2C85F41AE748DA00761F49 /* thingstatus.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = thingstatus.py; sourceTree = "<group>"; };
 		1D2C85F91AE9890600761F49 /* com.symbolicarmageddon.StatusThing.defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = com.symbolicarmageddon.StatusThing.defaults.plist; sourceTree = "<group>"; };
 		1D67956C1AF7CA1500E075D2 /* Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
+		1D6795701AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+HandleNSColor.h"; sourceTree = "<group>"; };
+		1D6795711AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+HandleNSColor.m"; sourceTree = "<group>"; };
 		1D6DB44F1AE2AD0000277C13 /* StatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusView.h; sourceTree = "<group>"; };
 		1D6DB4501AE2AD0000277C13 /* StatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusView.m; sourceTree = "<group>"; };
 		1D6DB4521AE2C16000277C13 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TODO; path = StatusThing/TODO; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 			children = (
 				1D6DB4651AE3416000277C13 /* NSColor+NamedColorUtilities.h */,
 				1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */,
+				1D6795701AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.h */,
+				1D6795711AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -373,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */,
+				1D6795721AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m in Sources */,
 				1DB68CCA1AF273A200BAC9FB /* ShapeFactory.m in Sources */,
 				1DAF8F791ADFFEE2009CE2BE /* main.m in Sources */,
 				1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */,

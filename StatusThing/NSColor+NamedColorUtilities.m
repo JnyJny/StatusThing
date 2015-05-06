@@ -63,4 +63,17 @@
     return [NSColor colorWithRed:Scale(red) green:Scale(green) blue:Scale(blue) alpha:Scale(alpha)];
 }
 
+- (NSDictionary *)dictionaryForColor
+{
+    NSColor *calibratedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+    CGFloat red,green,blue,alpha;
+    
+    [calibratedColor getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    return @{ @"red":[NSNumber numberWithFloat:red],
+              @"green":[NSNumber numberWithFloat:green],
+              @"blue":[NSNumber numberWithFloat:blue],
+              @"alpha":[NSNumber numberWithFloat:alpha]};
+}
+
 @end

@@ -5,7 +5,7 @@ BROKEN
 README
     update examples with new interactive prompts
     update screenshots
-
+    screencast showing features
 
 Command line argument processing
     [done]store user specified options to NSUserDefaults
@@ -15,6 +15,7 @@ Command line argument processing
 StatusView
     add a tooltip on hover to show something: version, message, last JSON dictionary, connections
     range checking on user supplied symbol string
+    construct dictionary of current configuration on demand
     [partial fix]centering symbols within a shape automatically, masking/clipping?
     [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
 
@@ -25,16 +26,20 @@ StatusView
     [done]StatusShapeNone ?
     [done]center StatusView in the NSStatusItem's button's view
 
-StatusView animations
-    intensity throb - animate alpha
-    rotate shape, direction, speed, duration
-    rotate outline
-    rotate symbol, direction, speed, duration
-    wobble, back and forth partial rotations ( < 45 degrees)
+Shape Factory
+    case-insensitive string compare that strips embedded whitespace
+
+
+Animation Factory
+    [done] THROB intensity throb - animate opacity
+    [done] SPIN rotate shape
+    [done] WOBBLE wobble, back and forth partial rotations ( < 45 degrees)
     shine / twinkle / lens flare
     switch between list of shapes: speed
-    bounce within statusBarItem.button's bounding box
-    shimmy side to side
+    [done] BOUNCE bounce within statusBarItem.button's bounding box
+    [done] SHAKE shimmy side to side
+    [done] STRETCH embiggen just the X-axis
+    [done] FLIP[X|Y]
 
 Interface builder
     put something in Credits.rtf
@@ -56,28 +61,36 @@ statusItemMenu
     Sparkle check for updates.
     messages subMenu holding list of messages
     message dict: { from:"Girl Behind You" body:"Do you like me" reply:{ "YES":"sweet!","NO":"bogus!"}}
+    [done]Reset to Idle Configuration
     [working]Preferences
     [working]About?
 
 Preference Pane - global
     position window at the center of the screen
+    change port on the fly
     allow remote connections
     allow animations
-    allow inset symbols
-    allow notifications
-    set limit on number of statusviews to create
-    allow clients to create new statusviews
-    blacklist clients
-    whitelist clients
-    change port on the fly
+    enable/disable launch at login
+    pick colors and shape of idle icon
+    use Bonjour or static port
+    choose text string, font and fontSize
+    [deferred]allow notifications
+    [deferred]set limit on number of statusviews to create
+    [deferred]allow clients to create new statusviews
+    [deferred]blacklist clients
+    [deferred]whitelist clients
+
 
 StatusListener
-    Modify protocol to include peer address (or insert it into the JSON message)
+    use HTTP, browsers are now clients ( new HTTPListener? )
+    Re-design to allow for on-the-fly port change (stop, get new socket, start)
+    Support local-connections only mode
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
+    [done]Modify protocol to include peer address (or insert it into the JSON message)
     [kept]sends a welcome string, probably not necessary?
     [done]should respond to "help" with a list of things that it understands
     [done]need to look into REST interface patterns?
-    [rejected]use HTTP, seems.. overkill-y?
+
     [done]Publish Bonjour service
     [done]bind to port 0 by default, OS picks an unused non-privileged port
     [done]close down connection when client sends EOF
@@ -87,7 +100,7 @@ AppleScript
     provide support for AppleScript - ugh.
 
 NotificationCenter
-    allow clients to generate Notifcations too?
+    [deferred]allow clients to generate Notifcations too?
 
 Icon
     It Needs One.
@@ -96,8 +109,8 @@ Packaging?
     eventually
 
 Shapes
-    WiFi-like fan thingy
     Images supplied by client - integrate ASCIImage as an optional dependency
+    WiFi-like fan thingy
     System template images
 
 Licensing
@@ -116,6 +129,9 @@ Startup
 
 Update Checking Stuff
     Sparkle?
+
+Python Client Bindings
+    make them suck less
 
 Client Bindings
     python

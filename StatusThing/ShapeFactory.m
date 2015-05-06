@@ -10,29 +10,29 @@
 #import "Geometry.h"
 
 #pragma mark - Shape Name Constants
-NSString *const ShapeNameNone          = @"none";
-NSString *const ShapeNameCircle        = @"circle";
-NSString *const ShapeNameLine          = @"line";
-NSString *const ShapeNameTriangle      = @"triangle";
-NSString *const ShapeNameSquare        = @"square";
-NSString *const ShapeNameDiamond       = @"diamond";
-NSString *const ShapeNameRoundedSquare = @"roundedsquare";
-NSString *const ShapeNamePentagon      = @"pentagon";
-NSString *const ShapeNameHexagon       = @"hexagon";
-NSString *const ShapeNameSeptagon      = @"septagon";
-NSString *const ShapeNameOctagon       = @"octagon";
-NSString *const ShapeNameNonagon       = @"nonagon";
-NSString *const ShapeNameDecagon       = @"decagon";
-NSString *const ShapeNameEndecagon     = @"endecagon";
-NSString *const ShapeNameTrigram       = @"trigram";
-NSString *const ShapeNameQuadragram    = @"quadragram";
-NSString *const ShapeNamePentagram     = @"pentagram";
-NSString *const ShapeNameHexagram      = @"hexagram";
-NSString *const ShapeNameSeptagram     = @"septagram";
-NSString *const ShapeNameOctagram      = @"octagram";
-NSString *const ShapeNameNonagram      = @"nonagram";
-NSString *const ShapeNameDecagram      = @"decagram";
-NSString *const ShapeNameEndecagram    = @"endecagram";
+NSString *const ShapeNameNone          = @"None";
+NSString *const ShapeNameCircle        = @"Circle";
+NSString *const ShapeNameLine          = @"Line";
+NSString *const ShapeNameTriangle      = @"Triangle";
+NSString *const ShapeNameSquare        = @"Square";
+NSString *const ShapeNameDiamond       = @"Diamond";
+NSString *const ShapeNameRoundedSquare = @"Rounded Square";
+NSString *const ShapeNamePentagon      = @"Pentagon";
+NSString *const ShapeNameHexagon       = @"Hexagon";
+NSString *const ShapeNameSeptagon      = @"Septagon";
+NSString *const ShapeNameOctagon       = @"Octagon";
+NSString *const ShapeNameNonagon       = @"Nonagon";
+NSString *const ShapeNameDecagon       = @"Decagon";
+NSString *const ShapeNameEndecagon     = @"Endecagon";
+NSString *const ShapeNameTrigram       = @"Trigram";
+NSString *const ShapeNameQuadragram    = @"Quadragram";
+NSString *const ShapeNamePentagram     = @"Pentagram";
+NSString *const ShapeNameHexagram      = @"Hexagram";
+NSString *const ShapeNameSeptagram     = @"Septagram";
+NSString *const ShapeNameOctagram      = @"Octagram";
+NSString *const ShapeNameNonagram      = @"Nonagram";
+NSString *const ShapeNameDecagram      = @"Decagram";
+NSString *const ShapeNameEndecagram    = @"Endecagram";
 
 #pragma mark - Private Constants
 static NSString *const ShapeKeySides   = @"sides";
@@ -50,6 +50,33 @@ static NSString *const ShapeKeyAngle   = @"angle";
 //ShapeNameRoundedSquare:@{ ShapeKeySides:@4,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
 
 #pragma mark - Properties
+
++ (NSArray *)allShapes
+{
+ return @[ ShapeNameNone,
+           ShapeNameCircle,
+           ShapeNameLine,
+           ShapeNameTriangle,
+           ShapeNameSquare,
+           ShapeNameDiamond,
+           ShapeNameRoundedSquare,
+           ShapeNamePentagon,
+           ShapeNameHexagon,
+           ShapeNameSeptagon,
+           ShapeNameOctagon,
+           ShapeNameNonagon,
+           ShapeNameDecagon,
+           ShapeNameEndecagon,
+           ShapeNameTrigram,
+           ShapeNameQuadragram,
+           ShapeNamePentagram,
+           ShapeNameHexagram,
+           ShapeNameSeptagram,
+           ShapeNameOctagram,
+           ShapeNameNonagram,
+           ShapeNameDecagram,
+           ShapeNameEndecagram];
+}
 
 - (NSDictionary *)shapes
 {

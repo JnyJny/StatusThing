@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const StatusThingPreferenceLaunchOnLogin;
+extern NSString *const StatusThingPreferenceAllowRemoteConnections;
+extern NSString *const StatusThingPreferenceAllowAnimations;
+extern NSString *const StatusThingPreferenceUseBonjour;
+extern NSString *const StatusThingPreferencePortNumber;
+
 extern NSString *const AppleInterfaceThemeChangedNotification;
 extern NSString *const AppleInterfaceStyle;
 extern NSString *const AppleInterfaceStyleDark;
@@ -19,6 +25,10 @@ extern NSString *const AppleInterfaceStyleDark;
 + (void)registerDefaultsForBundle:(NSBundle *)bundle;
 + (void)registerDefaults;
 + (NSDictionary *)preferences;
++ (id)preferenceForKey:(NSString *)key;
+
++ (id)valueForKey:(NSString *)key inDomain:(NSString *)domain;
++ (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey toDomain:(NSString *)domain;
 
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)disableLoginItemForBundle:(NSBundle *)bundle;

@@ -10,13 +10,20 @@
 
 #pragma mark - Constants
 
-NSString *const StatusThingDefaultPreferencesFile      = @"com.symbolicarmageddon.StatusThing.defaults";
-NSString *const StatusThingDefaultPlistFileExtension   = @"plist";
-NSString *const StatusThingPreferencesDomain           = @"com.symbolicarmageddon.StatusThing";
+NSString *const StatusThingDefaultPreferencesFile           = @"com.symbolicarmageddon.StatusThing.defaults";
+NSString *const StatusThingDefaultPlistFileExtension        = @"plist";
+NSString *const StatusThingPreferencesDomain                = @"com.symbolicarmageddon.StatusThing";
 
-NSString *const AppleInterfaceThemeChangedNotification = @"AppleInterfaceThemeChangedNotification";
-NSString *const AppleInterfaceStyle                    = @"AppleInterfaceStyle";
-NSString *const AppleInterfaceStyleDark                = @"dark";
+NSString *const StatusThingPreferenceLaunchOnLogin          = @"launchOnLogin";
+NSString *const StatusThingPreferenceAllowRemoteConnections = @"allowRemoteConnections";
+NSString *const StatusThingPreferenceAllowAnimations        = @"allowAnimations";
+NSString *const StatusThingPreferenceUseBonjour             = @"useBonjour";
+NSString *const StatusThingPreferencePortNumber             = @"portNumber";
+
+
+NSString *const AppleInterfaceThemeChangedNotification      = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                         = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                     = @"dark";
 
 @implementation StatusThingUtilities
 
@@ -54,11 +61,37 @@ NSString *const AppleInterfaceStyleDark                = @"dark";
     return prefs;
 }
 
-+ (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey
++ (id)preferenceForKey:(NSString *)key
+{
+    NSDictionary *prefs = [self preferences];
+    
+    id ret = [prefs valueForKeyPath:key];
+    
+    NSLog(@"preferencesForKey:%@ = %@",key,ret);
+    
+    return  ret;
+}
+
++ (id)valueForKey:(NSString *)key inDomain:(NSString *)domain
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    [defaults setObject:value forKey:preferenceKey];
+    if (!domain) {
+        domain = StatusThingPreferencesDomain;
+    }
+    
+    return [defaults objectForKey:[domain stringByAppendingFormat:@".%@",key]];
+}
+
++ (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey toDomain:(NSString *)domain
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (!domain) {
+        domain = StatusThingPreferencesDomain;
+    }
+
+    [defaults setObject:value forKey:[domain stringByAppendingFormat:@".%@",preferenceKey]];
     
     [defaults synchronize];
 }

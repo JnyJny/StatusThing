@@ -19,13 +19,13 @@
 static NSString * const StatusViewPropertyNameShape            = @"shape";
 static NSString * const StatusViewPropertyNameForeground       = @"foreground";
 static NSString * const StatusViewPropertyNameBackground       = @"background";
-static NSString * const StatusViewPropertyNameSymbol           = @"symbol";
+static NSString * const StatusViewPropertyNameText             = @"text";
 
 static NSString * const CALayerPropertyNameHidden              = @"hidden";
-static NSString * const CALayerPropertyNameBackgroundColor     = @"backgroundColor";
+static NSString * const CALayerPropertyNameBackgroundColor     = @"background";
 
-static NSString * const CAShapeLayerPropertyNameFillColor      = @"fillColor";
-static NSString * const CAShapeLayerPropertyNameStrokeColor    = @"strokeColor";
+static NSString * const CAShapeLayerPropertyNameFillColor      = @"fill";
+static NSString * const CAShapeLayerPropertyNameStrokeColor    = @"stroke";
 static NSString * const CAShapeLayerPropertyNameLineWidth      = @"lineWidth";
 
 static NSString * const CATextLayerPropertyNameString          = @"string";
@@ -36,12 +36,10 @@ static NSString * const CATextLayerPropertyNameFontSize        = @"fontSize";
 
 static NSString * const BackgroundLayerName                    = @"BackgroundLayer";
 static NSString * const ForegroundLayerName                    = @"ForegroundLayer";
-static NSString * const SymbolLayerName                        = @"SymbolLayer";
+static NSString * const SymbolLayerName                        = @"TextLayer";
 static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
-
-
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
@@ -58,7 +56,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 @synthesize background   = _background;
 @synthesize foreground   = _foreground;
-@synthesize symbol       = _symbol;
+@synthesize text         = _text;
 @synthesize shapeFactory = _shapeFactory;
 @synthesize shape        = _shape;
 
@@ -72,9 +70,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         self.layer.opaque = NO;
         [self.layer addSublayer:self.background];
         [self.layer addSublayer:self.foreground];
-        [self.layer addSublayer:self.symbol];
-
-        //        [self.animationFactory rotateLayer:self.symbol];
+        [self.layer addSublayer:self.text];
     }
     return self;
 }
@@ -96,9 +92,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     self.background.position = center;
     self.foreground.position = center;
     
-    self.symbol.bounds   = CGRectMake(0, 0, self.symbol.fontSize, self.symbol.fontSize);
-    self.symbol.position = center;
-    self.symbol.anchorPoint = CGPointMake(0.5, 0.3);
+    self.text.bounds      = CGRectMake(0, 0, self.text.fontSize, self.text.fontSize);
+    self.text.position    = center;
+    self.text.anchorPoint = CGPointMake(0.5, 0.3); // XXX this is SO arbitrary.
 
     
 }
@@ -124,6 +120,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 // drawLayer:inContext isn't called unless there is an empty drawRect:
 - (void)drawRect:(NSRect)dirtyRect{ }
 
+
+
+
 #pragma mark - Event Handling
 
 - (void)mouseDown:(NSEvent *)theEvent
@@ -131,9 +130,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 
     // cancel animations here..
-    [self.background removeAllAnimations];
-    [self.foreground removeAllAnimations];
-    [self.symbol     removeAllAnimations];
+    [self removeAllAnimations];
 
     [super mouseDown:theEvent];
 }
@@ -178,21 +175,19 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     return _foreground;
 }
 
-- (CATextLayer *)symbol
+- (CATextLayer *)text
 {
-    if (!_symbol) {
-        _symbol = [CATextLayer layer];
-        _symbol.name = SymbolLayerName;
-        _symbol.bounds = self.layer.bounds;
-        _symbol.string = DefaultString;
-        _symbol.font = CFBridgingRetain(DefaultFontName);
-        _symbol.fontSize = DefaultFontSize;
-        _symbol.alignmentMode = kCAAlignmentCenter;
-        _symbol.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0);
-        
-        //        _symbol addAnimation:[self.animationFactory ] forKey:<#(NSString *)#>
+    if (!_text) {
+        _text = [CATextLayer layer];
+        _text.name = SymbolLayerName;
+        _text.bounds = self.layer.bounds;
+        _text.string = DefaultString;
+        _text.font = CFBridgingRetain(DefaultFontName);
+        _text.fontSize = DefaultFontSize;
+        _text.alignmentMode = kCAAlignmentCenter;
+        _text.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0);
     }
-    return _symbol;
+    return _text;
 }
 
 - (NSString *)shape
@@ -205,10 +200,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (void)setShape:(NSString *)shape
 {
-    // XXX no error propagation if shape is unrecognized
-    
     _shape = shape;
-    
     [self setNeedsDisplay:YES];
 }
 
@@ -252,8 +244,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             if ([key isEqualToString:CAShapeLayerPropertyNameLineWidth]) {
                 target.lineWidth = [obj floatValue];
             }
-            
-
             if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
             }
@@ -321,7 +311,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     CGPathRef pathRef = nil;
     
-    shape = [shape lowercaseString];
     
     if ([shape isEqualToString:ShapeNameNone]) {
         // draw nothing
@@ -374,6 +363,13 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     [self setFrameOrigin:newOrigin];
 }
 
+- (void)removeAllAnimations
+{
+    [self.background removeAllAnimations];
+    [self.foreground removeAllAnimations];
+    [self.text       removeAllAnimations];
+}
+
 #pragma mark - Update using blocks
 
 - (void)updateWithDictionary:(NSDictionary *)info
@@ -393,10 +389,17 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         if ([key isEqualToString:StatusViewPropertyNameBackground]) {
             weakSelf.updateShapeLayer(weakSelf.background,obj);
         }
-        if ([key isEqualToString:StatusViewPropertyNameSymbol]) {
-            weakSelf.updateTextLayer(weakSelf.symbol,obj);
+        if ([key isEqualToString:StatusViewPropertyNameText]) {
+            weakSelf.updateTextLayer(weakSelf.text,obj);
         }
     }];
+}
+
+- (NSDictionary *)currentConfiguration
+{
+    // send back a dictionary to be converted to JSON
+    
+    return nil;
 }
 
 
