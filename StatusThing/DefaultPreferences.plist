@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>com.symbolicarmageddon.StatusThing.launchOnLogin</key>
+	<true/>
+	<key>com.symbolicarmageddon.StatusThing.allowRemoteConnections</key>
+	<true/>
+	<key>com.symbolicarmageddon.StatusThing.allowAnimations</key>
+	<true/>
+	<key>com.symbolicarmageddon.StatusThing.useBonjour</key>
+	<true/>
+	<key>com.symbolicarmageddon.StatusThing.portNumber</key>
+	<real>21212</real>
+	<key>com.symbolicarmageddon.StatusThing.statusView</key>
+	<dict>
+		<key>shape</key>
+		<string>circle</string>
+		<key>foreground</key>
+		<dict>
+			<key>hidden</key>
+			<false/>
+			<key>stroke</key>
+			<string>black</string>
+			<key>fill</key>
+			<string>clear</string>
+			<key>lineWidth</key>
+			<integer>2</integer>
+		</dict>
+		<key>background</key>
+		<dict>
+			<key>hidden</key>
+			<false/>
+			<key>fill</key>
+			<dict>
+				<key>red</key>
+				<integer>0</integer>
+				<key>green</key>
+				<string>1</string>
+				<key>blue</key>
+				<string>0</string>
+				<key>alpha</key>
+				<real>0.5</real>
+			</dict>
+			<key>stroke</key>
+			<string>black</string>
+			<key>lineWidth</key>
+			<integer>0</integer>
+		</dict>
+		<key>text</key>
+		<dict>
+			<key>hidden</key>
+			<true/>
+			<key>string</key>
+			<string>Ə</string>
+			<key>foreground</key>
+			<string>black</string>
+			<key>font</key>
+			<string>Courier Bold</string>
+			<key>fontSize</key>
+			<integer>14</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

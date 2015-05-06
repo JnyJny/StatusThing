@@ -29,24 +29,28 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 Shape Factory
-    case-insensitive string compare that strips embedded whitespace
+    fix square's angle to differentiate from diamond -> 90
 
 
 Animation Factory
+    shine
+    twinkle
+    lens flare
+    morph between list of shapes
+    Move animation dictionary to plist.
+    Animation editor?
     [done] THROB intensity throb - animate opacity
     [done] SPIN rotate shape
     [done] WOBBLE wobble, back and forth partial rotations ( < 45 degrees)
-    shine / twinkle / lens flare
-    switch between list of shapes: speed
     [done] BOUNCE bounce within statusBarItem.button's bounding box
     [done] SHAKE shimmy side to side
-    [done] STRETCH embiggen just the X-axis
+    [done] STRETCH embiggen just the X-axis 
     [done] FLIP[X|Y]
+
 
 Interface builder
     put something in Credits.rtf
     [done]build menus with IB instead of programatically
-
 
 StatusViewArrayController
 StatusViewArray
@@ -68,14 +72,16 @@ statusItemMenu
     [working]About?
 
 Preference Pane - global
+    create a NSPreferencePane bundle
     position window at the center of the screen
-    change port on the fly
-    allow remote connections
-    allow animations
-    enable/disable launch at login
-    pick colors and shape of idle icon
-    use Bonjour or static port
     choose text string, font and fontSize
+    [done]close shared color panel when preference window closes
+    [done]change port on the fly
+    [done]allow remote connections
+    [done]allow animations
+    [done]enable/disable launch at login
+    [done]pick colors and shape of idle icon
+    [done]use Bonjour or static port
     [deferred]allow notifications
     [deferred]set limit on number of statusviews to create
     [deferred]allow clients to create new statusviews
@@ -88,6 +94,7 @@ StatusListener
     Re-design to allow for on-the-fly port change (stop, get new socket, start)
     Support local-connections only mode
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
+    add listening to ipv6 port
     [done]Modify protocol to include peer address (or insert it into the JSON message)
     [kept]sends a welcome string, probably not necessary?
     [done]should respond to "help" with a list of things that it understands

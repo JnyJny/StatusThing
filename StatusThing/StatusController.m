@@ -15,12 +15,11 @@
 #pragma mark - String Constants
 
 static NSString *const StatusThingStatusView   = @"statusView";
-static NSString *const StatusThingStatusMenu   = @"statusMenu";
-static NSString *const StatusThingPort         = @"port";
-static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
+
+static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %hu";
 
 @interface StatusController()
-
+@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
 @end
 
 
@@ -28,10 +27,7 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
 
 - (void)awakeFromNib
 {
-    NSDictionary *preferences = [StatusThingUtilities preferences];
     [self.statusItem setMenu:self.statusMenu];
-    [self.statusListener setResetInfo:preferences];
-    [self updateWithDictionary:preferences];
 }
 
 #pragma mark - Lifecycle
@@ -43,9 +39,9 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
         self.statusItem.highlightMode = YES;
         [self.statusItem.button addSubview:self.statusView];
         [self.statusView centerInRect:self.statusItem.button.bounds];
-        // connect statusView and statusMenu
+        [self updateWithDictionary:[NSUserDefaults standardUserDefaults].dictionaryRepresentation];
     }
-    
+
     return self;
 }
 
@@ -81,33 +77,66 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
     return _statusListener;
 }
 
-
+- (NSNotificationCenter *)notificationCenter
+{
+    if (!_notificationCenter) {
+        _notificationCenter = [NSNotificationCenter defaultCenter];
+    }
+    return _notificationCenter;
+}
 
 #pragma mark - Methods
 
 - (void)start
 {
-
-    
     [self.statusListener start];
-    NSLog(@"listening on port %@",self.statusListener.port);
+    NSLog(@"listening on port %u",self.statusListener.port);
     
     [self.portMenuItem setTitle:[NSString stringWithFormat:PortMenuItemTitleFormat,self.statusListener.port]];
-    //[self.portMenuItem setImage: [NSImage imageNamed:NSImageNameBonjour]];
 
+    [self.notificationCenter addObserver:self
+                                selector:@selector(resetToIdleAppearance:)
+                                    name:StatusThingIdleConfigurationChangedNotification
+                                  object:nil];
+    [self.notificationCenter addObserver:self
+                                selector:@selector(restartStatusListner:)
+                                    name:StatusThingAllowRemoteChangedNotification
+                                  object:nil];
+    [self.notificationCenter addObserver:self
+                                selector:@selector(restartStatusListner:)
+                                    name:StatusThingPortNumberChangedNotification
+                                  object:nil];
+    [self.notificationCenter addObserver:self
+                                selector:@selector(restartStatusListner:)
+                                    name:StatusThingUseBonjourChangedNotification
+                                  object:nil];
 }
 
 - (void)stop
 {
+    [self.notificationCenter removeObserver:self];
+    
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     [self.statusListener stop];
 }
 
+#pragma mark - IBAction Methods
+// resetToIdleAppearance: does double duty as an IBAction and a notificationCenter callback
 
 - (IBAction)resetToIdleAppearance:(id)sender
 {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
     [self.statusView removeAllAnimations];
-    [self.statusView updateWithDictionary:[StatusThingUtilities preferences][StatusThingStatusView]];
+    [self.statusView updateWithDictionary:[userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
+}
+
+#pragma mark - StatusThing Notification Handling Methods
+
+- (void)restartStatusListner:(NSNotification *)note
+{
+    [self stop];
+    [self start];
 }
 
 
@@ -128,20 +157,16 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %@";
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
-    
+
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-        if ( [key isEqualToString:StatusThingStatusView]) {
+        if ( [key isEqualToString:StatusThingPreferenceStatusViewDictionary]) {
             [self.statusView updateWithDictionary:obj];
         }
-        
-#if 0
-        if ( [key isEqualToString:StatusThingStatusMenu]) {
-            [self.statusMenu updateWithDictionary:obj];
-        }
-#endif
-        
+
         if ( [key isEqualToString:StatusThingPreferencePortNumber]) {
-            self.statusListener.port = obj;
+            // if new port != old port, stop, re-configure, start?
+            //self.statusListener.port = obj;
+            //NSLog(@"newPort %@ oldPort %hu",obj,self.statusListener.port);
         }
         
     }];

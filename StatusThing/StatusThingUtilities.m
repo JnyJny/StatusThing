@@ -10,81 +10,39 @@
 
 #pragma mark - Constants
 
-NSString *const StatusThingDefaultPreferencesFile           = @"com.symbolicarmageddon.StatusThing.defaults";
-NSString *const StatusThingDefaultPlistFileExtension        = @"plist";
-NSString *const StatusThingPreferencesDomain                = @"com.symbolicarmageddon.StatusThing";
+NSString *const StatusThingDomain                           = @"com.symbolicarmageddon.StatusThing";
 
-NSString *const StatusThingPreferenceLaunchOnLogin          = @"launchOnLogin";
-NSString *const StatusThingPreferenceAllowRemoteConnections = @"allowRemoteConnections";
-NSString *const StatusThingPreferenceAllowAnimations        = @"allowAnimations";
-NSString *const StatusThingPreferenceUseBonjour             = @"useBonjour";
-NSString *const StatusThingPreferencePortNumber             = @"portNumber";
+NSString *const StatusThingDefaultPreferencesFile           = @"DefaultPreferences";
+NSString *const StatusThingPlistFileExtension               = @"plist";
 
+// These are keys and _NOT_ key paths
+NSString *const StatusThingPreferenceLaunchOnLogin              = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
+NSString *const StatusThingPreferenceAllowRemoteConnections     = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
+NSString *const StatusThingPreferenceAllowAnimations            = @"com.symbolicarmageddon.StatusThing.allowAnimations";
+NSString *const StatusThingPreferenceUseBonjour                 = @"com.symbolicarmageddon.StatusThing.useBonjour";
+NSString *const StatusThingPreferencePortNumber                 = @"com.symbolicarmageddon.StatusThing.portNumber";
+NSString *const StatusThingPreferenceStatusViewDictionary       = @"com.symbolicarmageddon.StatusThing.statusView";
 
-NSString *const AppleInterfaceThemeChangedNotification      = @"AppleInterfaceThemeChangedNotification";
-NSString *const AppleInterfaceStyle                         = @"AppleInterfaceStyle";
-NSString *const AppleInterfaceStyleDark                     = @"dark";
+NSString *const AppleInterfaceThemeChangedNotification          = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                             = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                         = @"dark";
+
+NSString *const StatusThingPortNumberChangedNotification        = @"StatusThingPortNumberChangedNotification";
+NSString *const StatusThingAllowRemoteChangedNotification       = @"StatusThingAllowRemoteChangedNotification";
+NSString *const StatusThingUseBonjourChangedNotification        = @"StatusThingUseBonjourChangedNotification";
+NSString *const StatusThingIdleConfigurationChangedNotification = @"StatusThingIdleConfigurationChangedNotification";
 
 @implementation StatusThingUtilities
 
 #pragma mark - Application Preferences / Defaults
 
-+ (void)registerDefaultsForBundle:(NSBundle *)bundle
++ (void)registerDefaults
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    
-    NSString *path = [bundle pathForResource:StatusThingDefaultPreferencesFile
-                                      ofType:StatusThingDefaultPlistFileExtension];
-    
-    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:path];
-    
-    
-    [userDefaults registerDefaults:defaults];
+    NSString *path = [[NSBundle mainBundle] pathForResource:StatusThingDefaultPreferencesFile
+                                                     ofType:StatusThingPlistFileExtension];
+    [userDefaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:path]];
 }
-
- + (void)registerDefaults
-{
-    return [StatusThingUtilities registerDefaultsForBundle:[NSBundle mainBundle]];
-}
-
-+ (NSDictionary *)preferences
-{
-    
-    NSDictionary *prefs = nil;
-
-    while (!prefs) {
-        prefs = [[NSUserDefaults standardUserDefaults] objectForKey:StatusThingPreferencesDomain];
-        if (!prefs) {
-            [StatusThingUtilities registerDefaultsForBundle:[NSBundle mainBundle]];
-        }
-    }
-    return prefs;
-}
-
-+ (id)preferenceForKey:(NSString *)key
-{
-    NSDictionary *prefs = [self preferences];
-    
-    id ret = [prefs valueForKeyPath:key];
-
-    return  ret;
-}
-
-
-+ (void)saveValue:(id)value forPreferenceKey:(NSString *)preferenceKey toDomain:(NSString *)domain
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    if (!domain) {
-        domain = StatusThingPreferencesDomain;
-    }
-
-    [defaults setObject:value forKey:[domain stringByAppendingFormat:@".%@",preferenceKey]];
-    
-    [defaults synchronize];
-}
-
-// synchronize defaults, called on terminate?
 
 
 #pragma mark - Login item query/enable/disable

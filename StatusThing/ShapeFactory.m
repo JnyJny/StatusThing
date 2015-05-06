@@ -141,10 +141,11 @@ static NSString *const ShapeKeyAngle   = @"angle";
 
 #pragma mark - Public Methods
 
+
 - (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees
 {
     
-    NSDictionary *info = [self.shapes valueForKey:shape];
+    NSDictionary *info = [self.shapes valueForKey:[shape.lowercaseString capitalizedString]];
     
     if (!info) {
         NSLog(@"pointsForShape:%@ not defined",shape);

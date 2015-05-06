@@ -36,7 +36,7 @@ static NSString * const CATextLayerPropertyNameFontSize        = @"fontSize";
 
 static NSString * const BackgroundLayerName                    = @"BackgroundLayer";
 static NSString * const ForegroundLayerName                    = @"ForegroundLayer";
-static NSString * const SymbolLayerName                        = @"TextLayer";
+static NSString * const TextLayerName                          = @"TextLayer";
 static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
@@ -49,6 +49,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @property (strong,nonatomic) AnimationFactory     *animationFactory;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
+@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
 
 @end
 
@@ -137,7 +138,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 #pragma mark - Overridden Properties
 
-// removes the opaque border around the view
+// allowsVibrancy removes the opaque border around the view
 // when the NSStatusItem highlight mode is activated.
 
 - (BOOL)allowsVibrancy { return YES; }
@@ -146,7 +147,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 //     switch to contrasting stroke color for UI dark mode
 //     and mouse down.
 
-
 #pragma mark - Properties
 - (CAShapeLayer *)background
 {
@@ -154,7 +154,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         _background = [CAShapeLayer layer];
         _background.name = BackgroundLayerName;
         _background.bounds = self.layer.bounds;
-        _background.fillColor = CGColorCreateGenericRGB(0, 1, 0, 1);
+        _background.fillColor = CGColorCreateGenericRGB(0, 0, 0, 0);
         _background.backgroundColor = nil;
         _background.strokeColor = nil;
      }
@@ -170,7 +170,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         _foreground.fillColor = nil;
         _foreground.backgroundColor = nil;
         _foreground.strokeColor = CGColorCreateGenericRGB(0, 0, 0, 1);
-        _foreground.lineWidth = 2.0;
+        _foreground.lineWidth = 3.0;
     }
     return _foreground;
 }
@@ -179,9 +179,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     if (!_text) {
         _text = [CATextLayer layer];
-        _text.name = SymbolLayerName;
+        _text.name = TextLayerName;
         _text.bounds = self.layer.bounds;
-        _text.string = DefaultString;
+        _text.string = @"";
         _text.font = CFBridgingRetain(DefaultFontName);
         _text.fontSize = DefaultFontSize;
         _text.alignmentMode = kCAAlignmentCenter;
@@ -193,7 +193,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (NSString *)shape
 {
     if (!_shape) {
-        _shape = ShapeNameLine;
+        _shape = ShapeNameCircle;
     }
     return _shape;
 }
@@ -201,7 +201,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (void)setShape:(NSString *)shape
 {
     _shape = shape;
-    [self setNeedsDisplay:YES];
+    [self setNeedsDisplay:YES]; //needed
 }
 
 - (ShapeFactory *)shapeFactory
@@ -222,8 +222,13 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (CGRect)insetRect
 {
+    // XXX magic constant 3
     return CGRectIntegral(CGRectInset(self.layer.bounds, 3, 3));
 }
+
+
+
+
 
 
 #pragma mark - Block Properties
@@ -301,18 +306,14 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 }
 
 
-
-
-
 #pragma mark - Methods
 
 
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
 {
     CGPathRef pathRef = nil;
-    
-    
-    if ([shape isEqualToString:ShapeNameNone]) {
+
+    if ([shape caseInsensitiveCompare:ShapeNameNone] == NSOrderedSame) {
         // draw nothing
         self.foreground.path = nil;
         self.background.path = nil;
@@ -320,12 +321,13 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         return nil;
     }
     
-    if ([shape isEqualToString:ShapeNameCircle]) {
+    if ([shape caseInsensitiveCompare:ShapeNameCircle] == NSOrderedSame) {
         pathRef = CGPathCreateWithEllipseInRect(rect, nil);
         return pathRef;
     }
 
-    if ([shape isEqualToString:ShapeNameRoundedSquare]) {
+    if (([shape caseInsensitiveCompare:ShapeNameRoundedSquare] == NSOrderedSame) ||
+        ([shape caseInsensitiveCompare:@"roundedsquare"] == NSOrderedSame) ) {
         pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
         return pathRef;
     }
@@ -335,6 +337,11 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     NSArray *points = [self.shapeFactory pointsForShape:self.shape
                                          centeredInRect:self.insetRect
                                               rotatedBy:0];
+    
+    if (!points) {
+        return nil;
+    }
+    
     
     CGPathMoveToPoint(mPathRef, nil,
                       [[points firstObject] pointValue].x,
@@ -397,9 +404,61 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (NSDictionary *)currentConfiguration
 {
-    // send back a dictionary to be converted to JSON
+    // send back configInfo @{ backgroundInfo,foregroundInfo,textInfo,shape }
+
+    NSMutableDictionary *backgroundInfo = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *foregroundInfo = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *textInfo       = [[NSMutableDictionary alloc] init];
     
-    return nil;
+    
+    // XXX active animations are missing..
+
+    // background: fillColor, lineWidth, strokeColor, hidden
+    
+    if (self.background.fillColor) {
+        [backgroundInfo setObject: [[NSColor colorWithCGColor:self.background.fillColor] dictionaryForColor]
+                           forKey: @"fill"];
+    }
+    if (self.background.strokeColor) {
+        [backgroundInfo setObject: [[NSColor colorWithCGColor:self.background.strokeColor] dictionaryForColor]
+                           forKey: @"stroke"];
+    }
+    [backgroundInfo setObject: [NSNumber numberWithFloat:self.background.lineWidth] forKey:@"lineWidth"];
+    [backgroundInfo setObject: [NSNumber numberWithBool:self.background.hidden] forKey:@"hidden"];
+
+    
+    // foreground
+    if (self.foreground.fillColor) {
+        [foregroundInfo setObject: [[NSColor colorWithCGColor:self.foreground.fillColor] dictionaryForColor]
+                           forKey: @"fill"];
+    }
+    
+    if (self.foreground.strokeColor) {
+        [foregroundInfo setObject: [[NSColor colorWithCGColor:self.foreground.strokeColor] dictionaryForColor]
+                           forKey: @"stroke"];
+    }
+    [foregroundInfo setObject: [NSNumber numberWithFloat:self.foreground.lineWidth] forKey:@"lineWidth"];
+    [foregroundInfo setObject: [NSNumber numberWithBool:self.foreground.hidden] forKey:@"hidden"];
+
+
+    
+    // text: foregroundColor, font, fontSize, string
+    if (self.text.foregroundColor) {
+        [textInfo setObject:[[NSColor colorWithCGColor:self.text.foregroundColor] dictionaryForColor]
+                     forKey:@"foreground"];
+    }
+    [textInfo setObject: self.text.string forKey:@"string"];
+    
+    [textInfo setObject: (NSString *)self.text.font forKey:@"font"];
+    [textInfo setObject: [NSNumber numberWithFloat:self.text.fontSize] forKey:@"fontSize"];
+    [textInfo setObject: [NSNumber numberWithBool:self.text.hidden] forKey:@"hidden"];
+    
+    
+    
+    return @{ StatusViewPropertyNameShape:self.shape,
+              StatusViewPropertyNameBackground:backgroundInfo,
+              StatusViewPropertyNameForeground:foregroundInfo,
+              StatusViewPropertyNameText:textInfo };
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "StatusListener.h"
+#import "StatusThingUtilities.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -33,12 +34,13 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 @property (strong,nonatomic) NSNotificationCenter *noteCenter;
 @property (strong,nonatomic) NSNetService         *netService;
 @property (assign,nonatomic) BOOL                  running;
+@property (strong,nonatomic) NSUserDefaults       *userDefaults;
 
 @end
 
 @implementation StatusListener
 
-@synthesize port = _port;
+
 
 #pragma mark - Lifecycle
 
@@ -53,22 +55,23 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 #pragma mark - Properties
 
-- (NSNumber *)port
+- (NSUserDefaults *)userDefaults
 {
-    if (!_port) {
-        _port = @0;
+    if (!_userDefaults) {
+        _userDefaults = [NSUserDefaults standardUserDefaults];
     }
-    return _port;
+    return _userDefaults;
 }
 
-- (void)setPort:(NSNumber *)port
+- (unsigned short)port
 {
-    if (self.running == NO) {
-        _port = port;
-    }
-    else {
-        NSLog(@"stop listener first to change ports");
-    }
+    return (unsigned short)[self.userDefaults integerForKey:StatusThingPreferencePortNumber];
+}
+
+- (void)setPort:(unsigned short)port
+{
+
+    [self.userDefaults setInteger:port forKey:StatusThingPreferencePortNumber];
 }
 
 - (NSString *)helpText
@@ -92,11 +95,11 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
     if (!_socketPort) {
         struct sockaddr_in addr;
         
-        _socketPort = [[NSSocketPort alloc] initWithTCPPort:self.port.unsignedIntegerValue];
+        _socketPort = [[NSSocketPort alloc] initWithTCPPort:self.port];
         
         [_socketPort.address getBytes:&addr length:sizeof(addr)];
         
-        _port = [NSNumber numberWithUnsignedShort:ntohs(addr.sin_port)];
+        self.port = ntohs(addr.sin_port);
     }
     return _socketPort;
 }
@@ -109,7 +112,7 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
         _netService = [[NSNetService alloc] initWithDomain:@""
                                                       type:StatusThingBonjourType
                                                       name:@""
-                                                      port:self.port.unsignedShortValue];
+                                                      port:self.port];
     }
     return _netService;
 }
@@ -135,9 +138,13 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 #pragma mark - Methods
 
-
 - (BOOL)start
 {
+
+    if (self.running) {
+        [self stop];
+    }
+    
     [self.noteCenter addObserver:self
                         selector:@selector(handleNewConnection:)
                             name:NSFileHandleConnectionAcceptedNotification
@@ -154,6 +161,9 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 - (void)stop
 {
+    if (!self.running) {
+        return;
+    }
     
     [self.netService stop];
     

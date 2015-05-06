@@ -8,12 +8,13 @@
 
 #import "PreferencesWindowController.h"
 #import "NSColor+NamedColorUtilities.h"
+#import "NSUserDefaults+HandleNSColor.h"
 #import "StatusThingUtilities.h"
 #import "ShapeFactory.h"
 
 
 @interface PreferencesWindowController ()
-
+@property (strong,nonatomic) NSUserDefaults *userDefaults;
 @end
 
 
@@ -22,40 +23,32 @@
 
 - (void)awakeFromNib
 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
-    [self.window setLevel:NSModalPanelWindowLevel];
+    //[self.window setLevel:NSModalPanelWindowLevel];
     
     [self.exampleView addSubview:self.exampleStatusView];
     
     [self.exampleStatusView centerInRect:self.exampleView.bounds];
     
     [self.shapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
-
-    [self didPushReset:nil];
     
-    NSString *keyPath = [StatusThingPreferencesDomain stringByAppendingFormat:@".%@",StatusThingPreferenceAllowRemoteConnections];
-    NSLog(@"key %@ val %@",keyPath,[userDefaults valueForKeyPath:keyPath]);
-    NSLog(@"%@",userDefaults.dictionaryRepresentation);
     
-    //[self.allowRemoteConnectionsButton setState:[userDefaults valueForKeyPath:StatusThingPreferenceAllowRemoteConnections]];
-
-
-    [self.allowAnimationsButton setState:[[StatusThingUtilities preferenceForKey:StatusThingPreferenceAllowAnimations] boolValue]];
-     
-    
-    [self.useBonjourButton setState:[[StatusThingUtilities preferenceForKey:StatusThingPreferenceUseBonjour] boolValue]];
-
-    self.staticPortNumberTextField.enabled = !self.useBonjourButton.state;
-
-    [self.staticPortNumberTextField setStringValue:[[StatusThingUtilities preferenceForKey:StatusThingPreferencePortNumber] stringValue]];
-    
-    [self.launchOnLoginButton setState:[[StatusThingUtilities preferenceForKey:StatusThingPreferenceLaunchOnLogin] boolValue]];
-                                         
-
 }
 
 
+
+
+
+#pragma mark - Properties
+
+- (NSUserDefaults *)userDefaults
+{
+    if (!_userDefaults) {
+        _userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    
+    return _userDefaults;
+}
 
 - (StatusView *)exampleStatusView
 {
@@ -65,9 +58,25 @@
     return _exampleStatusView;
 }
 
+#pragma mark - IBAction Methods
+
 - (IBAction)showWindow:(id)sender
 {
-    [self.window makeKeyAndOrderFront:sender];
+    if (self.window.isVisible) {
+        [super showWindow:sender];
+        return;
+    }
+    
+    [self didPushReset:nil];
+    
+    [self.allowRemoteConnectionsButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]];
+    [self.allowAnimationsButton        setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowAnimations]];
+    [self.useBonjourButton             setState:[self.userDefaults boolForKey:StatusThingPreferenceUseBonjour]];
+    [self.launchOnLoginButton          setState:[self.userDefaults boolForKey:StatusThingPreferenceLaunchOnLogin]];
+    [self.staticPortNumberTextField    setEnabled:!self.useBonjourButton.state];
+    [self.staticPortNumberTextField    setIntegerValue:[self.userDefaults integerForKey:StatusThingPreferencePortNumber]];
+
+    [super showWindow:sender];
 }
 
 - (IBAction)toggleHideForeground:(NSButton *)sender
@@ -92,27 +101,34 @@
 
 - (IBAction)toggleRemoteConnections:(NSButton *)sender
 {
-
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceAllowRemoteConnections];
 }
 
 - (IBAction)toggleAllowAnimations:(NSButton *)sender
 {
-
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceAllowAnimations];
 }
 
 - (IBAction)toggleUseBonjour:(NSButton *)sender
 {
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceUseBonjour];
+    [self.staticPortNumberTextField setEnabled:!sender.state];
 
 }
 
-
 - (IBAction)portNumberUpdated:(NSTextField *)sender
 {
-
+    [self.userDefaults setInteger:sender.integerValue
+                           forKey:StatusThingPreferencePortNumber];
 }
 
 - (IBAction)toggleLaunchOnLogin:(NSButton *)sender
 {
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceLaunchOnLogin];
     
 }
 
@@ -133,36 +149,38 @@
 
 - (IBAction)didPushSave:(NSButton *)sender
 {
-    
+    // get configuration dictionary from exampleStatusView and save it
+    // with the key StatusThingPreferencesStatusViewDictionary since
+    // we have been updating the state of exampleStatusView
+
+    [self.userDefaults setObject:[self.exampleStatusView currentConfiguration]
+                          forKey:StatusThingPreferenceStatusViewDictionary];
 }
 
 - (IBAction)didPushReset:(NSButton *)sender
 {
-    [self.exampleStatusView updateWithDictionary:[StatusThingUtilities preferenceForKey:@"statusView"]];
-                                                  
+    [self.userDefaults synchronize];
     
-    [self.shapeComboxBox selectItemWithObjectValue:[StatusThingUtilities preferenceForKey:@"statusView.shape"]];
+    //NSLog(@"didPushReset:%@",[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]);
+    [self.exampleStatusView updateWithDictionary:[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
     
-    [self.backgroundColorWell setColor:[NSColor colorForObject:[StatusThingUtilities preferenceForKey:@"statusView.background.fill"]]];
-    [self.foregroundColorWell setColor:[NSColor colorForObject:[StatusThingUtilities preferenceForKey:@"statusView.foreground.stroke"]]];
-    [self.textColorWell setColor:[NSColor colorForObject:[StatusThingUtilities preferenceForKey:@"statusView.text.foreground"]]];
+    [self.shapeComboxBox selectItemWithObjectValue:self.exampleStatusView.shape];
     
+    [self.backgroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.fillColor]];
+    [self.foregroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.foreground.strokeColor]];
+    [self.textColorWell       setColor:[NSColor colorWithCGColor:self.exampleStatusView.text.foregroundColor]];
     
-
-    [self.backgroundHiddenButton setState:[[StatusThingUtilities preferenceForKey:@"statusView.background.hidden"] boolValue]];
-
-    [self.foregroundHiddenButton setState:[[StatusThingUtilities preferenceForKey:@"statusView.foreground.hidden"] boolValue]];
-    
-    [self.textHiddenButton setState:[[StatusThingUtilities preferenceForKey:@"statusView.text.hidden"] boolValue]];
-    
+    [self.backgroundHiddenButton setState:self.exampleStatusView.background.hidden];
+    [self.foregroundHiddenButton setState:self.exampleStatusView.foreground.hidden];
+    [self.textHiddenButton       setState:self.exampleStatusView.text.hidden];
 }
 
 #pragma mark - NSWindowDelegate Methods
 
 - (void)windowWillClose:(NSNotification *)notification
 {
+    [[NSColorPanel sharedColorPanel] close];
 
-    
 }
 
 @end

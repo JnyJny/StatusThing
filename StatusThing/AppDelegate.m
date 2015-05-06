@@ -14,7 +14,7 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
     [StatusThingUtilities registerDefaults];
-    
+
     [self.statusController start];
 }
 

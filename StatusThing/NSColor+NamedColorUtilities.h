@@ -13,5 +13,6 @@
 + (NSColor *)colorForObject:(id)object;
 + (NSColor *)colorForString:(NSString *)colorString;
 + (NSColor *)colorForDictionary:(NSDictionary *)info;
+- (NSDictionary *)dictionaryForColor;
 
 @end

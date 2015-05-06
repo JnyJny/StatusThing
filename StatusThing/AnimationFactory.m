@@ -43,14 +43,7 @@ NSString * const AnimationNameStretch  = @"stretch";
 @implementation AnimationFactory
 
 #pragma mark - LifeCycle
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
 
-    }
-    return self;
-}
 
 NSString * const AKFromValue      = @"fromvalue";
 NSString * const AKToValue        = @"tovalue";

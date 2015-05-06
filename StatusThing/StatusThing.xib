@@ -68,7 +68,7 @@
                 <menuItem title="Preferences..." id="J6J-eD-1od">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="showWindow:" target="Qh3-Hb-mVj" id="ogo-9K-cAr"/>
+                        <action selector="showWindow:" target="Qh3-Hb-mVj" id="1I4-tK-yYh"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1xO-Sb-ZDD"/>
@@ -87,7 +87,7 @@
             </items>
             <point key="canvasLocation" x="328" y="-322.5"/>
         </menu>
-        <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
+        <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="232" height="376"/>
@@ -177,10 +177,10 @@
                                 <customView autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VVA-Nz-UQl">
                                     <rect key="frame" x="18" y="157" width="30" height="30"/>
                                 </customView>
-                                <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-MT-3te">
+                                <comboBox focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-MT-3te">
                                     <rect key="frame" x="69" y="158" width="152" height="26"/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5NX-49-rCk">
-                                        <font key="font" metaFont="system"/>
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" borderStyle="border" focusRingType="none" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5NX-49-rCk">
+                                        <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </comboBoxCell>
@@ -188,7 +188,7 @@
                                         <action selector="shapeSelected:" target="Qh3-Hb-mVj" id="Ms4-3G-FFP"/>
                                     </connections>
                                 </comboBox>
-                                <colorWell toolTip="Foreground" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B4H-st-Gd6">
+                                <colorWell toolTip="The stroke color for the foreground layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B4H-st-Gd6">
                                     <rect key="frame" x="103" y="117" width="44" height="23"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -203,7 +203,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <colorWell toolTip="Background" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhq-Iq-KO4">
+                                <colorWell toolTip="The fill color for the background layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhq-Iq-KO4">
                                     <rect key="frame" x="103" y="86" width="44" height="23"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
@@ -218,7 +218,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <colorWell toolTip="Text" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w2h-v7-Y9Z">
+                                <colorWell toolTip="The foreground color for the text layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w2h-v7-Y9Z">
                                     <rect key="frame" x="103" y="56" width="44" height="22"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>

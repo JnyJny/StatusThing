@@ -8,7 +8,7 @@ r|R   - reset : reset the StatusThing to default values
 h|H|? - help  : this help
 
 JSON:
-{"shape":..,"background":{..}"foreground":{..},"symbol":{..}}
+{"shape":..,"background":{..}"foreground":{..},"text":{..}}
 
 One dictionary per line, dictionaries may be nested.
 
@@ -21,17 +21,19 @@ triagram|quadragram|pentagram|hexagram|septagram|octagram
 nonagram|decagram|endecagram
 
 Background and Foreground Dictionaries:
-{"fill"     :color,
- "stroke"   :color,
- "lineWidth":float,
- "hidden"   :0|1}}
+{"fill"        :color,
+ "stroke"      :color,
+ "lineWidth"   :float,
+ "hidden"      :0|1},
+ animation-name:0|1 }
 
-Symbol Dictionary:
-{"string"    :string,
- "font"      :string,
- "fontSize"  :float,
- "foreground":color,
- "hidden"    :0|1"}
+Text Layer Dictionary:
+{"string"      :string,
+ "font"        :string,
+ "fontSize"    :float,
+ "foreground"  :color,
+ "hidden"      :0|1",
+animation-name:0|1 }
 
 Strings matching "\[uU][0-9a-fA-F]+" can be used to specify a
 Unicode character. Note that not all fonts implement all characters.
@@ -42,5 +44,12 @@ Colors:
 
 Color dictionary components default to zero if they are missing.
 Component values are expected to be between 0.0 and 1.0 or 0 and 255.
+
+Animations
+
+Multiple animations can be specified in dictionaries for any layer.
+Animation entries consist of a name and boolean pair.
+Valid animation names are; spin, spincw, spinccw, throb, bounce,
+shake, flip, flipy, flipx, wobble, blink, enbiggen, stretch.
 
 > 

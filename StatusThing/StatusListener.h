@@ -22,7 +22,7 @@
 
 @property (strong, nonatomic) id<StatusListenerDelegate> delegate;
    
-@property (strong,nonatomic) NSNumber *port;
+@property (assign,nonatomic) unsigned short port;
 
 @property (strong,nonatomic) NSString *helpText;
 @property (strong,nonatomic) NSDictionary *resetInfo;
