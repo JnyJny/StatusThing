@@ -26,6 +26,10 @@ static NSString * const StatusThingResponseResetUnavilable        = @"Oops: rese
 static NSString * const StatusThingResponseDelegateError          = @"Oops: delegate error. Author sucks.\n> ";
 static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSONSerialization returned something that was neither a dictionary nor an array: %@";
 
+NSString *const PeerKeyAddress   = @"peerAddress";
+NSString *const PeerKeyPort      = @"peerPort";
+NSString *const PeerKeyTimestamp = @"timestamp";
+NSString *const PeerKeyContent   = @"content";
 
 @interface StatusListener()
 
@@ -65,13 +69,18 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 - (unsigned short)port
 {
-    return (unsigned short)[self.userDefaults integerForKey:StatusThingPreferencePortNumber];
+    NSNumber *portNumber = [self.userDefaults objectForKey:StatusThingPreferencePortNumber];
+
+    if (!portNumber) {
+        portNumber = @0;
+    }
+    return portNumber.unsignedShortValue;
 }
 
 - (void)setPort:(unsigned short)port
 {
-
-    [self.userDefaults setInteger:port forKey:StatusThingPreferencePortNumber];
+    [self.userDefaults setObject:[NSNumber numberWithUnsignedShort:port]
+                          forKey:StatusThingPreferencePortNumber];
 }
 
 - (NSString *)helpText
@@ -94,12 +103,13 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 {
     if (!_socketPort) {
         struct sockaddr_in addr;
-        
+
         _socketPort = [[NSSocketPort alloc] initWithTCPPort:self.port];
-        
+
         [_socketPort.address getBytes:&addr length:sizeof(addr)];
         
         self.port = ntohs(addr.sin_port);
+
     }
     return _socketPort;
 }
@@ -123,7 +133,7 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 {
     if (!_listening) {
         _listening = [[NSFileHandle alloc] initWithFileDescriptor:self.socketPort.socket
-                                                   closeOnDealloc:NO];
+                                                   closeOnDealloc:YES];
     }
     return _listening;
 }
@@ -138,7 +148,7 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 #pragma mark - Methods
 
-- (BOOL)start
+- (void)start
 {
 
     if (self.running) {
@@ -152,12 +162,13 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
     
     [self.listening acceptConnectionInBackgroundAndNotify];
     
-    [self.netService publish];
+    if ([self.userDefaults boolForKey:StatusThingPreferenceUseBonjour]) {
+        [self.netService publish];
+    }
     
     self.running = YES;
-    
-    return YES;
 }
+
 
 - (void)stop
 {
@@ -174,7 +185,7 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
                              object:self.listening];
     
     [self.listening closeFile];
-    
+    self.listening = nil;
     self.socketPort = nil;
     
     self.running = NO;
@@ -185,6 +196,17 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 - (void)handleNewConnection:(NSNotification *)note
 {
     NSFileHandle *connected = [note.userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
+    
+    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]) {
+        NSDictionary *info = [self peerInfoForFileHandle:connected withContent:nil];
+        if (![@"127.0.0.1" isEqualToString:info[PeerKeyAddress]]) {
+            NSLog(@"connection from remote client denied: %@",info);
+            [connected closeFile];
+            [self.listening acceptConnectionInBackgroundAndNotify];
+            return;
+        }
+    }
+    
     
     [self.noteCenter addObserver:self
                         selector:@selector(sendDataToDelegate:)
@@ -201,20 +223,26 @@ static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSO
 
 #pragma mark - Delegate Interaction
 
-- (NSString *)peerForFileHandle:(NSFileHandle*)fileHandle
+
+
+
+- (NSDictionary *)peerInfoForFileHandle:(NSFileHandle*)fileHandle withContent:(NSData *)optionalContent
 {
     struct sockaddr_in ip4;
     socklen_t ip4len = sizeof(ip4);
+    NSString *content = @"";
     
     getpeername(fileHandle.fileDescriptor, (struct sockaddr *)&ip4,&ip4len);
     
-    return [NSString stringWithFormat:@"%s:%u",inet_ntoa(ip4.sin_addr),ntohs(ip4.sin_port)];
+    if (optionalContent) {
+        content = [[NSString alloc] initWithData:optionalContent encoding:NSUTF8StringEncoding];
+    }
+
+    return @{ PeerKeyAddress:[NSString stringWithCString:inet_ntoa(ip4.sin_addr) encoding:NSUTF8StringEncoding],
+              PeerKeyPort:[NSNumber numberWithUnsignedShort:ntohs(ip4.sin_port)],
+              PeerKeyTimestamp:[NSDate date],
+              PeerKeyContent:content};
 }
-
-
-NSString *const PeerAddressKey = @"peerAddress";
-NSString *const PeerConnectionTimeKey = @"timestamp";
-NSString *const PeerContentKey = @"peerContent";
 
 - (void)sendDataToDelegate:(NSNotification *)note
 {
@@ -253,12 +281,11 @@ NSString *const PeerContentKey = @"peerContent";
             
         case 'r':
         case 'R':
-            if ( self.resetInfo )
+            if ( self.resetInfo ) {
                 [self.delegate performSelector:@selector(processRequest:fromClient:)
                                     withObject:self.resetInfo
-                                    withObject:@{ PeerAddressKey:[self peerForFileHandle:connected],
-                                                  PeerContentKey:@"",
-                                                  PeerConnectionTimeKey:[NSDate date] }];
+                                    withObject:[self peerInfoForFileHandle:connected withContent:nil]];
+            }
             response = self.resetInfo?StatusThingResponseOk:StatusThingResponseResetUnavilable;
             break;
             
@@ -279,17 +306,11 @@ NSString *const PeerContentKey = @"peerContent";
                 break;
             }
             
-            NSDictionary *connectionInfo = @{ PeerAddressKey:[self peerForFileHandle:connected],
-                                              PeerContentKey:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding],
-                                              PeerConnectionTimeKey:[NSDate date] };
-
-            
-
             if ([obj isKindOfClass:[NSDictionary class]]){
                 
                 [self.delegate performSelector:@selector(processRequest:fromClient:)
                                     withObject:obj
-                                    withObject:connectionInfo];
+                                    withObject:[self peerInfoForFileHandle:connected withContent:data]];
                 
                 response = StatusThingResponseOk;
                 break;

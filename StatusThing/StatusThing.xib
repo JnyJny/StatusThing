@@ -72,7 +72,7 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1xO-Sb-ZDD"/>
-                <menuItem title="Reset To Idle Appearance" id="iu6-up-uw8">
+                <menuItem title="Reset To Idle" id="iu6-up-uw8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="resetToIdleAppearance:" target="QBa-XY-6PF" id="TBE-v5-qRW"/>
@@ -87,10 +87,9 @@
             </items>
             <point key="canvasLocation" x="328" y="-322.5"/>
         </menu>
-        <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
+        <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="232" height="376"/>
+            <rect key="contentRect" x="272" y="990" width="232" height="376"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1577"/>
             <view key="contentView" id="cB6-PS-dNQ">
                 <rect key="frame" x="0.0" y="5" width="232" height="376"/>
@@ -179,7 +178,7 @@
                                 </customView>
                                 <comboBox focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-MT-3te">
                                     <rect key="frame" x="69" y="158" width="152" height="26"/>
-                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" borderStyle="border" focusRingType="none" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5NX-49-rCk">
+                                    <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" focusRingType="none" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5NX-49-rCk">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

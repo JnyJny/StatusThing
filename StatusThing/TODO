@@ -73,7 +73,7 @@ statusItemMenu
 
 Preference Pane - global
     create a NSPreferencePane bundle
-    position window at the center of the screen
+    [done]position window at the center of the screen
     choose text string, font and fontSize
     [done]close shared color panel when preference window closes
     [done]change port on the fly
@@ -91,15 +91,16 @@ Preference Pane - global
 
 StatusListener
     use HTTP, browsers are now clients ( new HTTPListener? )
-    Re-design to allow for on-the-fly port change (stop, get new socket, start)
-    Support local-connections only mode
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
-    add listening to ipv6 port
+    Add listening on ipv6 port
+    [done]peer info dictionary
+    [done]support toggling using bonjour
+    [done]Re-design to allow for on-the-fly port change (stop, get new socket, start)
+    [done]Support local-connections only mode
     [done]Modify protocol to include peer address (or insert it into the JSON message)
     [kept]sends a welcome string, probably not necessary?
     [done]should respond to "help" with a list of things that it understands
     [done]need to look into REST interface patterns?
-
     [done]Publish Bonjour service
     [done]bind to port 0 by default, OS picks an unused non-privileged port
     [done]close down connection when client sends EOF
@@ -134,7 +135,7 @@ Strategy
         restrict client access to only the statusviews they initiate?
 
 Startup
-    Start on login - in preferences
+    [NOT TESTED]Start on login - in preferences
 
 Update Checking Stuff
     Sparkle?

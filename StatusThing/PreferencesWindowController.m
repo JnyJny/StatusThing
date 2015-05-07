@@ -15,6 +15,8 @@
 
 @interface PreferencesWindowController ()
 @property (strong,nonatomic) NSUserDefaults *userDefaults;
+@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
+
 @end
 
 
@@ -31,6 +33,7 @@
     [self.exampleStatusView centerInRect:self.exampleView.bounds];
     
     [self.shapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
+    
     
     
 }
@@ -50,6 +53,14 @@
     return _userDefaults;
 }
 
+- (NSNotificationCenter *)notificationCenter
+{
+    if (!_notificationCenter) {
+        _notificationCenter = [NSNotificationCenter defaultCenter];
+    }
+    return _notificationCenter;
+}
+
 - (StatusView *)exampleStatusView
 {
     if (!_exampleStatusView) {
@@ -62,10 +73,7 @@
 
 - (IBAction)showWindow:(id)sender
 {
-    if (self.window.isVisible) {
-        [super showWindow:sender];
-        return;
-    }
+
     
     [self didPushReset:nil];
     
@@ -75,14 +83,21 @@
     [self.launchOnLoginButton          setState:[self.userDefaults boolForKey:StatusThingPreferenceLaunchOnLogin]];
     [self.staticPortNumberTextField    setEnabled:!self.useBonjourButton.state];
     [self.staticPortNumberTextField    setIntegerValue:[self.userDefaults integerForKey:StatusThingPreferencePortNumber]];
+    
+    // NSModalPaneWindowLevel forces the window up to the top if it's visible but buried
+    // check against isOccluded?
+    [self.window setLevel:NSModalPanelWindowLevel];
+    [self.window makeKeyAndOrderFront:sender];
+    [self.window setLevel:NSNormalWindowLevel];
 
-    [super showWindow:sender];
 }
 
 - (IBAction)toggleHideForeground:(NSButton *)sender
 {
     [self.exampleStatusView.foreground setHidden:sender.state];
 }
+
+
 
 - (IBAction)toggleHideBackground:(NSButton *)sender
 {
@@ -109,6 +124,10 @@
 {
     [self.userDefaults setBool:sender.state
                         forKey:StatusThingPreferenceAllowAnimations];
+    
+    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
+                                           object:nil];
+
 }
 
 - (IBAction)toggleUseBonjour:(NSButton *)sender
@@ -117,19 +136,28 @@
                         forKey:StatusThingPreferenceUseBonjour];
     [self.staticPortNumberTextField setEnabled:!sender.state];
 
+    if (sender.state) {
+        [self.notificationCenter postNotificationName:StatusThingNetworkConfigurationChangedNotification
+                                               object:nil];
+    }
+    
 }
 
 - (IBAction)portNumberUpdated:(NSTextField *)sender
 {
-    [self.userDefaults setInteger:sender.integerValue
-                           forKey:StatusThingPreferencePortNumber];
+    NSNumber *portNumber = [NSNumber numberWithUnsignedShort:sender.intValue];
+
+    [self.userDefaults setObject:portNumber
+                          forKey:StatusThingPreferencePortNumber];
+    
+    [self.notificationCenter postNotificationName:StatusThingNetworkConfigurationChangedNotification
+                                           object:nil];
 }
 
 - (IBAction)toggleLaunchOnLogin:(NSButton *)sender
 {
     [self.userDefaults setBool:sender.state
                         forKey:StatusThingPreferenceLaunchOnLogin];
-    
 }
 
 - (IBAction)foregroundColorSelected:(NSColorWell *)sender
@@ -155,6 +183,9 @@
 
     [self.userDefaults setObject:[self.exampleStatusView currentConfiguration]
                           forKey:StatusThingPreferenceStatusViewDictionary];
+    
+    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
+                                           object:nil];
 }
 
 - (IBAction)didPushReset:(NSButton *)sender
@@ -179,8 +210,8 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
+    NSLog(@"windowWillClose");
     [[NSColorPanel sharedColorPanel] close];
-
 }
 
 @end

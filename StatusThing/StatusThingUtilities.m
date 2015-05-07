@@ -10,27 +10,26 @@
 
 #pragma mark - Constants
 
-NSString *const StatusThingDomain                           = @"com.symbolicarmageddon.StatusThing";
+NSString *const StatusThingDomain                                  = @"com.symbolicarmageddon.StatusThing";
 
-NSString *const StatusThingDefaultPreferencesFile           = @"DefaultPreferences";
-NSString *const StatusThingPlistFileExtension               = @"plist";
+NSString *const StatusThingDefaultPreferencesFile                  = @"DefaultPreferences";
+NSString *const StatusThingPlistFileExtension                      = @"plist";
 
 // These are keys and _NOT_ key paths
-NSString *const StatusThingPreferenceLaunchOnLogin              = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
-NSString *const StatusThingPreferenceAllowRemoteConnections     = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
-NSString *const StatusThingPreferenceAllowAnimations            = @"com.symbolicarmageddon.StatusThing.allowAnimations";
-NSString *const StatusThingPreferenceUseBonjour                 = @"com.symbolicarmageddon.StatusThing.useBonjour";
-NSString *const StatusThingPreferencePortNumber                 = @"com.symbolicarmageddon.StatusThing.portNumber";
-NSString *const StatusThingPreferenceStatusViewDictionary       = @"com.symbolicarmageddon.StatusThing.statusView";
+NSString *const StatusThingPreferenceLaunchOnLogin                 = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
+NSString *const StatusThingPreferenceAllowRemoteConnections        = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
+NSString *const StatusThingPreferenceAllowAnimations               = @"com.symbolicarmageddon.StatusThing.allowAnimations";
+NSString *const StatusThingPreferenceUseBonjour                    = @"com.symbolicarmageddon.StatusThing.useBonjour";
+NSString *const StatusThingPreferencePortNumber                    = @"com.symbolicarmageddon.StatusThing.portNumber";
+NSString *const StatusThingPreferenceStatusViewDictionary          = @"com.symbolicarmageddon.StatusThing.statusView";
 
-NSString *const AppleInterfaceThemeChangedNotification          = @"AppleInterfaceThemeChangedNotification";
-NSString *const AppleInterfaceStyle                             = @"AppleInterfaceStyle";
-NSString *const AppleInterfaceStyleDark                         = @"dark";
+NSString *const AppleInterfaceThemeChangedNotification             = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                                = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                            = @"dark";
 
-NSString *const StatusThingPortNumberChangedNotification        = @"StatusThingPortNumberChangedNotification";
-NSString *const StatusThingAllowRemoteChangedNotification       = @"StatusThingAllowRemoteChangedNotification";
-NSString *const StatusThingUseBonjourChangedNotification        = @"StatusThingUseBonjourChangedNotification";
-NSString *const StatusThingIdleConfigurationChangedNotification = @"StatusThingIdleConfigurationChangedNotification";
+NSString *const StatusThingIdleConfigurationChangedNotification    = @"StatusThingIdleConfigurationChangedNotification";
+NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThingNetworkConfigurationChangedNotification";
+
 
 @implementation StatusThingUtilities
 

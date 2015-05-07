@@ -27,11 +27,9 @@ extern NSString *const AppleInterfaceStyle;
 extern NSString *const AppleInterfaceStyleDark;
 
 #pragma mark - StatusThing NSNotification Names
-extern NSString *const StatusThingPortNumberChangedNotification;
-extern NSString *const StatusThingAllowRemoteChangedNotification;
-extern NSString *const StatusThingUseBonjourChangedNotification;
-extern NSString *const StatusThingIdleConfigurationChangedNotification;
 
+extern NSString *const StatusThingIdleConfigurationChangedNotification;
+extern NSString *const StatusThingNetworkConfigurationChangedNotification;
 
 @interface StatusThingUtilities : NSObject
 

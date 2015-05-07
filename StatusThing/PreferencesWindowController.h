@@ -10,19 +10,19 @@
 #import "StatusView.h"
 
 @interface PreferencesWindowController : NSWindowController <NSWindowDelegate>
-@property (strong,nonatomic) StatusView           *exampleStatusView;
-@property (weak            ) IBOutlet NSView      *exampleView;
-@property (weak            ) IBOutlet NSComboBox  *shapeComboxBox;
-@property (weak            ) IBOutlet NSColorWell *foregroundColorWell;
-@property (weak            ) IBOutlet NSColorWell *backgroundColorWell;
-@property (weak            ) IBOutlet NSColorWell *textColorWell;
-@property (weak            ) IBOutlet NSButton    *foregroundHiddenButton;
-@property (weak            ) IBOutlet NSButton    *backgroundHiddenButton;
-@property (weak            ) IBOutlet NSButton    *textHiddenButton;
-@property (weak            ) IBOutlet NSButton    *allowRemoteConnectionsButton;
-@property (weak            ) IBOutlet NSButton    *allowAnimationsButton;
-@property (weak            ) IBOutlet NSButton    *useBonjourButton;
-@property (weak            ) IBOutlet NSTextField *staticPortNumberTextField;
-@property (weak            ) IBOutlet NSButton    *launchOnLoginButton;
+@property (strong,nonatomic  ) StatusView           *exampleStatusView;
+@property (strong            ) IBOutlet NSView      *exampleView;
+@property (strong            ) IBOutlet NSComboBox  *shapeComboxBox;
+@property (strong            ) IBOutlet NSColorWell *foregroundColorWell;
+@property (strong            ) IBOutlet NSColorWell *backgroundColorWell;
+@property (strong            ) IBOutlet NSColorWell *textColorWell;
+@property (strong            ) IBOutlet NSButton    *foregroundHiddenButton;
+@property (strong            ) IBOutlet NSButton    *backgroundHiddenButton;
+@property (strong            ) IBOutlet NSButton    *textHiddenButton;
+@property (strong            ) IBOutlet NSButton    *allowRemoteConnectionsButton;
+@property (strong            ) IBOutlet NSButton    *allowAnimationsButton;
+@property (strong            ) IBOutlet NSButton    *useBonjourButton;
+@property (strong            ) IBOutlet NSTextField *staticPortNumberTextField;
+@property (strong            ) IBOutlet NSButton    *launchOnLoginButton;
 
 @end

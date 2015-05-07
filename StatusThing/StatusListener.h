@@ -10,6 +10,12 @@
 
 @protocol StatusListenerDelegate <NSObject>
 
+extern NSString *const PeerKeyAddress;
+extern NSString *const PeerKeyPort;
+extern NSString *const PeerKeyTimestamp;
+extern NSString *const PeerKeyContent;
+
+
 @optional
 - (void)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
 
@@ -27,7 +33,7 @@
 @property (strong,nonatomic) NSString *helpText;
 @property (strong,nonatomic) NSDictionary *resetInfo;
 
-- (BOOL)start;
+- (void)start;
 - (void)stop;
 
 

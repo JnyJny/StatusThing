@@ -98,18 +98,12 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %hu";
                                 selector:@selector(resetToIdleAppearance:)
                                     name:StatusThingIdleConfigurationChangedNotification
                                   object:nil];
+    
     [self.notificationCenter addObserver:self
                                 selector:@selector(restartStatusListner:)
-                                    name:StatusThingAllowRemoteChangedNotification
+                                    name:StatusThingNetworkConfigurationChangedNotification
                                   object:nil];
-    [self.notificationCenter addObserver:self
-                                selector:@selector(restartStatusListner:)
-                                    name:StatusThingPortNumberChangedNotification
-                                  object:nil];
-    [self.notificationCenter addObserver:self
-                                selector:@selector(restartStatusListner:)
-                                    name:StatusThingUseBonjourChangedNotification
-                                  object:nil];
+
 }
 
 - (void)stop
@@ -135,7 +129,9 @@ static NSString *const PortMenuItemTitleFormat = @"     Listening On Port %hu";
 
 - (void)restartStatusListner:(NSNotification *)note
 {
-    [self stop];
+    
+    [self.notificationCenter removeObserver:self];
+    
     [self start];
 }
 
