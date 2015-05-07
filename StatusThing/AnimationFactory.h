@@ -20,9 +20,6 @@ extern NSString * const AnimationNameFlip;
 extern NSString * const AnimationNameFlipY;
 extern NSString * const AnimationNameFlipX;
 extern NSString * const AnimationNameWobble;
-extern NSString * const AnimationNameFlare;
-extern NSString * const AnimationNameShine;
-extern NSString * const AnimationNameTwinkle;
 extern NSString * const AnimationNameBlink;
 extern NSString * const AnimationNameEnbiggen;
 extern NSString * const AnimationNameStretch;
@@ -32,8 +29,6 @@ extern NSString * const AnimationNameStretch;
 @property (strong,nonatomic) NSDictionary *animations;
 
 - (BOOL)hasAnimationNamed:(NSString *)animationName;
-
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info;
 
 - (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name;
 

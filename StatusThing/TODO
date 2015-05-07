@@ -1,13 +1,10 @@
-BROKEN
-    message menu needs to be populated with something- <time> <peer> <json>
-    [fixed]JSON sourced dictionaries not distributed to StatusView
-
 README
-    update examples with new interactive prompts
+    update examples
     update screenshots
     screencast showing features
     s/symbol/text/
     document new animations
+    document filters
 
 Command line argument processing
     [done]store user specified options to NSUserDefaults
@@ -17,10 +14,10 @@ Command line argument processing
 StatusView
     add a tooltip on hover to show something: version, message, last JSON dictionary, connections
     range checking on user supplied symbol string
-    construct dictionary of current configuration on demand
+    [done]construct dictionary of current configuration on demand
+    [done-ish]keep shape if requested shape is bogus
     [partial fix]centering symbols within a shape automatically, masking/clipping?
     [fixed]statusItem.button blue highlight is being clipped, allowVibrancy=YES
-
     [done]Transition from NSBezierPath to CGPathRef pathes, remove dependency on NSBezierPath+BezierPathQuartzUtilties category
     [done]implement shapes as layers to help with animations
     [done]symbol toggle
@@ -29,13 +26,10 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 Shape Factory
-    fix square's angle to differentiate from diamond -> 90
-
+    [done]move path creation method from StatusView to Shape Factory
+    [done]fix square's angle to differentiate from diamond -> 90
 
 Animation Factory
-    shine
-    twinkle
-    lens flare
     morph between list of shapes
     Move animation dictionary to plist.
     Animation editor?
@@ -47,10 +41,18 @@ Animation Factory
     [done] STRETCH embiggen just the X-axis 
     [done] FLIP[X|Y]
 
+Filter Factory
+    did somebody request gratuitous image filters?  nope. doing it anyway.
+    add filters to: individual layers, base layer ( percolate down the hierarchy?)
+    shine
+    twinkle
+    lens flare
+    halo
 
 Interface builder
     put something in Credits.rtf
     [done]build menus with IB instead of programatically
+
 
 StatusViewArrayController
 StatusViewArray
@@ -72,9 +74,15 @@ statusItemMenu
     [working]About?
 
 Preference Pane - global
-    create a NSPreferencePane bundle
-    [done]position window at the center of the screen
+    animation chooser
+    filter chooser
     choose text string, font and fontSize
+    add lineWidth sliders
+    ApplicationPrivatePortNumber, doesn't send the port to userDefaults
+    connect NSPreferencePane to applicaition
+    populate NSPreferencePane bundle with controls
+    [done]create a NSPreferencePane bundle
+    [done]position window at the center of the screen
     [done]close shared color panel when preference window closes
     [done]change port on the fly
     [done]allow remote connections
@@ -93,6 +101,7 @@ StatusListener
     use HTTP, browsers are now clients ( new HTTPListener? )
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
+    extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary
     [done]support toggling using bonjour
     [done]Re-design to allow for on-the-fly port change (stop, get new socket, start)
@@ -108,9 +117,6 @@ StatusListener
 
 AppleScript
     provide support for AppleScript - ugh.
-
-NotificationCenter
-    [deferred]allow clients to generate Notifcations too?
 
 Icon
     It Needs One.
@@ -141,7 +147,8 @@ Update Checking Stuff
     Sparkle?
 
 Python Client Bindings
-    make them suck less
+
+    [progress]make them suck less
 
 Client Bindings
     python

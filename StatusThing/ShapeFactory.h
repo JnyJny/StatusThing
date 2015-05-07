@@ -39,11 +39,17 @@ extern NSString *const ShapeNameCircle;
 extern NSString *const ShapeNameRoundedSquare;
 
 #pragma mark -
+
+
+
 @interface ShapeFactory : NSObject
 
 @property (strong,nonatomic,readonly) NSDictionary *shapes;
 
 + (NSArray *)allShapes;
 - (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
+
+- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
+
 
 @end

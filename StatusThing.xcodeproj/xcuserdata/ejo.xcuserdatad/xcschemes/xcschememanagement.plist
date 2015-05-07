@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>StatusThingPreferencePane.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>1DAF8F821ADFFEE2009CE2BE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1DE88F041AFC0A3300FAF640</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -10,34 +10,35 @@
 #import "Geometry.h"
 
 #pragma mark - Shape Name Constants
-NSString *const ShapeNameNone          = @"None";
-NSString *const ShapeNameCircle        = @"Circle";
-NSString *const ShapeNameLine          = @"Line";
-NSString *const ShapeNameTriangle      = @"Triangle";
-NSString *const ShapeNameSquare        = @"Square";
-NSString *const ShapeNameDiamond       = @"Diamond";
-NSString *const ShapeNameRoundedSquare = @"Rounded Square";
-NSString *const ShapeNamePentagon      = @"Pentagon";
-NSString *const ShapeNameHexagon       = @"Hexagon";
-NSString *const ShapeNameSeptagon      = @"Septagon";
-NSString *const ShapeNameOctagon       = @"Octagon";
-NSString *const ShapeNameNonagon       = @"Nonagon";
-NSString *const ShapeNameDecagon       = @"Decagon";
-NSString *const ShapeNameEndecagon     = @"Endecagon";
-NSString *const ShapeNameTrigram       = @"Trigram";
-NSString *const ShapeNameQuadragram    = @"Quadragram";
-NSString *const ShapeNamePentagram     = @"Pentagram";
-NSString *const ShapeNameHexagram      = @"Hexagram";
-NSString *const ShapeNameSeptagram     = @"Septagram";
-NSString *const ShapeNameOctagram      = @"Octagram";
-NSString *const ShapeNameNonagram      = @"Nonagram";
-NSString *const ShapeNameDecagram      = @"Decagram";
-NSString *const ShapeNameEndecagram    = @"Endecagram";
+NSString *const ShapeNameNone             = @"None";
+NSString *const ShapeNameCircle           = @"Circle";
+NSString *const ShapeNameLine             = @"Line";
+NSString *const ShapeNameTriangle         = @"Triangle";
+NSString *const ShapeNameSquare           = @"Square";
+NSString *const ShapeNameDiamond          = @"Diamond";
+NSString *const ShapeNameRoundedSquare    = @"Rounded Square";
+NSString *const ShapeNameRoundedSquareAlt = @"RoundedSquare";
+NSString *const ShapeNamePentagon         = @"Pentagon";
+NSString *const ShapeNameHexagon          = @"Hexagon";
+NSString *const ShapeNameSeptagon         = @"Septagon";
+NSString *const ShapeNameOctagon          = @"Octagon";
+NSString *const ShapeNameNonagon          = @"Nonagon";
+NSString *const ShapeNameDecagon          = @"Decagon";
+NSString *const ShapeNameEndecagon        = @"Endecagon";
+NSString *const ShapeNameTrigram          = @"Trigram";
+NSString *const ShapeNameQuadragram       = @"Quadragram";
+NSString *const ShapeNamePentagram        = @"Pentagram";
+NSString *const ShapeNameHexagram         = @"Hexagram";
+NSString *const ShapeNameSeptagram        = @"Septagram";
+NSString *const ShapeNameOctagram         = @"Octagram";
+NSString *const ShapeNameNonagram         = @"Nonagram";
+NSString *const ShapeNameDecagram         = @"Decagram";
+NSString *const ShapeNameEndecagram       = @"Endecagram";
 
 #pragma mark - Private Constants
-static NSString *const ShapeKeySides   = @"sides";
-static NSString *const ShapeKeyConvex  = @"convex";
-static NSString *const ShapeKeyAngle   = @"angle";
+static NSString *const ShapeKeySides      = @"sides";
+static NSString *const ShapeKeyConvex     = @"convex";
+static NSString *const ShapeKeyAngle      = @"angle";
 
 @implementation ShapeFactory
 
@@ -158,6 +159,51 @@ static NSString *const ShapeKeyAngle   = @"angle";
                        rotatedBy:[[info valueForKey:ShapeKeyAngle] floatValue] + degrees];
 }
 
-
+- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect
+{
+    CGPathRef pathRef = nil;
+    
+    if ([shape caseInsensitiveCompare:ShapeNameNone] == NSOrderedSame) {
+        // draw nothing
+        return nil;
+    }
+    
+    if ([shape caseInsensitiveCompare:ShapeNameCircle] == NSOrderedSame) {
+        pathRef = CGPathCreateWithEllipseInRect(rect, nil);
+        return pathRef;
+    }
+    
+    if (([shape caseInsensitiveCompare:ShapeNameRoundedSquare] == NSOrderedSame) ||
+        ([shape caseInsensitiveCompare:ShapeNameRoundedSquareAlt] == NSOrderedSame) ) {
+        
+        // XXX magic constant 3
+        
+        pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
+        return pathRef;
+    }
+    
+    __block CGMutablePathRef mPathRef = CGPathCreateMutable();
+    
+    NSArray *points = [self pointsForShape:shape
+                            centeredInRect:rect
+                                 rotatedBy:0];
+    
+    if (!points) {
+        return nil;
+    }
+    
+    CGPathMoveToPoint(mPathRef, nil,
+                      [[points firstObject] pointValue].x,
+                      [[points firstObject] pointValue].y);
+    
+    
+    [points enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
+        CGPathAddLineToPoint(mPathRef, nil, [obj pointValue].x, [obj pointValue].y);
+    }];
+    
+    CGPathCloseSubpath(mPathRef);
+    
+    return mPathRef;
+}
 
 @end

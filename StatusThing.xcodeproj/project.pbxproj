@@ -25,6 +25,12 @@
 		1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BC11AF412F100127706 /* StatusThingUtilities.m */; };
 		1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */; };
 		1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DC62BD71AF5BEA600127706 /* Credits.rtf */; };
+		1DE88EFD1AFBB67700FAF640 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */; };
+		1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */ = {isa = PBXBuildFile; fileRef = 1DE88EFE1AFC07F900FAF640 /* statusthing.py */; };
+		1DE88F0A1AFC0A3300FAF640 /* StatusThingPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DE88F091AFC0A3300FAF640 /* StatusThingPreferencePane.h */; };
+		1DE88F0C1AFC0A3300FAF640 /* StatusThingPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE88F0B1AFC0A3300FAF640 /* StatusThingPreferencePane.m */; };
+		1DE88F0E1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1DE88F0D1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff */; };
+		1DE88F111AFC0A3300FAF640 /* StatusThingPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE88F0F1AFC0A3300FAF640 /* StatusThingPreferencePane.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +44,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D2C85F41AE748DA00761F49 /* thingstatus.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = thingstatus.py; sourceTree = "<group>"; };
 		1D2C85F91AE9890600761F49 /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
 		1D67956C1AF7CA1500E075D2 /* Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		1D6795701AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+HandleNSColor.h"; sourceTree = "<group>"; };
@@ -75,6 +80,15 @@
 		1DC62BD21AF5BBB700127706 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
 		1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
 		1DC62BD71AF5BEA600127706 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		1DE88EFB1AFBB67700FAF640 /* FilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterFactory.h; sourceTree = "<group>"; };
+		1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterFactory.m; sourceTree = "<group>"; };
+		1DE88EFE1AFC07F900FAF640 /* statusthing.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = statusthing.py; sourceTree = "<group>"; };
+		1DE88F051AFC0A3300FAF640 /* StatusThingPreferencePane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusThingPreferencePane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DE88F081AFC0A3300FAF640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DE88F091AFC0A3300FAF640 /* StatusThingPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusThingPreferencePane.h; sourceTree = "<group>"; };
+		1DE88F0B1AFC0A3300FAF640 /* StatusThingPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThingPreferencePane.m; sourceTree = "<group>"; };
+		1DE88F0D1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = StatusThingPreferencePane.tiff; sourceTree = "<group>"; };
+		1DE88F101AFC0A3300FAF640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatusThingPreferencePane.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +100,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1DAF8F801ADFFEE2009CE2BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DE88F011AFC0A3300FAF640 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -106,7 +127,7 @@
 		1D2C85F11AE748DA00761F49 /* Python */ = {
 			isa = PBXGroup;
 			children = (
-				1D2C85F41AE748DA00761F49 /* thingstatus.py */,
+				1DE88EFE1AFC07F900FAF640 /* statusthing.py */,
 			);
 			path = Python;
 			sourceTree = "<group>";
@@ -154,13 +175,8 @@
 		1D6DB4641AE3411700277C13 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1D67956C1AF7CA1500E075D2 /* Geometry.h */,
-				1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */,
-				1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */,
-				1DC62BBA1AF3CD6500127706 /* AnimationFactory.h */,
-				1DC62BBB1AF3CD6500127706 /* AnimationFactory.m */,
-				1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */,
-				1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */,
+				1DE88EF91AFBB64300FAF640 /* Drawing */,
+				1DE88EFA1AFBB65000FAF640 /* Networking */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -172,6 +188,7 @@
 				1D6DB45D1AE3308400277C13 /* Meta Data */,
 				1DAF8F721ADFFEE2009CE2BE /* StatusThing */,
 				1DAF8F861ADFFEE2009CE2BE /* StatusThingTests */,
+				1DE88F061AFC0A3300FAF640 /* StatusThingPreferencePane */,
 				1DAF8F711ADFFEE2009CE2BE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,6 +198,7 @@
 			children = (
 				1DAF8F701ADFFEE2009CE2BE /* StatusThing.app */,
 				1DAF8F831ADFFEE2009CE2BE /* StatusThingTests.xctest */,
+				1DE88F051AFC0A3300FAF640 /* StatusThingPreferencePane.prefPane */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -274,7 +292,61 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		1DE88EF91AFBB64300FAF640 /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				1D67956C1AF7CA1500E075D2 /* Geometry.h */,
+				1DB68CC81AF273A200BAC9FB /* ShapeFactory.h */,
+				1DB68CC91AF273A200BAC9FB /* ShapeFactory.m */,
+				1DC62BBA1AF3CD6500127706 /* AnimationFactory.h */,
+				1DC62BBB1AF3CD6500127706 /* AnimationFactory.m */,
+				1DE88EFB1AFBB67700FAF640 /* FilterFactory.h */,
+				1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */,
+			);
+			name = Drawing;
+			sourceTree = "<group>";
+		};
+		1DE88EFA1AFBB65000FAF640 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				1DAF8F9C1AE003D1009CE2BE /* StatusListener.h */,
+				1DAF8F9D1AE003D1009CE2BE /* StatusListener.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		1DE88F061AFC0A3300FAF640 /* StatusThingPreferencePane */ = {
+			isa = PBXGroup;
+			children = (
+				1DE88F091AFC0A3300FAF640 /* StatusThingPreferencePane.h */,
+				1DE88F0B1AFC0A3300FAF640 /* StatusThingPreferencePane.m */,
+				1DE88F0D1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff */,
+				1DE88F0F1AFC0A3300FAF640 /* StatusThingPreferencePane.xib */,
+				1DE88F071AFC0A3300FAF640 /* Supporting Files */,
+			);
+			path = StatusThingPreferencePane;
+			sourceTree = "<group>";
+		};
+		1DE88F071AFC0A3300FAF640 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1DE88F081AFC0A3300FAF640 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		1DE88F021AFC0A3300FAF640 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DE88F0A1AFC0A3300FAF640 /* StatusThingPreferencePane.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		1DAF8F6F1ADFFEE2009CE2BE /* StatusThing */ = {
@@ -312,6 +384,24 @@
 			productReference = 1DAF8F831ADFFEE2009CE2BE /* StatusThingTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		1DE88F041AFC0A3300FAF640 /* StatusThingPreferencePane */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DE88F121AFC0A3300FAF640 /* Build configuration list for PBXNativeTarget "StatusThingPreferencePane" */;
+			buildPhases = (
+				1DE88F001AFC0A3300FAF640 /* Sources */,
+				1DE88F011AFC0A3300FAF640 /* Frameworks */,
+				1DE88F021AFC0A3300FAF640 /* Headers */,
+				1DE88F031AFC0A3300FAF640 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StatusThingPreferencePane;
+			productName = StatusThingPreferencePane;
+			productReference = 1DE88F051AFC0A3300FAF640 /* StatusThingPreferencePane.prefPane */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -327,6 +417,9 @@
 					1DAF8F821ADFFEE2009CE2BE = {
 						CreatedOnToolsVersion = 6.3;
 						TestTargetID = 1DAF8F6F1ADFFEE2009CE2BE;
+					};
+					1DE88F041AFC0A3300FAF640 = {
+						CreatedOnToolsVersion = 6.3.1;
 					};
 				};
 			};
@@ -345,6 +438,7 @@
 			targets = (
 				1DAF8F6F1ADFFEE2009CE2BE /* StatusThing */,
 				1DAF8F821ADFFEE2009CE2BE /* StatusThingTests */,
+				1DE88F041AFC0A3300FAF640 /* StatusThingPreferencePane */,
 			);
 		};
 /* End PBXProject section */
@@ -356,6 +450,7 @@
 			files = (
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1D2C85FA1AE9890600761F49 /* DefaultPreferences.plist in Resources */,
+				1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */,
 				1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */,
 				1D7E26911AF171D000FA5E71 /* StatusThing.xib in Resources */,
 				1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */,
@@ -367,6 +462,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DE88F031AFC0A3300FAF640 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DE88F0E1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff in Resources */,
+				1DE88F111AFC0A3300FAF640 /* StatusThingPreferencePane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +489,7 @@
 				1DAF8F951ADFFF50009CE2BE /* StatusController.m in Sources */,
 				1DAF8F771ADFFEE2009CE2BE /* AppDelegate.m in Sources */,
 				1DAF8F9E1AE003D1009CE2BE /* StatusListener.m in Sources */,
+				1DE88EFD1AFBB67700FAF640 /* FilterFactory.m in Sources */,
 				1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */,
 				1DC62BBC1AF3CD6500127706 /* AnimationFactory.m in Sources */,
 				1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */,
@@ -399,6 +504,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1DE88F001AFC0A3300FAF640 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DE88F0C1AFC0A3300FAF640 /* StatusThingPreferencePane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -408,6 +521,17 @@
 			targetProxy = 1DAF8F841ADFFEE2009CE2BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1DE88F0F1AFC0A3300FAF640 /* StatusThingPreferencePane.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DE88F101AFC0A3300FAF640 /* Base */,
+			);
+			name = StatusThingPreferencePane.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1DAF8F8B1ADFFEE2009CE2BE /* Debug */ = {
@@ -547,6 +671,32 @@
 			};
 			name = Release;
 		};
+		1DE88F131AFC0A3300FAF640 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = StatusThingPreferencePane/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Debug;
+		};
+		1DE88F141AFC0A3300FAF640 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = StatusThingPreferencePane/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = prefPane;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -576,6 +726,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		1DE88F121AFC0A3300FAF640 /* Build configuration list for PBXNativeTarget "StatusThingPreferencePane" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DE88F131AFC0A3300FAF640 /* Debug */,
+				1DE88F141AFC0A3300FAF640 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -13,6 +13,7 @@
 #import "BlockUtilities.h"
 #import "ShapeFactory.h"
 #import "AnimationFactory.h"
+#import "FilterFactory.h"
 
 #pragma mark - String Constants
 
@@ -41,15 +42,19 @@ static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
 
+static CGFloat const StatusViewInsetDelta                      = 5.0;
+
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 @interface StatusView ()
 
 @property (strong,nonatomic) ShapeFactory         *shapeFactory;
 @property (strong,nonatomic) AnimationFactory     *animationFactory;
+@property (strong,nonatomic) FilterFactory        *filterFactory;
+@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
-@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
+
 
 @end
 
@@ -104,8 +109,10 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
     // XXX this will hinder per-layer shape assignments later on
+    // XXX better now that createShapePath:inRect has moved to shapeFactory
+    // 
     
-    CGPathRef path = [self createShapePath:self.shape inRect:self.insetRect];
+    CGPathRef path = [self.shapeFactory createShapePath:self.shape inRect:self.insetRect];
     
     if (path) {
         self.foreground.path = CGPathCreateCopy(path);
@@ -126,14 +133,22 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 #pragma mark - Event Handling
 
+// XXX not sure which looks better, let the animation run while
+//     the menu is popped down and stop when the user lets go.
+//     Or stop the animation immediately. 6 of one 12/2 of the other.
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
-
-
     // cancel animations here..
-    [self removeAllAnimations];
+    //[self removeAllAnimations];
 
     [super mouseDown:theEvent];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [self removeAllAnimations];
+    [super mouseUp:theEvent];
 }
 
 #pragma mark - Overridden Properties
@@ -145,9 +160,11 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 // XXX need to do some work here:
 //     switch to contrasting stroke color for UI dark mode
-//     and mouse down.
+//     and mouse down.  could apply a global image filter to
+//     invert color choices. may look... ugly. but worth trying.
 
 #pragma mark - Properties
+
 - (CAShapeLayer *)background
 {
     if (!_background) {
@@ -222,8 +239,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (CGRect)insetRect
 {
-    // XXX magic constant 3
-    return CGRectIntegral(CGRectInset(self.layer.bounds, 3, 3));
+    return CGRectIntegral(CGRectInset(self.layer.bounds,StatusViewInsetDelta,StatusViewInsetDelta));
 }
 
 
@@ -309,53 +325,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 #pragma mark - Methods
 
 
-- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
-{
-    CGPathRef pathRef = nil;
 
-    if ([shape caseInsensitiveCompare:ShapeNameNone] == NSOrderedSame) {
-        // draw nothing
-        self.foreground.path = nil;
-        self.background.path = nil;
- 
-        return nil;
-    }
-    
-    if ([shape caseInsensitiveCompare:ShapeNameCircle] == NSOrderedSame) {
-        pathRef = CGPathCreateWithEllipseInRect(rect, nil);
-        return pathRef;
-    }
-
-    if (([shape caseInsensitiveCompare:ShapeNameRoundedSquare] == NSOrderedSame) ||
-        ([shape caseInsensitiveCompare:@"roundedsquare"] == NSOrderedSame) ) {
-        pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
-        return pathRef;
-    }
-
-    __block CGMutablePathRef mPathRef = CGPathCreateMutable();
-        
-    NSArray *points = [self.shapeFactory pointsForShape:self.shape
-                                         centeredInRect:self.insetRect
-                                              rotatedBy:0];
-    
-    if (!points) {
-        return nil;
-    }
-    
-    
-    CGPathMoveToPoint(mPathRef, nil,
-                      [[points firstObject] pointValue].x,
-                      [[points firstObject] pointValue].y);
-
-    
-    [points enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
-        CGPathAddLineToPoint(mPathRef, nil, [obj pointValue].x, [obj pointValue].y);
-    }];
-
-    CGPathCloseSubpath(mPathRef);
-    
-    return mPathRef;
-}
 
 #pragma mark - Utility
 

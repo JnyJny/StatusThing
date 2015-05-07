@@ -8,6 +8,12 @@
 
 #import "NSColor+NamedColorUtilities.h"
 
+
+NSString *const RGBAColorComponentRed   = @"red";
+NSString *const RGBAColorComponentGreen = @"green";
+NSString *const RGBAColorComponentBlue  = @"blue";
+NSString *const RGBAColorComponentAlpha = @"alpha";
+
 @implementation NSColor (NamedColorUtilities)
 
 
@@ -55,10 +61,10 @@
     CGFloat blue = 0;
     CGFloat alpha = 1.0;
     
-    red = [[info valueForKey:@"red"] floatValue];
-    green = [[info valueForKey:@"green"] floatValue];
-    blue = [[info valueForKey:@"blue"] floatValue];
-    alpha = [[info valueForKey:@"alpha"] floatValue];
+    red = [[info valueForKey:RGBAColorComponentRed] floatValue];
+    green = [[info valueForKey:RGBAColorComponentGreen] floatValue];
+    blue = [[info valueForKey:RGBAColorComponentBlue] floatValue];
+    alpha = [[info valueForKey:RGBAColorComponentAlpha] floatValue];
     
     return [NSColor colorWithRed:Scale(red) green:Scale(green) blue:Scale(blue) alpha:Scale(alpha)];
 }
@@ -70,10 +76,31 @@
     
     [calibratedColor getRed:&red green:&green blue:&blue alpha:&alpha];
     
-    return @{ @"red":[NSNumber numberWithFloat:red],
-              @"green":[NSNumber numberWithFloat:green],
-              @"blue":[NSNumber numberWithFloat:blue],
-              @"alpha":[NSNumber numberWithFloat:alpha]};
+    return @{ RGBAColorComponentRed:[NSNumber numberWithFloat:red],
+              RGBAColorComponentGreen:[NSNumber numberWithFloat:green],
+              RGBAColorComponentBlue:[NSNumber numberWithFloat:blue],
+              RGBAColorComponentAlpha:[NSNumber numberWithFloat:alpha]};
+}
+
+
+
++ (NSColor *)colorForArray:(NSArray *)rgbaValues
+{
+    // what to do for values with counts of 0,1,2,3
+    
+    NSArray *cNames = @[RGBAColorComponentRed,
+                        RGBAColorComponentGreen,
+                        RGBAColorComponentBlue,
+                        RGBAColorComponentAlpha];
+    
+    NSDictionary *info = [NSDictionary dictionaryWithObjects:rgbaValues
+                                                     forKeys:cNames];
+
+    
+    return [NSColor colorForDictionary:info];
+    
+    
+    
 }
 
 @end

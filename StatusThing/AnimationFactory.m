@@ -22,13 +22,17 @@ NSString * const AnimationNameFlip     = @"flip";
 NSString * const AnimationNameFlipY    = @"flipy";
 NSString * const AnimationNameFlipX    = @"flipx";
 NSString * const AnimationNameWobble   = @"wobble";
-NSString * const AnimationNameFlare    = @"flare";
-NSString * const AnimationNameShine    = @"shine";
-NSString * const AnimationNameTwinkle  = @"twinkle";
 NSString * const AnimationNameBlink    = @"blink";
 NSString * const AnimationNameEnbiggen = @"enbiggen";
 NSString * const AnimationNameStretch  = @"stretch";
 
+NSString * const AnimationSpeedSlowest = @"slowest";
+NSString * const AnimationSpeedSlower  = @"slower";
+NSString * const AnimationSpeedSlow    = @"slower";
+NSString * const AnimationSpeedNormal  = @"slower";
+NSString * const AnimationSpeedFast    = @"fast";
+NSString * const AnimationSpeedFaster  = @"faster";
+NSString * const AnimationSpeedFastest = @"fastest";
 
 
 
@@ -94,13 +98,14 @@ NSString * const AKTimingFunction = @"timingfunction";
                                                   AKTimingFunction:kCAMediaTimingFunctionEaseOut,
                                                   AKAutoreverses:@YES,
                                                   AKByValue:@2},
+                         
                          AnimationNameEnbiggen: @{AKKeyPath:@"transform.scale",
                                                   AKDuration:@0.25,
                                                   AKFromValue:@1,
                                                   AKToValue:@3,
                                                   AKAutoreverses:@YES,
                                                   AKTimingFunction:kCAMediaTimingFunctionEaseIn},
-                         AnimationNameFlare   : @{},
+
                          AnimationNameFlip    : @{AKKeyPath:@"transform.rotation.x",
                                                   AKDuration:@0.25,
                                                   AKAutoreverses:@YES,
@@ -123,10 +128,6 @@ NSString * const AKTimingFunction = @"timingfunction";
                                                    AKAutoreverses:@YES,
                                                    AKFromValue:@1.0,
                                                    AKToValue:@4.0},
-
-
-                         AnimationNameShine   : @{},
-                         AnimationNameTwinkle : @{},
                          
                          AnimationNameBlink   : @{AKKeyPath:@"hidden",
                                                   AKFromValue:@YES,
@@ -148,18 +149,7 @@ NSString * const AKTimingFunction = @"timingfunction";
 }
 
 
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer  withKeyPath:(NSString *)keyPath usingDictionary:(NSDictionary *)info
-{
-    if (!info) {
-        return nil;
-    }
-    
-    __block CABasicAnimation *theAnimation = [[CABasicAnimation alloc] init];
-    
-    return theAnimation;
-}
-
-- (CABasicAnimation *)animationForName:(NSString *)name
+- (CABasicAnimation *)animationForName:(NSString *)name withDuration:(CGFloat)duration
 {
     NSDictionary *info = self.animations[name];
     CABasicAnimation *basic = nil;
@@ -168,7 +158,8 @@ NSString * const AKTimingFunction = @"timingfunction";
         
         basic.repeatCount = HUGE_VALF;
         basic.autoreverses = NO;
-        basic.duration = 0.5;
+
+        basic.duration = duration>0?duration:0.5;
         
         if (info[AKAutoreverses]) {
             basic.autoreverses = [info[AKAutoreverses] boolValue];
@@ -202,13 +193,11 @@ NSString * const AKTimingFunction = @"timingfunction";
 {
     name = [name lowercaseString];
     
-    CABasicAnimation *animation = [self animationForName:name];
+    CABasicAnimation *animation = [self animationForName:name withDuration:0];
     
     if (!animation) {
         return nil;
     }
-    
-
     
     if ([name isEqualToString:AnimationNameFlip]) {
         CATransform3D invertTransform = CATransform3DInvert(layer.transform);
