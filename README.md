@@ -24,7 +24,7 @@ Shapes include: circle, line, triangle, square, rounded square, diamond, pentago
 
 The cool thing about the *-gram figures is they are star shaped, and they look totally bad-ass when animated!
 
-### texts
+### Text
 
 Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? See the next section.
 
