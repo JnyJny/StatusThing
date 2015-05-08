@@ -2,42 +2,7 @@
 
 Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing is a network-addressable, JSON configurable icon that lives on your OS X status bar.
 
-<img src="Screenshots/ScreenShot0.png"/>
-
-```sh
-$ telnet localhost 12121
-Trying ::1...
-telnet: connect to address ::1: Connection refused
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is '^]'.
-Connected to StatusThing
-Feed Me JSON
-{"shape":"circle"}
-{"background":{"fill":"white"}}
-{"foreground":{"stroke":"black","lineWidth":2}}
-{"text":{"string":"\U018F","foreground":"black"}}
-^]
-telnet> q
-```
-
-<img src="Screenshots/ScreenShot1.png"/>
-
-```sh
-$ telnet localhost 12121
-Trying ::1...
-telnet: connect to address ::1: Connection refused
-Trying 127.0.0.1...
-Connected to localhost.
-Escape character is '^]'.
-Connected to StatusThing
-Feed Me JSON
-{"text":{"foreground":"banana"}}
-{"background":{"fill":{"red":1,"alpha"=1.}}}
-^]
-telnet> q
-```
-<img src="Screenshots/ScreenShot2.png"/>
+[![StatusThing Demo Video](https://raw.githubusercontent.com/JnyJny/StatusThing/3c651d63ab489cfa033c1eab795bbeae44c409e0/Screenshots/YTScreenshot.png)](https://youtu.be/W20Mf_87pbQ "StatusThing Demo Video")
 
 ## Features
 - Listens for client TCP connections (port 12121 by default)
