@@ -44,8 +44,6 @@ class StatusThingDemo(StatusThing):
                              ('indigo',ColorRGBA.colorForHexstring('#4B0082')),
                              ('violet',ColorRGBA.colorForHexstring('#EE82EE'))]
         return self._roygbiv
-                
-            
 
     def hidden(self,fg=None,bg=None,txt=None):
         self.foreground.hidden = fg
@@ -54,54 +52,55 @@ class StatusThingDemo(StatusThing):
         self.commit()
         self.clear()
 
-    def start(self,pause=1.75):
+    def start(self,aBeat=1.75):
         self.shape = 'circle'
         self.foreground.color = 'black'
-        self.foreground.lineWidth = 3
+        self.foreground.lineWidth = 2
         self.hidden(fg=False,bg=True,txt=True)
-        sleep(pause)
-        print(colorize("https://github.com/jnyjny/StatusThing",fg='white',bg='blue'))
-        sleep(pause)
+        sleep(aBeat)
+        print(colorize("https://github.com/JnyJny/StatusThing",fg='white',bg='blue'))
+        sleep(aBeat)
         self.foreground.blink = True
         self.commit()
         print("Hey, here I am. Up on the status bar.")
-        sleep(pause*3)
+        sleep(aBeat*3)
         self.foreground.blink = False
         self.foreground.hidden = True
         self.text.hidden = False
         self.text.font = 'Courier Bold'
+        self.text.fontSize = 14
         self.text.foreground = "black"
         self.text.string = "Hi"
         print("I am stupid excited to see you!")
         self.commit()
-        sleep(pause)
+        sleep(aBeat)
         self.text.enbiggen = True
         self.text.spin = True
         self.commit()
-        sleep(pause)
+        sleep(aBeat)
         self.text.enbiggen = False
         self.text.spin = False
         self.text.hidden = True
         self.foreground.hidden = False
         self.commit()
         print("I am StatusThing and I know lots of tricks.")
-        sleep(pause)
+        sleep(aBeat)
         print("For instance, I can change",colorize("shape,",'green'),len(self.shapes),'and counting.')
-
-        n = 0
-        for shape in self.shapes:
-            n += 1
-            end = '\n' if n % 7 == 0 else ''
+        for idx,shape in enumerate(self.shapes[1:]):
+            end = '\n' if idx and idx % 7 == 0 else ''
             comma = ', ' if self.shapes[-1] != shape else ''
-            print(shape.capitalize()+comma,end=end,flush=True)
+            print(shape.capitalize()+comma,end=end,flush=not end)
             self.shape = shape
             self.commit()
-            sleep(pause/2)
+            pause = aBeat/2. if idx < 7 else (aBeat * (1./(idx)))
+            sleep(pause)
+        sleep(aBeat)
         print("\nAs you can see, I am quite flexible.")
         self.shape = 'circle'
         self.commit()
-        print("I have",colorize("emotional",'cyan','red'),"intelligence too!")
-        sleep(pause)
+        sleep(aBeat*2)
+        print("I also have",colorize("emotional",'cyan','red'),"intelligence!")
+        sleep(aBeat)
         self.foreground.hidden = True
         self.background.hidden = False
         self.background.fill = 'clear'
@@ -109,79 +108,84 @@ class StatusThingDemo(StatusThing):
         for (name,color) in self.roygbiv:
             last = self.roygbiv[-1] == (name,color)
             comma = '' if last else ', '
-            print(colorize(name.capitalize(),name)+comma,end='\n' if last else '',flush=True)
+            print(name.capitalize()+comma,
+                  end='\n' if last else '',
+                  flush=not last)
             self.background.fill = color
             self.commit()
-            sleep(pause/2)
+            sleep(aBeat/2)
             
         self.foreground.fill = 'clear'
         self.foreground.hidden = False
         self.background.hidden = True
         self.commit()
         print("I know plenty of other colors, but I'm sure you are getting the idea.")
-        sleep(pause)
-        print("Something else I can do...")
-        sleep(pause)
+        sleep(aBeat)
+        print("Here's another fun thing I can do...")
+        sleep(aBeat)
         self.hidden(bg=True,fg=True,txt=False)
         self.text.foreground = 'black'
         self.text.fontSize = 18
         self.text.string = '?'
         self.commit()
-        sleep(pause)
+        sleep(aBeat)
         print("Display text!")
         self.text.string = '!'
         self.commit()
-        sleep(pause)
-        print("Unfortuantely I only have room for one or two characters.")
-        sleep(pause)
+        sleep(aBeat)
+        print("Unfortunately I only have room for one or two characters...")
+        sleep(aBeat)
         self.text.font = 'Apple Color Emoji'
         self.text.fontSize = 22
         print("So use unicode characters and make them",colorize("count!",'green'))
-        for emoji in ['😍','👻','🎵','🚀','🎥','📫','💣','➡️','⬇️','⬅️','⬆️',
-                      '💯','🔜','♨️','♻️','🌀','⎋','⌘','⌫','☎︎','℗','Ω','⨁','⨂','∳','✅' ]:
+        for idx,emoji in enumerate(['😍','👻','🎵','🎥','📫','💣','➡️','⬇️','⬅️','⬆️',
+                                    '💯','🔜','♨️','♻️','🌀','⎋','⌘','⌫','☎︎','℗',
+                                    'Ω','⨁','⨂','∳','✅','🚀' ]):
             self.text.string = emoji
             self.commit()
-            sleep(pause/4)
+            sleep(aBeat/(idx+1))
         self.text.spin = True
         self.commit()
         self.text.string = '\u018f'
         self.text.font = 'Courier Bold'
         self.commit()
-        sleep(pause/4)
+        sleep(aBeat/4)
         self.text.spin = False
         self.commit()
         print("Whoever thought up Unicode and emoji was",colorize('wicked smart!','blue','white'))
-        sleep(pause)
-        print('I have a couple more tricks to show you..')
-        sleep(pause)
+        sleep(aBeat*3)
+        print('I saved my best trick for last.')
+        sleep(aBeat)
         print('I can be very',colorize('animated','red','yellow'),'...')
+        sleep(aBeat/2)
         self.hidden(fg=False,bg=True,txt=True)
         self.shape = 'rounded square'
-        n = 0
-        for animation in self.foreground.animations:
-            n += 1
+        animations = self.foreground.animations
+        animations.remove('spincw')
+        animations.remove('flipx')
+        for idx,animation in enumerate(animations):
             last = self.foreground.animations[-1] == animation
             comma = '' if last else ', '
-            end = '\n' if last or (n % 7 == 0) else ''
+            end = '\n' if last or (idx and (idx % 7 == 0)) else ''
             setattr(self.foreground,animation,True)
             self.commit()
             print(animation+comma,end=end,flush=True)
-            sleep(pause*1.25)
+            sleep(aBeat*1.50)
             setattr(self.foreground,animation,False)
             self.commit()
-
+        print("Each of my three layers are individually animatiable.")
+        sleep(aBeat)
         print("To be honest",colorize('Jefe,','yellow'),"I have a plethora of options.")
-
         self.hidden(bg=False,fg=False,txt=True)
         self.background.throb = True
         self.background.fill = ColorRGBA(1,0,0,1)
         self.foreground.lineWidth = 2
         self.foreground.flipy = True
         self.commit()
-        sleep(pause*2)
+        sleep(aBeat*2)
         self.foreground.spinccw = True
         self.commit()
-        sleep(pause*2)
+        sleep(aBeat*2)
         self.foreground.spinccw = False
         self.foreground.spincw = True
         self.background.fill = 'green'
@@ -189,42 +193,44 @@ class StatusThingDemo(StatusThing):
         self.shape = 'pentagram'
         self.background.enbiggen = True
         self.commit()
-        sleep(pause*2)
-        print("Ok, things are getting out of hand!")
+        sleep(aBeat*2)
+        print("That was fun, but I'll dial it back a notch or two.")
         self.shape = "circle"
         self.foreground.spincw = False
         self.background.throb = False
         self.foreground.flipy = False
         self.background.enbiggen = False
         self.background.stretch = False
-        self.foreground.lineWidth = 3
+        self.foreground.lineWidth = 2
         self.commit()
-        sleep(pause*2)
-        print("Thanks for watching my demo! It was lots of fun.")
-        sleep(pause/2)
+        sleep(aBeat)
         print("I am StatusThing, and I am...")
-        sleep(pause/2)
+        sleep(aBeat/2)
         print(' - JSON configurable')
-        sleep(pause/2)
+        sleep(aBeat/2)
         print(' - Network addressable')
-        sleep(pause/2)
+        sleep(aBeat/2)
         print(' - Bonjour enabled')
-        sleep(pause/2)
+        sleep(aBeat/2)
         print(' - Animated')
-        sleep(pause/2)
+        sleep(aBeat/2)
         print(' -',colorize('Tons of Fun!!','green'))
-        sleep(pause)
-        print('Come visit my github page and download me today!')
-        sleep(pause)
+        sleep(aBeat)
+        print('Visit my github page and download me today!')
+        sleep(aBeat)
+        print('Give a visual voice to anything you can think of.')
+        sleep(aBeat)
         print('Thanks for watching!')
-        sleep(pause)
-        print(colorize("https://github.com/jnyjny/StatusThing",fg='white',bg='blue'))
-        sleep(pause*3)
-        print("PS. This demo was written using brand new python bindings.")
-        sleep(pause)
-        print("    I think they worked out nicely!")
-        sleep(pause)
-        print("See you later space cowboy!")
+        sleep(aBeat)
+        print(colorize("https://github.com/JnyJny/StatusThing",fg='white',bg='blue'))
+        sleep(aBeat*3)
+        print("PS. This demo was written using python bindings that build the")
+        sleep(aBeat/2)
+        print("    JSON dictionaries that describe the changes you saw in the video.")
+        sleep(aBeat/2)
+        print("    The demo and the bindings are also available on github.")
+        sleep(aBeat)
+        print("Be seeing you space cowboy!")
         print("EOF")
         self.hidden(bg=True,fg=False,txt=True)
         self.commit()
