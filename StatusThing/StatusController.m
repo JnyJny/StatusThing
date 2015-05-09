@@ -18,20 +18,24 @@
 static NSString *const StatusThingStatusView        = @"statusView";
 static NSString *const PortMenuItemTitleFormat      = @"     Listening On Port %hu";
 static NSString *const StatusThingHelpFile          = @"HelpText";
+static NSString *const StatusThingHelpFileExtension = @"";
 static NSString *const LocalHostIPv4                = @"127.0.0.1";
 static NSString *const LocalHostName                = @"localhost";
 static NSString *const LocalHostIPv6                = @"";
 
 #pragma mark - Public
-NSString * const ResponseTextNoMessage              = @"";
-NSString * const ResponseTextWelcome                = @"Connected to StatusThing\nFeed Me JSON\n> ";
-NSString * const ResponseTextGoodbye                = @"\nBe seeing you space cowboy!\n";
-NSString * const ResponseTextOk                     = @"Ok\n> ";
-NSString * const ResponseTextErrorFormat            = @"Err: %@\n> ";
-NSString * const ResponseTextNoHelpText             = @"Oops: NO HELP TEXT AVAILABLE.\n> ";
-NSString * const ResponseTextResetUnavilable        = @"Oops: reset is unavailable.\n> ";
-NSString * const ResponseTextDelegateError          = @"Oops: delegate error. Author sucks.\n> ";
-NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization returned something that was neither a dictionary nor an array: %@";
+
+NSString * const ResponseTextPrompt                    = @"\n> ";
+NSString * const ResponseTextNoMessage                 = @"";
+NSString * const ResponseTextWelcome                   = @"Connected to StatusThing\nFeed Me JSON";
+NSString * const ResponseTextGoodbye                   = @"\nBe seeing you space cowboy!\n";
+NSString * const ResponseTextOk                        = @"Ok";
+NSString * const ResponseTextErrorFormat               = @"Err: %@";
+NSString * const ResponseTextNoHelpText                = @"Oops: NO HELP TEXT AVAILABLE.";
+NSString * const ResponseTextResetUnavilable           = @"Oops: reset is unavailable.";
+NSString * const ResponseTextDelegateError             = @"Oops: delegate error. Author sucks.";
+NSString * const ResponseTextNotADictionary            = @"Err: You should send dictionaries.";
+NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is not available.";
 
 #pragma mark - Private Interface
 
@@ -120,7 +124,7 @@ NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization
     if (!_helpText) {
         NSError *error;
         NSString *helpTextPath = [[NSBundle mainBundle] pathForResource:StatusThingHelpFile
-                                                                 ofType:StatusThingPlistFileExtension];;
+                                                                 ofType:StatusThingHelpFileExtension];;
         _helpText = [NSString stringWithContentsOfFile:helpTextPath
                                               encoding:NSUTF8StringEncoding
                                                  error:&error];
@@ -152,7 +156,7 @@ NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization
                                   object:nil];
 
 }
-
+//
 - (void)stop
 {
     [self.notificationCenter removeObserver:self];
@@ -185,6 +189,24 @@ NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization
 
 #pragma mark - StatusListenerDelegate Methods
 
+
+- (NSData *)appendPromptTo:(id)text
+{
+    NSMutableData *data = [[NSMutableData alloc] init];
+    
+    if ([text isKindOfClass:NSString.class]) {
+        [data appendData:[text dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    if ([text isKindOfClass:NSData.class]) {
+        [data appendData:text];
+    }
+    
+    [data appendData:[ResponseTextPrompt dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    return data;
+}
+
 - (NSDictionary *)clientDidConnect:(NSDictionary *)request
 {
     if (!request) {
@@ -198,29 +220,33 @@ NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization
             ![remoteAddress isEqualToString:LocalHostName] ) {
             // XXX terse reply to keep from leaking info?
             return @{ ResponseKeyAction:ResponseActionDone,
-                      ResponseKeyText:ResponseTextNoMessage };
+                      ResponseKeyData:ResponseTextNoMessage };
             // NOTREACHED
         }
     }
     
     return @{ ResponseKeyAction:ResponseActionOk,
-              ResponseKeyText:ResponseTextWelcome };
+              ResponseKeyData:[self appendPromptTo:ResponseTextWelcome] };
 }
+
+
 
 - (NSDictionary *)processRequest:(NSDictionary *)request
 {
-    NSDictionary *response = nil;
-    NSData  *data = request[RequestKeyContent];
-    NSError *error;
-    char firstByte;
-    id obj;
+    NSDictionary   *response = nil;
+    NSData         *dataIn = request[RequestKeyContent];
+    NSData         *dataJSON;
+    NSInteger       jsonOptions = 0;
+    NSError        *error;
+    char            firstByte;
+    id              obj;
     
-    if(!data ||
-       data.length == 0) {
+    if(!dataIn ||
+       dataIn.length == 0) {
         firstByte = 'q';
     }
 
-    [data getBytes:&firstByte length:sizeof(firstByte)];
+    [dataIn getBytes:&firstByte length:sizeof(firstByte)];
     
     switch (firstByte) {
         case 0x4:
@@ -229,44 +255,70 @@ NSString * const ResponseTextUnknownContainerFormat = @"Err: NSJSONSerialization
         case 'Q':
             // quit
             response = @{ ResponseKeyAction:ResponseActionDone,
-                          ResponseKeyText:ResponseTextNoMessage };
+                          ResponseKeyData:[self appendPromptTo:ResponseTextNoMessage]};
             break;
-            
-        case 'g':
+
         case 'G':
+            jsonOptions = NSJSONWritingPrettyPrinted;
+        case 'g':
             // get configuration
+
+            // check prefs to see if it's allowed
+            
+            obj = [self.statusView currentConfiguration];
+            
+            if (![NSJSONSerialization isValidJSONObject:obj]) {
+                response = @{ ResponseKeyAction:ResponseActionOk,
+                              ResponseKeyData:[self appendPromptTo:ResponseTextConfigurationNotAvailable] };
+                break;
+            }
+            
+            dataJSON = [NSJSONSerialization dataWithJSONObject:obj
+                                                       options:jsonOptions
+                                                         error:&error];
+            
+            if (error) {
+                response = @{ ResponseKeyAction:ResponseActionOk,
+                              ResponseKeyData:[self appendPromptTo:error.localizedFailureReason] };
+                break;
+                // NOTREACHED
+            }
+            
+            // ok now we have data and not a string.
+            response = @{ ResponseKeyAction:ResponseActionOk,
+                          ResponseKeyData:[self appendPromptTo:dataJSON] };
             break;
         case 'h':
         case 'H':
             // send help
-            response = @{ ResponseKeyAction:ResponseActionDone,
-                          ResponseKeyText:self.helpText };
+            response = @{ ResponseKeyAction:ResponseActionOk,
+                          ResponseKeyData:[self appendPromptTo:self.helpText] };
             break;
         case 'r':
         case 'R':
             // reset to idle
             break;
         default:
-            obj = [NSJSONSerialization JSONObjectWithData:data
+            obj = [NSJSONSerialization JSONObjectWithData:dataIn
                                                   options:0
                                                     error:&error];
             
             if (error) {
                 NSString *errorText = [NSString stringWithFormat:ResponseTextErrorFormat,error.localizedFailureReason];
                 response = @{ ResponseKeyAction:ResponseActionOk,
-                              ResponseKeyText:errorText };
+                              ResponseKeyData:[self appendPromptTo:errorText] };
                 break;
+                // NOTREACHED
             }
             
             if ([obj isKindOfClass:NSDictionary.class]) {
                 [self.statusView updateWithDictionary:obj];
                 response= @{ ResponseKeyAction:ResponseActionOk,
-                             ResponseKeyText:ResponseTextOk };
+                             ResponseKeyData:[self appendPromptTo:ResponseTextOk] };
             }
             else {
-                // another error case
                 response = @{ ResponseKeyAction:ResponseActionOk,
-                              ResponseKeyText:@"unknown error. Sorry.\n> " };
+                              ResponseKeyData:[self appendPromptTo:ResponseTextNotADictionary] };
             }
             
             break;

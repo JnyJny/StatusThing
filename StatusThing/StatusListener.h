@@ -16,9 +16,10 @@ extern NSString *const RequestKeyTimestamp;
 extern NSString *const RequestKeyContent;
 
 extern NSString *const ResponseKeyAction;
-extern NSString *const ResponseKeyText;
+extern NSString *const ResponseKeyData;
 extern NSString *const ResponseActionOk;
 extern NSString *const ResponseActionDone;
+
 
 @optional
 - (NSDictionary *)processRequest:(NSDictionary *)request;  // preferred
@@ -27,6 +28,7 @@ extern NSString *const ResponseActionDone;
 // these methods go
 - (NSDictionary *)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
 - (NSDictionary *)handleOutOfBandRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
+
 - (void)updateWithDictionary:(NSDictionary *)info;
 - (void)updateWithArray:(NSArray *)list;
 

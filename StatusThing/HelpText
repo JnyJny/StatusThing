@@ -4,6 +4,8 @@ See https://github.com/JnyJny/StatusThing
 
 Commands:
 q|Q   - quit  : ask the server to terminate this connection
+g     - get   : ask the server for it's current configuration
+G     - get   : ask the server for it's current configuration, pretty printed
 r|R   - reset : reset the StatusThing to default values
 h|H|? - help  : this help
 
@@ -33,7 +35,7 @@ Text Layer Dictionary:
  "fontSize"    :float,
  "foreground"  :color,
  "hidden"      :0|1",
-animation-name:0|1 }
+ animation-name:0|1 }
 
 Strings matching "\[uU][0-9a-fA-F]+" can be used to specify a
 Unicode character. Note that not all fonts implement all characters.
@@ -51,5 +53,3 @@ Multiple animations can be specified in dictionaries for any layer.
 Animation entries consist of a name and boolean pair.
 Valid animation names are; spin, spincw, spinccw, throb, bounce,
 shake, flip, flipy, flipx, wobble, blink, enbiggen, stretch.
-
-> 

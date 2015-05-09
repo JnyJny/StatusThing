@@ -11,6 +11,7 @@
 #import "StatusListener.h"
 #import "StatusView.h"
 
+// XXX these probably don't need to be visible outside this module
 extern NSString * const ResponseTextNoMessage;
 extern NSString * const ResponseTextWelcome;
 extern NSString * const ResponseTextGoodbye;

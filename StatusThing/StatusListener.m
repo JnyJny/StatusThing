@@ -25,7 +25,8 @@ NSString *const RequestKeyTimestamp = @"timestamp";
 NSString *const RequestKeyContent   = @"content";
 
 NSString *const ResponseKeyAction   = @"action";
-NSString *const ResponseKeyText     = @"text";
+NSString *const ResponseKeyData     = @"data";
+NSString *const ResponseKeyPrompt   = @"prompt";
 
 NSString *const ResponseActionError = @"error";
 NSString *const ResponseActionOk    = @"ok";
@@ -206,8 +207,26 @@ NSString *const ResponseActionDone  = @"done";
         // NOTREACHED
     }
     
-    if ( response[ResponseKeyText] ) {
-        [connected writeData:[response[ResponseKeyText] dataUsingEncoding:NSUTF8StringEncoding]];
+    if ( response[ResponseKeyData] ) {
+        
+        BOOL handled = NO;
+        
+        if ( [response[ResponseKeyData] isKindOfClass:NSData.class] ) {
+            [connected writeData:response[ResponseKeyData]];
+            handled = YES;
+        }
+        
+        if ( !handled && [response[ResponseKeyData] isKindOfClass:NSString.class] ) {
+            [connected writeData:[response[ResponseKeyData] dataUsingEncoding:NSUTF8StringEncoding]];
+            handled = YES;
+        }
+        
+        if (!handled) {
+            // XXX if delegate sends something other than NSString or NSData in ResponseKeyData
+            //     may be we should shutdown? at least make an error noise
+            NSLog(@"StatusListener.handleNewConnection: delegate ResponseKeyData = %@",
+                  response[ResponseKeyData]);
+        }
     }
     
     [connected readInBackgroundAndNotify];
@@ -258,7 +277,7 @@ NSString *const ResponseActionDone  = @"done";
 - (void)informDelegate:(NSNotification *)note
 {
     NSFileHandle *connected = [note object];
-    NSData       *data      = [[note userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSData       *dataIn    = [[note userInfo] objectForKey:NSFileHandleNotificationDataItem];
     NSDictionary *request;
     NSDictionary *response;
     
@@ -269,12 +288,20 @@ NSString *const ResponseActionDone  = @"done";
         // NOTREACHED
     }
     
-    request = [self peerInfoForFileHandle:connected withContent:data];
+    request = [self peerInfoForFileHandle:connected withContent:dataIn];
     
     response = [self.delegate performSelector:@selector(processRequest:) withObject:request];
     
-    if (response && response[ResponseKeyText]) {
-        [connected writeData:[response[ResponseKeyText] dataUsingEncoding:NSUTF8StringEncoding]];
+    if (response) {
+        
+        if (response[ResponseKeyData]) {
+            if ([response[ResponseKeyData] isKindOfClass:NSString.class]) {
+                [connected writeData:[response[ResponseKeyData] dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+            if ([response[ResponseKeyData] isKindOfClass:NSData.class]) {
+                [connected writeData:response[ResponseKeyData]];
+            }
+        }
     }
     else {
         // No news is good news?
@@ -289,99 +316,6 @@ NSString *const ResponseActionDone  = @"done";
     [[note object] readInBackgroundAndNotify];
 }
 
-#if 0
 
-- (void)sendDataToDelegate:(NSNotification *)note
-{
-    NSFileHandle *connected = [note object];
-    NSData *data = [[note userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    NSString *response;
-    NSError *error;
-    char c;
-    id obj;
-
-    // XXX this method is too complex to be in StatusListner; move to StatusController or
-    //     new delegate object.
-    
-    if (data.length)
-        [data getBytes:&c length:sizeof(c)];
-    else {
-        c = 'q';
-    }
-    
-
-    switch (c) {
-        case 0x4:
-        case 'q':
-        case 'Q':
-            // q|Q|ctl-D|zero length read - tell the client goodbye and hang up
-            [connected writeData:[StatusThingResponseGoodbye dataUsingEncoding:NSUTF8StringEncoding]];
-            [self.noteCenter removeObserver:self
-                                       name:NSFileHandleReadCompletionNotification
-                                     object:connected];
-            [connected closeFile];
-            return;
-            // NOTREACHED
-            
-        case 'h':
-        case 'H':
-        case '?':
-            response = self.helpText;
-            break;
-            
-        case 'r':
-        case 'R':
-            if ( self.resetInfo ) {
-                [self.delegate performSelector:@selector(processRequest:fromClient:)
-                                    withObject:self.resetInfo
-                                    withObject:[self peerInfoForFileHandle:connected withContent:nil]];
-            }
-            response = self.resetInfo?StatusThingResponseOk:StatusThingResponseResetUnavilable;
-            break;
-            
-        default:
-            
-            if (!self.delegate) {
-                response = StatusThingResponseDelegateError;
-                break;
-            }
-            
-            obj = [NSJSONSerialization JSONObjectWithData:data
-                                                  options:0
-                                                    error:&error];
-            
-
-            if (!obj) {
-                response = [NSString stringWithFormat:StatusThingResponseErrorFormat,error.localizedFailureReason];
-                break;
-            }
-            
-            if ([obj isKindOfClass:[NSDictionary class]]){
-                
-                [self.delegate performSelector:@selector(processRequest:fromClient:)
-                                    withObject:obj
-                                    withObject:[self peerInfoForFileHandle:connected withContent:data]];
-                
-                response = StatusThingResponseOk;
-                break;
-            }
-            
-            if ([obj isKindOfClass:[NSArray class]]) {
-                [self.delegate performSelector:@selector(updateWithArray:)
-                                    withObject:obj];
-                response = StatusThingResponseOk;
-                break;
-            }
-            
-            
-            response = [NSString stringWithFormat:StatusThingResponseUnknownContainerFormat,[obj class]];
-            break;
-    }
-    
-    [connected writeData:[response dataUsingEncoding:NSUTF8StringEncoding]];
-
-    [[note object] readInBackgroundAndNotify];
-}
-#endif
 
 @end
