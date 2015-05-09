@@ -10,15 +10,23 @@
 
 @protocol StatusListenerDelegate <NSObject>
 
-extern NSString *const PeerKeyAddress;
-extern NSString *const PeerKeyPort;
-extern NSString *const PeerKeyTimestamp;
-extern NSString *const PeerKeyContent;
+extern NSString *const RequestKeyAddress;
+extern NSString *const RequestKeyPort;
+extern NSString *const RequestKeyTimestamp;
+extern NSString *const RequestKeyContent;
 
+extern NSString *const ResponseKeyAction;
+extern NSString *const ResponseKeyText;
+extern NSString *const ResponseActionOk;
+extern NSString *const ResponseActionDone;
 
 @optional
-- (void)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
+- (NSDictionary *)processRequest:(NSDictionary *)request;  // preferred
+- (NSDictionary *)clientDidConnect:(NSDictionary *)info;
 
+// these methods go
+- (NSDictionary *)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
+- (NSDictionary *)handleOutOfBandRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
 - (void)updateWithDictionary:(NSDictionary *)info;
 - (void)updateWithArray:(NSArray *)list;
 
@@ -30,7 +38,7 @@ extern NSString *const PeerKeyContent;
    
 @property (assign,nonatomic) unsigned short port;
 
-@property (strong,nonatomic) NSString *helpText;
+// this property goes
 @property (strong,nonatomic) NSDictionary *resetInfo;
 
 - (void)start;

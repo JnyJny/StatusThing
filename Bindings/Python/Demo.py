@@ -52,7 +52,17 @@ class StatusThingDemo(StatusThing):
         self.commit()
         self.clear()
 
-    def start(self,aBeat=1.75):
+    # rework in to an array of sections
+    #
+    # encapsulate sections into DemoSection objects
+    # call in sequence
+    #
+
+    def start(self,aBeat=1.75,sections=None):
+
+        # for section in sections
+        #    section.play(aBeat)
+        
         self.shape = 'circle'
         self.foreground.color = 'black'
         self.foreground.lineWidth = 2

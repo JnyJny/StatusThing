@@ -11,6 +11,16 @@
 #import "StatusListener.h"
 #import "StatusView.h"
 
+extern NSString * const ResponseTextNoMessage;
+extern NSString * const ResponseTextWelcome;
+extern NSString * const ResponseTextGoodbye;
+extern NSString * const ResponseTextOk;
+extern NSString * const ResponseTextErrorFormat;
+extern NSString * const ResponseTextNoHelpText;
+extern NSString * const ResponseTextResetUnavilable;
+extern NSString * const ResponseTextDelegateError;
+extern NSString * const ResponseTextUnknownContainerFormat;
+
 @interface StatusController : NSObject <StatusListenerDelegate>
 
 @property (strong,nonatomic) NSStatusItem        *statusItem;

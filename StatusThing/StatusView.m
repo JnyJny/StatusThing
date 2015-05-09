@@ -35,6 +35,8 @@ static NSString * const CATextLayerPropertyNameBackgroundColor = @"background";
 static NSString * const CATextLayerPropertyNameFont            = @"font";
 static NSString * const CATextLayerPropertyNameFontSize        = @"fontSize";
 
+static NSString * const CALayerPropertySynonymColor            = @"color";
+
 static NSString * const BackgroundLayerName                    = @"BackgroundLayer";
 static NSString * const ForegroundLayerName                    = @"ForegroundLayer";
 static NSString * const TextLayerName                          = @"TextLayer";
@@ -253,6 +255,19 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+            
+            if ([key isEqualToString:CALayerPropertySynonymColor]) {
+
+                if ([target.name isEqualToString:BackgroundLayerName]) {
+                    target.fillColor = [NSColor colorForObject:obj].CGColor;
+                }
+                
+                if ([target.name isEqualToString:ForegroundLayerName]) {
+                    target.strokeColor = [NSColor colorForObject:obj].CGColor;
+                }
+                
+            }
+            
             if ([key isEqualToString:CAShapeLayerPropertyNameFillColor]) {
                 target.fillColor = [NSColor colorForObject:obj].CGColor;
             }
@@ -290,7 +305,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
                 target.string = obj;
                 [target setNeedsLayout];
             }
-            if ([key isEqualToString:CATextLayerPropertyNameForegroundColor]) {
+            if ([key isEqualToString:CATextLayerPropertyNameForegroundColor] ||
+                [key isEqualToString:CALayerPropertySynonymColor] ) {
                 target.foregroundColor = [NSColor colorForObject:obj].CGColor;
             }
             if ([key isEqualToString:CATextLayerPropertyNameBackgroundColor]) {

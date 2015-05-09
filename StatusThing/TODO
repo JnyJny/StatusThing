@@ -1,8 +1,8 @@
 README
     update examples
     update screenshots
-    screencast showing features
-    s/symbol/text/
+    [done!]screencast showing features
+    [done]s/symbol/text/
     document new animations
     document filters
 
@@ -12,8 +12,13 @@ Command line argument processing
     [done]specify starting shape|colors|symbol|animation, see Preferences.plist
 
 StatusView
-    add a tooltip on hover to show something: version, message, last JSON dictionary, connections
+    specify size of icon: large ( 22x22) or small
+    rotation bounding boxes to reduce clipping on layers on animation
+    add a tooltip on hover to show something last update peer and message
     range checking on user supplied symbol string
+    [done]make "color" a synonym for "fill" on background layer
+    [done]make "color" a synonym for "stroke" on foreground layer
+    [done]make "color" a synonym for "foreground" on text layer
     [done]construct dictionary of current configuration on demand
     [done-ish]keep shape if requested shape is bogus
     [partial fix]centering symbols within a shape automatically, masking/clipping?
@@ -33,6 +38,8 @@ Animation Factory
     morph between list of shapes
     Move animation dictionary to plist.
     Animation editor?
+    coarse grained duration control: slow,normal,fast
+    winkx, winky
     [done] THROB intensity throb - animate opacity
     [done] SPIN rotate shape
     [done] WOBBLE wobble, back and forth partial rotations ( < 45 degrees)
@@ -53,13 +60,16 @@ Interface builder
     put something in Credits.rtf
     [done]build menus with IB instead of programatically
 
+Notifications
+    Instead of a history menu item ("Messages") let Notifications keep a record of stuff.
+    Save history to a CSV?
 
 StatusViewArrayController
 StatusViewArray
 
 Error Handling
     Fail when unable to bind the given port
-    Send error notices back to clients when JSON doesn't work out
+    [done]Send error notices back to clients when JSON doesn't work out
 
 JSON dispatch object
     [fixed]Take the smarts out of the various Status* objects
@@ -101,7 +111,8 @@ StatusListener
     use HTTP, browsers are now clients ( new HTTPListener? )
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
-    extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
+    [done]move controlling logic to StatusController where it belongs
+    [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary
     [done]support toggling using bonjour
     [done]Re-design to allow for on-the-fly port change (stop, get new socket, start)

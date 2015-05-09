@@ -14,22 +14,24 @@
 
 #pragma mark - Constants
 
-static NSString * const StatusThingHelpFile                       = @"HelpText";
+
 static NSString * const StatusThingBonjourType                    = @"_statusthing._tcp.";
 
-static NSString * const StatusThingResponseWelcome                = @"Connected to StatusThing\nFeed Me JSON\n> ";
-static NSString * const StatusThingResponseGoodbye                = @"\nBe seeing you space cowboy!\n";
-static NSString * const StatusThingResponseOk                     = @"Ok\n> ";
-static NSString * const StatusThingResponseErrorFormat            = @"Err: %@\n> ";
-static NSString * const StatusThingResponseNoHelpText             = @"Oops: NO HELP TEXT AVAILABLE.\n> ";
-static NSString * const StatusThingResponseResetUnavilable        = @"Oops: reset is unavailable.\n> ";
-static NSString * const StatusThingResponseDelegateError          = @"Oops: delegate error. Author sucks.\n> ";
-static NSString * const StatusThingResponseUnknownContainerFormat = @"Err: NSJSONSerialization returned something that was neither a dictionary nor an array: %@";
+// moves to StatusController
 
-NSString *const PeerKeyAddress   = @"peerAddress";
-NSString *const PeerKeyPort      = @"peerPort";
-NSString *const PeerKeyTimestamp = @"timestamp";
-NSString *const PeerKeyContent   = @"content";
+NSString *const RequestKeyAddress   = @"address";
+NSString *const RequestKeyPort      = @"port";
+NSString *const RequestKeyTimestamp = @"timestamp";
+NSString *const RequestKeyContent   = @"content";
+
+NSString *const ResponseKeyAction   = @"action";
+NSString *const ResponseKeyText     = @"text";
+
+NSString *const ResponseActionError = @"error";
+NSString *const ResponseActionOk    = @"ok";
+NSString *const ResponseActionDone  = @"done";
+
+
 
 @interface StatusListener()
 
@@ -82,19 +84,6 @@ NSString *const PeerKeyContent   = @"content";
     [self.userDefaults setObject:[NSNumber numberWithUnsignedShort:port]
                           forKey:StatusThingPreferencePortNumber];
 }
-
-- (NSString *)helpText
-{
-    if (!_helpText) {
-        _helpText = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:StatusThingHelpFile ofType:@""]
-                                              encoding:NSUTF8StringEncoding
-                                                 error:nil];
-        if (!_helpText)
-            _helpText = StatusThingResponseNoHelpText;
-    }
-    return _helpText;
-}
-
 
 
 #pragma mark - Private Properties
@@ -196,26 +185,37 @@ NSString *const PeerKeyContent   = @"content";
 - (void)handleNewConnection:(NSNotification *)note
 {
     NSFileHandle *connected = [note.userInfo objectForKey:NSFileHandleNotificationFileHandleItem];
+    NSDictionary *response = nil;
     
-    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]) {
-        NSDictionary *info = [self peerInfoForFileHandle:connected withContent:nil];
-        if (![@"127.0.0.1" isEqualToString:info[PeerKeyAddress]]) {
-            NSLog(@"connection from remote client denied: %@",info);
-            [connected closeFile];
-            [self.listening acceptConnectionInBackgroundAndNotify];
-            return;
-        }
+    if (!self.delegate) {
+        [self shutdownFileHandle:connected];
+        [self.listening acceptConnectionInBackgroundAndNotify];
+        return;
+        //NOTREACHED
     }
     
-    
-    [self.noteCenter addObserver:self
-                        selector:@selector(sendDataToDelegate:)
-                            name:NSFileHandleReadCompletionNotification
-                          object:connected];
+    response = [self.delegate performSelector:@selector(clientDidConnect:)
+                                   withObject:[self peerInfoForFileHandle:connected
+                                                              withContent:nil]];
 
-    [connected writeData:[StatusThingResponseWelcome dataUsingEncoding:NSUTF8StringEncoding]];
+    if (!response ||
+        ([ResponseActionDone caseInsensitiveCompare:response[ResponseKeyAction]] == NSOrderedSame) ) {
+        [self shutdownFileHandle:connected];
+        [self.listening acceptConnectionInBackgroundAndNotify];
+        return;
+        // NOTREACHED
+    }
+    
+    if ( response[ResponseKeyText] ) {
+        [connected writeData:[response[ResponseKeyText] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
     
     [connected readInBackgroundAndNotify];
+    
+    [self.noteCenter addObserver:self
+                        selector:@selector(informDelegate:)
+                            name:NSFileHandleReadCompletionNotification
+                          object:connected];
     
     [self.listening acceptConnectionInBackgroundAndNotify];
 }
@@ -223,26 +223,73 @@ NSString *const PeerKeyContent   = @"content";
 
 #pragma mark - Delegate Interaction
 
-
-
-
 - (NSDictionary *)peerInfoForFileHandle:(NSFileHandle*)fileHandle withContent:(NSData *)optionalContent
 {
     struct sockaddr_in ip4;
     socklen_t ip4len = sizeof(ip4);
-    NSString *content = @"";
+    NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
     
+    // XXX error checking on return value of getpeername
     getpeername(fileHandle.fileDescriptor, (struct sockaddr *)&ip4,&ip4len);
     
+    info[RequestKeyAddress]   = [NSString stringWithCString:inet_ntoa(ip4.sin_addr)
+                                                   encoding:NSUTF8StringEncoding];
+    info[RequestKeyPort]      = [NSNumber numberWithUnsignedShort:ntohs(ip4.sin_port)];
+    info[RequestKeyTimestamp] = [NSDate date];
+    
     if (optionalContent) {
-        content = [[NSString alloc] initWithData:optionalContent encoding:NSUTF8StringEncoding];
+        info[RequestKeyContent] = optionalContent;
+    }
+    
+    return info;
+}
+
+- (void)shutdownFileHandle:(NSFileHandle *)fileHandle
+{
+    [self.noteCenter removeObserver:self
+                               name:NSFileHandleReadCompletionNotification
+                             object:fileHandle];
+    [fileHandle closeFile];
+}
+
+
+
+
+- (void)informDelegate:(NSNotification *)note
+{
+    NSFileHandle *connected = [note object];
+    NSData       *data      = [[note userInfo] objectForKey:NSFileHandleNotificationDataItem];
+    NSDictionary *request;
+    NSDictionary *response;
+    
+    if (!self.delegate) {
+        // kill the connection, there is nobody to talk to on our side.
+        [self shutdownFileHandle:connected];
+        return;
+        // NOTREACHED
+    }
+    
+    request = [self peerInfoForFileHandle:connected withContent:data];
+    
+    response = [self.delegate performSelector:@selector(processRequest:) withObject:request];
+    
+    if (response && response[ResponseKeyText]) {
+        [connected writeData:[response[ResponseKeyText] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    else {
+        // No news is good news?
+    }
+    
+    if ([response[ResponseKeyAction] isEqualToString:ResponseActionDone]) {
+        [self shutdownFileHandle:connected];
+        return;
+        // NOTREACHED
     }
 
-    return @{ PeerKeyAddress:[NSString stringWithCString:inet_ntoa(ip4.sin_addr) encoding:NSUTF8StringEncoding],
-              PeerKeyPort:[NSNumber numberWithUnsignedShort:ntohs(ip4.sin_port)],
-              PeerKeyTimestamp:[NSDate date],
-              PeerKeyContent:content};
+    [[note object] readInBackgroundAndNotify];
 }
+
+#if 0
 
 - (void)sendDataToDelegate:(NSNotification *)note
 {
@@ -253,6 +300,9 @@ NSString *const PeerKeyContent   = @"content";
     char c;
     id obj;
 
+    // XXX this method is too complex to be in StatusListner; move to StatusController or
+    //     new delegate object.
+    
     if (data.length)
         [data getBytes:&c length:sizeof(c)];
     else {
@@ -332,9 +382,6 @@ NSString *const PeerKeyContent   = @"content";
 
     [[note object] readInBackgroundAndNotify];
 }
-
-
-
-
+#endif
 
 @end
