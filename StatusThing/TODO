@@ -16,9 +16,6 @@ StatusView
     rotation bounding boxes to reduce clipping on layers on animation
     add a tooltip on hover to show something last update peer and message
     range checking on user supplied symbol string
-    [done]make "color" a synonym for "fill" on background layer
-    [done]make "color" a synonym for "stroke" on foreground layer
-    [done]make "color" a synonym for "foreground" on text layer
     [done]construct dictionary of current configuration on demand
     [done-ish]keep shape if requested shape is bogus
     [partial fix]centering symbols within a shape automatically, masking/clipping?
@@ -31,9 +28,11 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 StatusController
-    implement get configuration user command ( allow get in preferences? )
-    
-
+    implement reset command
+    [done]make "color" a synonym for "fill" on background layer
+    [done]make "color" a synonym for "stroke" on foreground layer
+    [done]make "color" a synonym for "foreground" on text layer
+    [done] implement get configuration user command ( allow get in preferences? )
 
 Shape Factory
     [done]move path creation method from StatusView to Shape Factory
@@ -42,9 +41,10 @@ Shape Factory
 Animation Factory
     morph between list of shapes
     Move animation dictionary to plist.
-    Animation editor?
+    [deferred]Animation editor?
     coarse grained duration control: slow,normal,fast
     winkx, winky
+    stretchy - embiggen just the Y-axis
     [done] THROB intensity throb - animate opacity
     [done] SPIN rotate shape
     [done] WOBBLE wobble, back and forth partial rotations ( < 45 degrees)
@@ -59,7 +59,7 @@ Filter Factory
     shine
     twinkle
     lens flare
-    halo
+    halo 
 
 Interface builder
     put something in Credits.rtf
@@ -116,6 +116,7 @@ StatusListener
     use HTTP, browsers are now clients ( new HTTPListener? )
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
+    If using static port assignment and port is unavailable, make an error noise.
     [done]move controlling logic to StatusController where it belongs
     [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary
@@ -138,7 +139,9 @@ Icon
     It Needs One.
 
 Packaging?
-    eventually
+    Do I need a dmg or pkg applicaiton packaging?
+    have Travis CI upload build artifats to GitHub
+    [done] Configured Travis CI
 
 Shapes
     Images supplied by client - integrate ASCIImage as an optional dependency
@@ -163,7 +166,8 @@ Update Checking Stuff
     Sparkle?
 
 Python Client Bindings
-
+    Adapt Demo script to have better modularity
+    [done]Added a Demo python script which exercises statusthing.py
     [progress]make them suck less
 
 Client Bindings
@@ -174,6 +178,3 @@ Client Bindings
     - bonjour browser
     - user extendable catalog of configurations
     - send to one / many
-
-
-❤️
