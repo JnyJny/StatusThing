@@ -5,7 +5,7 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 [![StatusThing Demo Video](https://raw.githubusercontent.com/JnyJny/StatusThing/3c651d63ab489cfa033c1eab795bbeae44c409e0/Screenshots/YTScreenshot.png)](https://youtu.be/4ASGU1lLHpI "StatusThing Demo Video")
 
 ## Features
-- Listens for client TCP connections (port 12121 by default)
+- Listens for client TCP connections (port 21212 by default)
 - Clients can send JSON dictionaries to change the appearance of the icon:
   - Shape of the foreground and background layers.
   - Colors
