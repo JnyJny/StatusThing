@@ -4,7 +4,7 @@ deploy:
   provider: releases
   api_key:
     secure: PDscp+RxY1jCauAJIQXak20BVj4xxybDnc079L1gBkE6fj6vEDAagJ3lkTFBr9PNSk4V8tFa+b20BGNcv6fKI/89Ej2aUZ1/g2yWax+9Ryh8o46Gm/45sx4iJVJT49r4ZM/pp2q4zTpFVnDkmShkka/UMrQq4oa4d3XiaRptkRJ3T45BX+3wDIyBey/wqaSUocasZM79szAmSMqsAROJ6o0llfpP+BHtvYUcE75DG1krRf8AEtWj8hD0etTc/wFTy8S6FzuAxCWahYqVATp6B9zBQ+4+E6D/PkLKoIVFTV90ggJoptmu0QMqDq7hIYkCpxelyU7xKfLxNIMn6R8FkwnnnGi7dFOIrLm2AqFhCCd2xwmFqMrkMfxWbt4zPG9C3aPaqWBRqw9yN9zIJdVuYtE55SyiFVJ0jGeuiScX0FU+YVyzRCiXsOEjx6TpQZM63/0BbtO3x4xw8PmurSZjHIFGVPp1CWpBXSVvg4BAACH3M//0VhKKiN88g9j4yCwAREitn9JHMyhA4qBfY4rWfQD+qamajyQOE0sOv/jjA+7kxF1zApdkUvE15kgUJuD73v99ohEWljMRgwcKW985nAfArW4aELaHCmPeE5oE4tHFjJ4snvwE+fh2JHht5UnC54N7G0uhe1zBI9PtCAc7eWuvpThnwolzGqwb+6LgiVI=
-  file: 'StatusThing.app'
+  file: 'build/Release/StatusThing.app'
   skip_cleanup: true
   on:
     tags: true
