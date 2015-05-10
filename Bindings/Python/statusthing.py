@@ -18,8 +18,9 @@ class Layer(object):
     '''
 
     animations = ['spin','spincw','spinccw','throb','bounce',
-                  'shake','flip','flipx','flipy','wobble',
-                  'blink','enbiggen','stretch']
+                  'shake','shakex','shakey','flip','flipx','flipy','wobble',
+                  'blink','enbiggen','stretch','stretchx','stretchy',
+                  'wink','winkx','winky']
 
     filters    = []
     

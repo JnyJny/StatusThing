@@ -255,7 +255,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-            
+            NSLog(@"updateShapeLayer:%@ key %@ obj %@",target.name,key,obj);
             if ([key isEqualToString:CALayerPropertySynonymColor]) {
 
                 if ([target.name isEqualToString:BackgroundLayerName]) {
@@ -284,7 +284,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
                 target.hidden = [obj boolValue];
             }
             
-            if (self.animationFactory.animations[key]) {
+            if ([self.animationFactory hasAnimationNamed:key]) {
+                NSLog(@"layer animation %@ obj %@",key,obj);
                 if ([obj boolValue]) {
                     [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
                                   forKey:key];
@@ -325,6 +326,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             }
             
             if ([self.animationFactory hasAnimationNamed:key]) {
+                NSLog(@"text animation %@ obj %@",key,obj);
+                // support for name:string in addition to name:1|0
                 if ([obj boolValue]) {
                     [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
                                   forKey:key];
@@ -367,7 +370,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
-    //NSLog(@"statusView.updateWithDictionary: %@",info);
+    NSLog(@"statusView.updateWithDictionary: %@",info);
     
     BlockWeakSelf weakSelf = self;
     

@@ -299,6 +299,8 @@ NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is
             // reset to idle
             break;
         default:
+            
+            NSLog(@"dataIn: %@",[[NSString alloc] initWithData:dataIn encoding:NSUTF8StringEncoding]);
             obj = [NSJSONSerialization JSONObjectWithData:dataIn
                                                   options:0
                                                     error:&error];

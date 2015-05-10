@@ -7,7 +7,24 @@
 //
 
 #import "FilterFactory.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FilterFactory
+
+
+- (NSDictionary *)filters
+{
+    if (!_filters) {
+        _filters = @{};
+    }
+    return _filters;
+}
+
+
+- (CIFilter *)filterNamed:(NSString *)name
+{
+    
+    return nil;
+}
 
 @end

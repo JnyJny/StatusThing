@@ -10,4 +10,6 @@
 
 @interface FilterFactory : NSObject
 
+@property (strong,nonatomic) NSDictionary *filters;
+
 @end
