@@ -1,6 +1,7 @@
 language: objective-c
 xcode_project: StatusThing.xcodeproj
 xcode_scheme: StatusThing
+script: make
 deploy:
   provider: releases
   api_key:
