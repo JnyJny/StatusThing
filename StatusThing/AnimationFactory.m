@@ -180,7 +180,7 @@ NSString * const AKTimingFunction = @"timingfunction";
     if (!_speeds) {
         _speeds = @{ AnimationSpeedSlowest:@2.0,
                      AnimationSpeedSlower:@1.5,
-                     AnimationSpeedSlow:@1.0,
+                     AnimationSpeedSlow:@1.25,
                      AnimationSpeedNormal:@0.5,
                      AnimationSpeedFast:@0.25,
                      AnimationSpeedFaster:@0.125,
@@ -265,8 +265,6 @@ NSString * const AKTimingFunction = @"timingfunction";
     CGFloat duration = 0;
     
     name = [name lowercaseString];
-    
-    NSLog(@"animation %@ info %@",name,self.animations[name]);
     
     if (speed) {
         duration = [self.speeds[speed] floatValue];

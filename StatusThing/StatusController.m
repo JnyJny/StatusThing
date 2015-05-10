@@ -36,6 +36,7 @@ NSString * const ResponseTextResetUnavilable           = @"Oops: reset is unavai
 NSString * const ResponseTextDelegateError             = @"Oops: delegate error. Author sucks.";
 NSString * const ResponseTextNotADictionary            = @"Err: You should send dictionaries.";
 NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is not available.";
+NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is not available.";
 
 #pragma mark - Private Interface
 
@@ -278,8 +279,9 @@ NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is
                                                          error:&error];
             
             if (error) {
+                NSString *errorText = [NSString stringWithFormat:ResponseTextErrorFormat,error.localizedFailureReason];
                 response = @{ ResponseKeyAction:ResponseActionOk,
-                              ResponseKeyData:[self appendPromptTo:error.localizedFailureReason] };
+                              ResponseKeyData:[self appendPromptTo:errorText] };
                 break;
                 // NOTREACHED
             }
@@ -288,6 +290,34 @@ NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is
             response = @{ ResponseKeyAction:ResponseActionOk,
                           ResponseKeyData:[self appendPromptTo:dataJSON] };
             break;
+
+        case 'C':
+            jsonOptions = NSJSONWritingPrettyPrinted;
+        case 'c':
+            // capabilities, send a dictionary of shape names, animation names, filter names, speeds
+            
+            if (![NSJSONSerialization isValidJSONObject:self.statusView.capabilities]) {
+                response = @{ ResponseKeyAction:ResponseActionOk,
+                              ResponseKeyData:[self appendPromptTo:ResponseTextCapabilitiesNotAvailable]};
+                break;
+            }
+            
+            dataJSON = [NSJSONSerialization dataWithJSONObject:self.statusView.capabilities
+                                                       options:jsonOptions
+                                                         error:&error];
+            
+            if (error) {
+                NSString *errorText = [NSString stringWithFormat:ResponseTextErrorFormat,error.localizedFailureReason];
+                response = @{ ResponseKeyAction:ResponseActionOk,
+                              ResponseKeyData:[self appendPromptTo:errorText] };
+                break;
+            }
+            
+            response = @{ ResponseKeyAction:ResponseActionOk,
+                          ResponseKeyData:[self appendPromptTo:dataJSON] };
+
+            break;
+            
         case 'h':
         case 'H':
             // send help

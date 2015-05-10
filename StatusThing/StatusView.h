@@ -16,6 +16,7 @@
 @property (strong,nonatomic,readonly) CATextLayer  *text;
 @property (assign,nonatomic,readonly) CGRect       insetRect;
 @property (strong,nonatomic         ) NSString     *shape;
+@property (strong,nonatomic,readonly) NSDictionary *capabilities;
 
 - (void)removeAllAnimations;
 - (void)updateWithDictionary:(NSDictionary *)info;

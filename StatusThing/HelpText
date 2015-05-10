@@ -3,11 +3,13 @@ StatusThing Help
 See https://github.com/JnyJny/StatusThing
 
 Commands:
-q|Q   - quit  : ask the server to terminate this connection
-g     - get   : ask the server for it's current configuration
-G     - get   : ask the server for it's current configuration, pretty printed
-r|R   - reset : reset the StatusThing to default values
-h|H|? - help  : this help
+q|Q   - quit         : ask the server to terminate this connection
+c     - capabilities : ask the server for it's capabilties
+C     - capabilities : ask the server for it's capabilties, pretty printed
+g     - get          : ask the server for it's current configuration
+G     - get          : ask the server for it's current configuration, pretty printed
+r|R   - reset        : reset the StatusThing to default values
+h|H|? - help         : this help
 
 JSON:
 {"shape":..,"background":{..}"foreground":{..},"text":{..}}
@@ -26,16 +28,18 @@ Background and Foreground Dictionaries:
 {"fill"        :color,
  "stroke"      :color,
  "lineWidth"   :float,
+ "color"       :synonym for background.fill or foreground.stroke
  "hidden"      :0|1},
- animation-name:0|1 }
+animation-name:[0|1]|["slowest|slower|slow|normal|fast|faster|fastest"] }
 
 Text Layer Dictionary:
 {"string"      :string,
  "font"        :string,
  "fontSize"    :float,
  "foreground"  :color,
+ "color"       :synonym for foreground
  "hidden"      :0|1",
- animation-name:0|1 }
+ animation-name:[0|1]|["slowest|slower|slow|normal|fast|faster|fastest"] }
 
 Strings matching "\[uU][0-9a-fA-F]+" can be used to specify a
 Unicode character. Note that not all fonts implement all characters.

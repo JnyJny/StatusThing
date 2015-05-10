@@ -29,6 +29,7 @@ StatusView
 
 StatusController
     implement reset command
+    [done]send a JSON dictionary of available shapes, animations, filters, capabilities command?
     [done]make "color" a synonym for "fill" on background layer
     [done]make "color" a synonym for "stroke" on foreground layer
     [done]make "color" a synonym for "foreground" on text layer
@@ -138,9 +139,12 @@ AppleScript
 Icon
     It Needs One.
 
+Test Cases
+    time to learn how to write them.
+
 Packaging?
     Do I need a dmg or pkg applicaiton packaging?
-    have Travis CI upload build artifats to GitHub
+    have Travis CI upload releases to GitHub
     [done] Configured Travis CI
 
 Shapes
@@ -163,7 +167,8 @@ Startup
     [NOT TESTED]Start on login - in preferences
 
 Update Checking Stuff
-    Sparkle?
+    Sparkle? On hold until Travis CI can send builds to Github
+    need to learn how to use cocoapods
 
 Python Client Bindings
     Adapt Demo script to have better modularity

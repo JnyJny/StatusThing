@@ -67,6 +67,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @synthesize text         = _text;
 @synthesize shapeFactory = _shapeFactory;
 @synthesize shape        = _shape;
+@synthesize capabilities = _capabilities;
 
 #pragma mark - Lifecycle Methods
 
@@ -239,11 +240,29 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     return _animationFactory;
 }
 
+- (FilterFactory *)filterFactory
+{
+    if (!_filterFactory) {
+        _filterFactory = [[FilterFactory alloc] init];
+    }
+    return _filterFactory;
+}
+
 - (CGRect)insetRect
 {
     return CGRectIntegral(CGRectInset(self.layer.bounds,StatusViewInsetDelta,StatusViewInsetDelta));
 }
 
+
+- (NSDictionary *)capabilities
+{
+    if (!_capabilities) {
+        _capabilities = @{ @"shapes":self.shapeFactory.shapes.allKeys,
+                           @"animations":self.animationFactory.animations.allKeys,
+                           @"filters":self.filterFactory.filters.allKeys };
+    }
+    return _capabilities;
+}
 
 
 
@@ -255,7 +274,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
-            NSLog(@"updateShapeLayer:%@ key %@ obj %@",target.name,key,obj);
+
             if ([key isEqualToString:CALayerPropertySynonymColor]) {
 
                 if ([target.name isEqualToString:BackgroundLayerName]) {
@@ -285,13 +304,22 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             }
             
             if ([self.animationFactory hasAnimationNamed:key]) {
-                NSLog(@"layer animation %@ obj %@",key,obj);
-                if ([obj boolValue]) {
-                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                
+                if ([obj isKindOfClass:NSString.class]) {
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
                                   forKey:key];
                 }
-                else {
-                    [target removeAnimationForKey:key];
+                
+                if ([obj isKindOfClass:NSNumber.class]) {
+
+                    if ([obj boolValue]) {
+
+                        [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                                      forKey:key];
+                    }
+                    else {
+                        [target removeAnimationForKey:key];
+                    }
                 }
             }
         }];
@@ -326,14 +354,19 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             }
             
             if ([self.animationFactory hasAnimationNamed:key]) {
-                NSLog(@"text animation %@ obj %@",key,obj);
-                // support for name:string in addition to name:1|0
-                if ([obj boolValue]) {
-                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                
+                if ([obj isKindOfClass:NSString.class]) {
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
                                   forKey:key];
                 }
-                else {
-                    [target removeAnimationForKey:key];
+                if ([obj isKindOfClass:NSNumber.class]) {
+                    if ([obj boolValue]) {
+                        [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
+                                      forKey:key];
+                    }
+                    else {
+                        [target removeAnimationForKey:key];
+                    }
                 }
             }
         }];
