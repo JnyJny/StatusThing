@@ -734,6 +734,7 @@
 				1DE88F141AFC0A3300FAF640 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

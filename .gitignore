@@ -1,6 +1,7 @@
 xcuserdata
 **xcshareddata
 *.xcuserdatad
+archive
 build
 *.pyc
 *~
