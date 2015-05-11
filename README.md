@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/JnyJny/StatusThing.svg?branch=master)](https://travis-ci.org/JnyJny/StatusThing)
 
-Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing is a network-addressable, JSON configurable icon that lives on your OS X status bar.
+[![StatusThing Icon](https://raw.githubusercontent.com/JnyJny/StatusThing/master/StatusThing/Images.xcassets/AppIcon.appiconset/icon_32x32%402x.png) "Kazoos are awesome, kazoos all day are annoying."
+
+Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing is a network-addressable, JSON configurable icon that lives on your OS X status bar.  Use it to monitor the status of anything that can send JSON formatted text to a TCP port. 
 
 [![StatusThing Demo Video](https://raw.githubusercontent.com/JnyJny/StatusThing/3c651d63ab489cfa033c1eab795bbeae44c409e0/Screenshots/YTScreenshot.png)](https://youtu.be/4ASGU1lLHpI "StatusThing Demo Video")
 
