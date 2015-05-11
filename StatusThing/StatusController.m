@@ -219,7 +219,6 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
         NSString *remoteAddress = request[RequestKeyAddress];
         if ( ![remoteAddress isEqualToString:LocalHostIPv4] ||
             ![remoteAddress isEqualToString:LocalHostName] ) {
-            // XXX terse reply to keep from leaking info?
             return @{ ResponseKeyAction:ResponseActionDone,
                       ResponseKeyData:ResponseTextNoMessage };
             // NOTREACHED
@@ -324,13 +323,13 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
             response = @{ ResponseKeyAction:ResponseActionOk,
                           ResponseKeyData:[self appendPromptTo:self.helpText] };
             break;
+            
         case 'r':
         case 'R':
-            // reset to idle
+            [self.statusView updateWithDictionary:[self.userDefaults objectForKey:StatusThingPreferenceStatusViewDictionary]];
             break;
-        default:
             
-            NSLog(@"dataIn: %@",[[NSString alloc] initWithData:dataIn encoding:NSUTF8StringEncoding]);
+        default:
             obj = [NSJSONSerialization JSONObjectWithData:dataIn
                                                   options:0
                                                     error:&error];

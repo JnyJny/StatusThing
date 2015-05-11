@@ -273,6 +273,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (ApplyDictionaryBlock)updateShapeLayer
 {
     return ^void(CAShapeLayer *target,NSDictionary *info) {
+        __block BOOL allowAnimations = [[NSUserDefaults standardUserDefaults] boolForKey:StatusThingPreferenceAllowAnimations];
+        
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
 
             if ([key isEqualToString:CALayerPropertySynonymColor]) {
@@ -303,17 +305,13 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
                 target.hidden = [obj boolValue];
             }
             
-            if ([self.animationFactory hasAnimationNamed:key]) {
-                
+            if (allowAnimations && [self.animationFactory hasAnimationNamed:key]) {
                 if ([obj isKindOfClass:NSString.class]) {
                     [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
                                   forKey:key];
                 }
-                
                 if ([obj isKindOfClass:NSNumber.class]) {
-
                     if ([obj boolValue]) {
-
                         [target addAnimation:[self.animationFactory animationForLayer:target withName:key]
                                       forKey:key];
                     }
@@ -329,6 +327,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (ApplyDictionaryBlock)updateTextLayer
 {
     return ^void(CATextLayer *target,NSDictionary *info) {
+
+        __block BOOL allowAnimations = [[NSUserDefaults standardUserDefaults] boolForKey:StatusThingPreferenceAllowAnimations];
+        
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
             if ([key isEqualToString:CATextLayerPropertyNameString]) {
                 target.string = obj;
@@ -353,7 +354,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
                 target.hidden = [obj boolValue];
             }
             
-            if ([self.animationFactory hasAnimationNamed:key]) {
+            if (allowAnimations && [self.animationFactory hasAnimationNamed:key]) {
                 
                 if ([obj isKindOfClass:NSString.class]) {
                     [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
