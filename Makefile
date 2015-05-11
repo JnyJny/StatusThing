@@ -11,18 +11,12 @@ BUILD_TARGET=$(RELEASE_ROOT)/$(TARGET).app
 
 PKG_TARGET=$(TARGET)-$(MVERSION)-v$(VERSION).app.gz
 
-GIT_TAG= V$(VERSION)-$(MVERSION)
-
-all: 
+all: build
 
 build: clean 
 	xcodebuild build
 
-
-release: build
-	echo git tag -a $(GIT_TAG)
-
-pkg: release
+pkg: build
 	tar zcf $(PKG_TARGET) $(BUILD_TARGET)
 
 clean:
