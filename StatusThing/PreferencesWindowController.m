@@ -210,7 +210,6 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    NSLog(@"windowWillClose");
     [[NSColorPanel sharedColorPanel] close];
 }
 

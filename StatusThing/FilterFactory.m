@@ -7,10 +7,16 @@
 //
 
 #import "FilterFactory.h"
-#import <QuartzCore/QuartzCore.h>
+
 
 @implementation FilterFactory
 
+@synthesize filters = _filters;
+
+// XXX filter names shouldn't collide with animation or shape names
+//     bad things will happen.
+
+// NSString *const FilterName = @"";
 
 - (NSDictionary *)filters
 {
@@ -20,9 +26,28 @@
     return _filters;
 }
 
-
-- (CIFilter *)filterNamed:(NSString *)name
+- (BOOL)hasFilterNamed:(NSString *)name
 {
+    NSDictionary *info = nil;
+    @try {
+        info = self.filters[name.lowercaseString];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"hasFilterNamed:%@ exception %@",name,exception);
+    }
+    
+    return !(info==nil);
+}
+
+- (CIFilter *)filterForLayer:(CALayer *)layer named:(NSString *)name
+{
+    
+    NSDictionary *info = self.filters[name.lowercaseString];
+    
+    if (!info) {
+        NSLog(@"filterForLayer:%@ named:%@ no filter found",layer.name,name);
+        return nil;
+    }
     
     return nil;
 }

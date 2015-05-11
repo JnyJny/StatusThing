@@ -403,7 +403,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (void)updateWithDictionary:(NSDictionary *)info
 {
-    NSLog(@"statusView.updateWithDictionary: %@",info);
+    //NSLog(@"statusView.updateWithDictionary: %@",info);
     
     BlockWeakSelf weakSelf = self;
     

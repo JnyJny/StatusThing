@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface FilterFactory : NSObject
 
-@property (strong,nonatomic) NSDictionary *filters;
+@property (strong,nonatomic,readonly) NSDictionary *filters;
 
+- (BOOL)hasFilterNamed:(NSString *)name;
+- (CIFilter *)filterForLayer:(CALayer *)layer named:(NSString *)name;
 @end

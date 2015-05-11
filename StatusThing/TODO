@@ -1,10 +1,24 @@
 README
+    update readme to explain use cases
+    then hit them with technical details
     update examples
     update screenshots
-    [done!]screencast showing features
-    [done]s/symbol/text/
+    move examples and JSON definitions to wiki?
     document new animations
     document filters
+    [done]s/symbol/text/
+
+Screencasts
+    [done]first intro screencast showing features
+    screencast explaining use cases
+    screencast showing simple interaction with telnet and/or netcat
+
+Testing
+    tests for networking code
+    tests for shape drawing
+    tests for animations
+    tests for filters
+
 
 Command line argument processing
     [done]store user specified options to NSUserDefaults
@@ -15,7 +29,7 @@ StatusView
     specify size of icon: large ( 22x22) or small
     rotation bounding boxes to reduce clipping on layers on animation
     add a tooltip on hover to show something last update peer and message
-    range checking on user supplied symbol string
+    [nope]range checking on user supplied symbol string - non-issue
     [done]construct dictionary of current configuration on demand
     [done-ish]keep shape if requested shape is bogus
     [partial fix]centering symbols within a shape automatically, masking/clipping?
@@ -36,16 +50,18 @@ StatusController
     [done] implement get configuration user command ( allow get in preferences? )
 
 Shape Factory
+    system defined shapes
     [done]move path creation method from StatusView to Shape Factory
     [done]fix square's angle to differentiate from diamond -> 90
 
 Animation Factory
-    morph between list of shapes
+    newsticker to display longer strings.
+    morph between list of shapes -> "morph":{"shapes":[shapename,shapename,...],"speed":speed}
     Move animation dictionary to plist.
-    [deferred]Animation editor?
-    coarse grained duration control: slow,normal,fast
-    winkx, winky
-    stretchy - embiggen just the Y-axis
+    tweak values for slowest, slower,slow,normal,fast,faster,fastest
+    [done]coarse grained duration control: slow,normal,fast
+    [done]winkx, winky
+    [done]stretchy - embiggen just the Y-axis
     [done] THROB intensity throb - animate opacity
     [done] SPIN rotate shape
     [done] WOBBLE wobble, back and forth partial rotations ( < 45 degrees)
@@ -53,6 +69,7 @@ Animation Factory
     [done] SHAKE shimmy side to side
     [done] STRETCH embiggen just the X-axis 
     [done] FLIP[X|Y]
+    [deferred]Animation editor?
 
 Filter Factory
     did somebody request gratuitous image filters?  nope. doing it anyway.
@@ -137,14 +154,13 @@ AppleScript
     provide support for AppleScript - ugh.
 
 Icon
-    It Needs One.
-
-Test Cases
-    time to learn how to write them.
+    draw or find kazoo line art
+    "kazoos are cool, kazoos all day suck"
 
 Packaging?
     Do I need a dmg or pkg applicaiton packaging?
-    have Travis CI upload releases to GitHub
+    define a release process
+    [done]have Travis CI upload releases to GitHub
     [done] Configured Travis CI
 
 Shapes
@@ -176,7 +192,7 @@ Python Client Bindings
     [progress]make them suck less
 
 Client Bindings
-    python
+    [working]python
     ruby
     AppleScript
     native cocoa app

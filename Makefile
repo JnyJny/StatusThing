@@ -1,20 +1,30 @@
+# Status Thing Travis CI makefile
+# https://travis-ci.org/JnyJny/StatusThing
 
 TARGET=StatusThing
-BUILD_RELEASE=build/Release
+RELEASE_ROOT=build/Release
 
-# need to get the version out of xcode 
+VERSION := $(shell agvtool vers -terse)
+MVERSION := $(shell agvtool mvers -terse1 | sed -e "s/ /-/")
 
-BUILD_TARGET=$(BUILD_RELEASE)/$(TARGET).app
-PKG_TARGET=$(TARGET).app.gz
+BUILD_TARGET=$(RELEASE_ROOT)/$(TARGET).app
 
-all: pkg
+PKG_TARGET=$(TARGET)-$(MVERSION)-v$(VERSION).app.gz
 
-build: clean
+GIT_TAG= V$(VERSION)-$(MVERSION)
+
+all: 
+
+build: clean 
 	xcodebuild build
 
-pkg: build
+
+release: build
+	echo git tag -a $(GIT_TAG)
+
+pkg: release
 	tar zcf $(PKG_TARGET) $(BUILD_TARGET)
 
 clean:
-	xcodebuild clean
-	rm -f $(PKG_TARGET)
+	@xcodebuild clean
+	@rm -f $(TARGET)*.app.gz

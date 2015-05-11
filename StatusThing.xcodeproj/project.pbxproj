@@ -89,6 +89,7 @@
 		1DE88F0B1AFC0A3300FAF640 /* StatusThingPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThingPreferencePane.m; sourceTree = "<group>"; };
 		1DE88F0D1AFC0A3300FAF640 /* StatusThingPreferencePane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = StatusThingPreferencePane.tiff; sourceTree = "<group>"; };
 		1DE88F101AFC0A3300FAF640 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatusThingPreferencePane.xib; sourceTree = "<group>"; };
+		1DE88F241B00F77800FAF640 /* BuildScripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = BuildScripts; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +176,7 @@
 		1D6DB4641AE3411700277C13 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1DE88EF91AFBB64300FAF640 /* Drawing */,
+				1DE88EF91AFBB64300FAF640 /* Factories */,
 				1DE88EFA1AFBB65000FAF640 /* Networking */,
 			);
 			name = Models;
@@ -189,6 +190,7 @@
 				1DAF8F721ADFFEE2009CE2BE /* StatusThing */,
 				1DAF8F861ADFFEE2009CE2BE /* StatusThingTests */,
 				1DE88F061AFC0A3300FAF640 /* StatusThingPreferencePane */,
+				1DE88F241B00F77800FAF640 /* BuildScripts */,
 				1DAF8F711ADFFEE2009CE2BE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -292,7 +294,7 @@
 			name = images;
 			sourceTree = "<group>";
 		};
-		1DE88EF91AFBB64300FAF640 /* Drawing */ = {
+		1DE88EF91AFBB64300FAF640 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
 				1D67956C1AF7CA1500E075D2 /* Geometry.h */,
@@ -303,7 +305,7 @@
 				1DE88EFB1AFBB67700FAF640 /* FilterFactory.h */,
 				1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */,
 			);
-			name = Drawing;
+			name = Factories;
 			sourceTree = "<group>";
 		};
 		1DE88EFA1AFBB65000FAF640 /* Networking */ = {
@@ -553,6 +555,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.9;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -574,6 +577,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -596,6 +600,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 0.9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -610,6 +615,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -652,6 +658,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatusThing.app/Contents/MacOS/StatusThing";
+				VERSIONING_SYSTEM = "";
 			};
 			name = Debug;
 		};
@@ -668,6 +675,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StatusThing.app/Contents/MacOS/StatusThing";
+				VERSIONING_SYSTEM = "";
 			};
 			name = Release;
 		};
