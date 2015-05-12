@@ -50,6 +50,6 @@ extern NSString *const ShapeNameRoundedSquare;
 - (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
-
+- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 
 @end

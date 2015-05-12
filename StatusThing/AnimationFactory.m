@@ -33,6 +33,8 @@ NSString * const AnimationNameStretchY = @"stretchy";
 NSString * const AnimationNameWink     = @"wink";
 NSString * const AnimationNameWinkX    = @"winkx";
 NSString * const AnimationNameWinkY    = @"winky";
+NSString * const AnimationNameTickerLR = @"ticker";
+NSString * const AnimationNameTickerRL = @"reverseticker";
 
 NSString * const AnimationSpeedSlowest = @"slowest";
 NSString * const AnimationSpeedSlower  = @"slower";
@@ -155,20 +157,29 @@ NSString * const AKTimingFunction = @"timingfunction";
                                                   AKFromValue:@YES,
                                                   AKToValue:@NO},
 
-                         AnimationNameWink    : @{ AKKeyPath:@"transform.scale.x",
+                         AnimationNameWink    : @{ AKKeyPath:@"transform.scale.y",
+                                                   AKTimingFunction:kCAMediaTimingFunctionEaseInEaseOut,
                                                    AKAutoreverses:@YES,
                                                    AKFromValue:@1.0,
                                                    AKToValue:@0.0},
 
                          AnimationNameWinkX   : @{ AKKeyPath:@"transform.scale.x",
+                                                   AKTimingFunction:kCAMediaTimingFunctionEaseInEaseOut,
                                                    AKAutoreverses:@YES,
                                                    AKFromValue:@1.0,
                                                    AKToValue:@0.0},
 
                          AnimationNameWinkY   : @{ AKKeyPath:@"transform.scale.y",
+                                                   AKTimingFunction:kCAMediaTimingFunctionEaseInEaseOut,
                                                    AKAutoreverses:@YES,
                                                    AKFromValue:@1.0,
                                                    AKToValue:@0.0},
+                         
+                         AnimationNameTickerLR : @{ AKKeyPath:@"position.x",
+                                                    AKAutoreverses:@NO },
+                         
+                         AnimationNameTickerRL : @{ AKKeyPath:@"position.x",
+                                                    AKAutoreverses:@NO },
 
                         };
     }
@@ -178,12 +189,12 @@ NSString * const AKTimingFunction = @"timingfunction";
 - (NSDictionary *)speeds
 {
     if (!_speeds) {
-        _speeds = @{ AnimationSpeedSlowest:@2.0,
-                     AnimationSpeedSlower:@1.5,
-                     AnimationSpeedSlow:@1.25,
-                     AnimationSpeedNormal:@0.5,
+        _speeds = @{ AnimationSpeedSlowest:@4.0,
+                     AnimationSpeedSlower:@2.0,
+                     AnimationSpeedSlow:@1.0,
+                     AnimationSpeedNormal:@0.50,
                      AnimationSpeedFast:@0.25,
-                     AnimationSpeedFaster:@0.125,
+                     AnimationSpeedFaster:@0.12,
                      AnimationSpeedFastest:@0.06 };
     }
     return _speeds;
@@ -262,14 +273,11 @@ NSString * const AKTimingFunction = @"timingfunction";
 
 - (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name andSpeed:(NSString *)speed
 {
-    CGFloat duration = 0;
+    CGFloat duration;
     
     name = [name lowercaseString];
-    
-    if (speed) {
-        duration = [self.speeds[speed] floatValue];
-    }
 
+    duration = [self.speeds[(speed)?speed:AnimationSpeedFast] floatValue];
     
     CABasicAnimation *animation = [self animationForName:name withDuration:duration];
     
@@ -297,6 +305,16 @@ NSString * const AKTimingFunction = @"timingfunction";
         layer.transform = rotationTransform;
         animation.toValue = [NSNumber numberWithFloat:startRotation + toValue];
         return animation;
+    }
+    
+    if ([name isEqualToString:AnimationNameTickerLR]) {
+        animation.fromValue = [NSNumber numberWithFloat:CGRectGetMaxX(layer.bounds)];
+        animation.toValue   = [NSNumber numberWithFloat:CGRectGetMinX(layer.bounds) - CGRectGetWidth(layer.bounds)];
+    }
+        
+    if ([name isEqualToString:AnimationNameTickerRL]) {
+        animation.fromValue = [NSNumber numberWithFloat:CGRectGetMinX(layer.bounds)];
+        animation.toValue   = [NSNumber numberWithFloat:CGRectGetMaxX(layer.bounds) + CGRectGetWidth(layer.bounds)];
     }
     
     return animation;

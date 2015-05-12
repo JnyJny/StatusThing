@@ -25,21 +25,12 @@
 
 - (void)awakeFromNib
 {
-    
-    //[self.window setLevel:NSModalPanelWindowLevel];
-    
     [self.exampleView addSubview:self.exampleStatusView];
     
     [self.exampleStatusView centerInRect:self.exampleView.bounds];
     
     [self.shapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
-    
-    
-    
 }
-
-
-
 
 
 #pragma mark - Properties
@@ -127,7 +118,22 @@
     
     [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
                                            object:nil];
+}
 
+- (IBAction)toggleAllowFilters:(NSButton *)sender
+{
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceAllowFilters];
+    
+    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
+                                           object:nil];
+}
+
+- (IBAction)toggleLotsOfThings:(NSButton *)sender
+{
+    [self.userDefaults setBool:sender.state
+                        forKey:StatusThingPreferenceLotsOfThings];
+    
 }
 
 - (IBAction)toggleUseBonjour:(NSButton *)sender
@@ -195,6 +201,8 @@
     //NSLog(@"didPushReset:%@",[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]);
     [self.exampleStatusView updateWithDictionary:[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
     
+    [self.exampleStatusView removeAllAnimations];
+    
     [self.shapeComboxBox selectItemWithObjectValue:self.exampleStatusView.shape];
     
     [self.backgroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.fillColor]];
@@ -204,6 +212,30 @@
     [self.backgroundHiddenButton setState:self.exampleStatusView.background.hidden];
     [self.foregroundHiddenButton setState:self.exampleStatusView.foreground.hidden];
     [self.textHiddenButton       setState:self.exampleStatusView.text.hidden];
+    
+    [self.inputResultField setStringValue:@"Ok"];
+    [self.inputResultField setStringValue:@""];
+}
+
+- (IBAction)didEnterText:(NSTextField *)sender
+{
+
+    NSError *error = nil;
+    
+    id obj = [NSJSONSerialization JSONObjectWithData:[sender.stringValue dataUsingEncoding:NSUTF8StringEncoding]
+                                             options:0
+                                               error:&error];
+    
+    [self.inputResultField setStringValue:(error)?error.localizedFailureReason:@"OK"];
+
+    if ([obj isKindOfClass:NSDictionary.class]) {
+        [self.exampleStatusView updateWithDictionary:obj];
+    }
+    else {
+        [self.inputResultField setStringValue:@"Expecting a JSON formated dictionary."];
+    }
+    
+    
 }
 
 #pragma mark - NSWindowDelegate Methods

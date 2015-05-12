@@ -16,16 +16,19 @@ NSString *const StatusThingDefaultPreferencesFile                  = @"DefaultPr
 NSString *const StatusThingPlistFileExtension                      = @"plist";
 
 // These are keys and _NOT_ key paths
-NSString *const StatusThingPreferenceLaunchOnLogin                 = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
-NSString *const StatusThingPreferenceAllowRemoteConnections        = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
-NSString *const StatusThingPreferenceAllowAnimations               = @"com.symbolicarmageddon.StatusThing.allowAnimations";
-NSString *const StatusThingPreferenceUseBonjour                    = @"com.symbolicarmageddon.StatusThing.useBonjour";
-NSString *const StatusThingPreferencePortNumber                    = @"com.symbolicarmageddon.StatusThing.portNumber";
-NSString *const StatusThingPreferenceStatusViewDictionary          = @"com.symbolicarmageddon.StatusThing.statusView";
+NSString *const StatusThingPreferenceLaunchOnLogin          = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
+NSString *const StatusThingPreferenceAllowRemoteConnections = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
+NSString *const StatusThingPreferenceAllowAnimations        = @"com.symbolicarmageddon.StatusThing.allowAnimations";
+NSString *const StatusThingPreferenceAllowFilters           = @"com.symbolicarmageddon.StatusThing.allowFilters";
+NSString *const StatusThingPreferenceLotsOfThings           = @"com.symbolicarmageddon.StatusThing.lotsOfThings";
 
-NSString *const AppleInterfaceThemeChangedNotification             = @"AppleInterfaceThemeChangedNotification";
-NSString *const AppleInterfaceStyle                                = @"AppleInterfaceStyle";
-NSString *const AppleInterfaceStyleDark                            = @"dark";
+NSString *const StatusThingPreferenceUseBonjour             = @"com.symbolicarmageddon.StatusThing.useBonjour";
+NSString *const StatusThingPreferencePortNumber             = @"com.symbolicarmageddon.StatusThing.portNumber";
+NSString *const StatusThingPreferenceStatusViewDictionary   = @"com.symbolicarmageddon.StatusThing.statusView";
+
+NSString *const AppleInterfaceThemeChangedNotification      = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                         = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                     = @"dark";
 
 NSString *const StatusThingIdleConfigurationChangedNotification    = @"StatusThingIdleConfigurationChangedNotification";
 NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThingNetworkConfigurationChangedNotification";

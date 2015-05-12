@@ -8,7 +8,7 @@ c     - capabilities : ask the server for it's capabilties
 C     - capabilities : ask the server for it's capabilties, pretty printed
 g     - get          : ask the server for it's current configuration
 G     - get          : ask the server for it's current configuration, pretty printed
-r|R   - reset        : reset the StatusThing to default values
+r|R   - reset        : reset to idle values set in preferences, stops animations
 h|H|? - help         : this help
 
 JSON:
@@ -17,7 +17,10 @@ JSON:
 One dictionary per line, dictionaries may be nested.
 
 Shape:
-The shape key has a string value which should be one of the following:
+
+{"shape":shape-name | {"name":shape-name,"heading":degrees}}
+
+Shape-name is a string value which should be one of the following:
 
 none|circle|line|triangle|square|diamond|roundedsquare
 pentagon|hexagon|septagon|octagon|nonagon|decagon|endecagon
@@ -30,6 +33,7 @@ Background and Foreground Dictionaries:
  "lineWidth"   :float,
  "color"       :synonym for background.fill or foreground.stroke
  "hidden"      :0|1},
+filter-name   :0|1},
 animation-name:[0|1]|["slowest|slower|slow|normal|fast|faster|fastest"] }
 
 Text Layer Dictionary:
@@ -39,13 +43,14 @@ Text Layer Dictionary:
  "foreground"  :color,
  "color"       :synonym for foreground
  "hidden"      :0|1",
+ filter-name   :0|1},
  animation-name:[0|1]|["slowest|slower|slow|normal|fast|faster|fastest"] }
 
-Strings matching "\[uU][0-9a-fA-F]+" can be used to specify a
+Strings matching "\u[0-9a-fA-F]+" can be used to specify a
 Unicode character. Note that not all fonts implement all characters.
 
 Colors:
-"colorName"
+"colorName" |
 {"red":float,"green":float,"blue":float,"alpha":float}
 
 Color dictionary components default to zero if they are missing.
@@ -55,5 +60,12 @@ Animations
 
 Multiple animations can be specified in dictionaries for any layer.
 Animation entries consist of a name and boolean pair.
-Valid animation names are; spin, spincw, spinccw, throb, bounce,
-shake, flip, flipy, flipx, wobble, blink, enbiggen, stretch.
+
+See the output of the [c]apabilities command for a list of animations.
+
+Filters
+
+Not implemented yet.
+
+See the output of the [c]apabilities command for a list of filters.
+

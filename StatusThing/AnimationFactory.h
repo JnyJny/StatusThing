@@ -30,6 +30,8 @@ extern NSString * const AnimationNameStretchY;
 extern NSString * const AnimationNameWink;
 extern NSString * const AnimationNameWinkX;
 extern NSString * const AnimationNameWinkY;
+extern NSString * const AnimationNameTickerLR;
+extern NSString * const AnimationNameTickerRL;
 
 
 extern NSString * const AnimationSpeedSlowest;

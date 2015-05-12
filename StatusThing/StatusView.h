@@ -16,6 +16,7 @@
 @property (strong,nonatomic,readonly) CATextLayer  *text;
 @property (assign,nonatomic,readonly) CGRect       insetRect;
 @property (strong,nonatomic         ) NSString     *shape;
+@property (assign,nonatomic         ) CGFloat       shapeHeading; //degrees
 @property (strong,nonatomic,readonly) NSDictionary *capabilities;
 
 - (void)removeAllAnimations;

@@ -326,7 +326,11 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
             
         case 'r':
         case 'R':
+            [self.statusView removeAllAnimations];
             [self.statusView updateWithDictionary:[self.userDefaults objectForKey:StatusThingPreferenceStatusViewDictionary]];
+            response = @{ResponseKeyAction:ResponseActionOk,
+                         ResponseKeyData:[self appendPromptTo:ResponseTextOk] };
+            
             break;
             
         default:

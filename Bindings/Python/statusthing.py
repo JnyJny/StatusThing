@@ -6,37 +6,28 @@ http://github.com/jnyjny/StatusThing
 
 '''
 
-from json import dumps
+from json import dumps,loads
 from socket import create_connection
 
 
 class Layer(object):
     '''
-    Models a StatusThing layer: foreground, background an text
+    Models a StatusThing layer: foreground, background or text
     depending on the properties supplied to __init__.
-
     '''
 
-    animations = ['spin','spincw','spinccw','throb','bounce',
-                  'shake','shakex','shakey','flip','flipx','flipy','wobble',
-                  'blink','enbiggen','stretch','stretchx','stretchy',
-                  'wink','winkx','winky']
-
-    filters    = []
-    
-    def __init__(self,name,properties,animations=None,filters=None):
+    def __init__(self,name,properties,animations,filters=None):
         self.name = name
         self.properties = properties
 
         if 'hidden' not in self.properties:
             self.properties.append('hidden')
+
+        if 'color' not in self.properties:
+            self.properties.append('color')
         
-        if animations is None:
-            animations = self.animations
         self.animations = animations
         
-        if filters is None:
-            filters = self.filters
         self.filters = filters
 
         self._categories = [self.properties,self.animations,self.filters]
@@ -181,17 +172,11 @@ class StatusThing(object):
     
     '''
     
-    # XXX should make the StatusThing help machine parsable
-    
-    shapes = ['none','circle','line','triangle','square','diamond',
-              'rounded square','pentagon','hexagon','septagon',
-              'octagon','nonagon','decagon','endecagon',
-              'trigram','quadragram','pentagram','hexagram',
-              'septagram','nonagram','decagram','endecagram']
-
     _text_properties = ['foreground','string','font','fontSize']
     
     _shape_properties = ['fill','stroke','lineWidth']
+
+    
     
     def __init__(self,hostname='localhost',port=21212,recvsz=8192):
         '''
@@ -205,11 +190,20 @@ class StatusThing(object):
         self.address    = (hostname,port)
         self.shape      = None
         self.recvsz     = recvsz
-        self.background = Layer('background',self._shape_properties)
-        self.foreground = Layer('foreground',self._shape_properties)
-        self.text       = Layer('text',      self._text_properties)
-        self.message    = Message()
         self.responses  = []
+        self.background = Layer('background',
+                                self._shape_properties,
+                                self.animations,
+                                self.filters)
+        self.foreground = Layer('foreground',
+                                self._shape_properties,
+                                self.animations,
+                                self.filters)
+        self.text       = Layer('text',
+                                self._text_properties,
+                                self.animations,
+                                self.filters)
+        self.message    = Message()
 
     def __str__(self):
         '''
@@ -227,6 +221,7 @@ class StatusThing(object):
                               self.text,
                               self.message]
         return self._entities
+
 
     @property
     def socket(self):
@@ -249,13 +244,52 @@ class StatusThing(object):
             self.responses.append(data)
         return self._socket
 
+    def sendCommand(self,cmd):
+        self.socket.send(bytes(cmd,'utf-8'))
+        data = self.socket.recv(self.recvsz)
+        reply,sep,prompt = str(data,'utf-8').partition('\n')
+        return reply
+        
     @property
-    def baseState(self):
+    def currentState(self):
         '''
-        A dictionary describing the remote state when it was first
-        contacted.
+        A dictionary describing the remote state.
         '''
-        raise NotImplemented()
+        return loads(self.sendCommand('g'))
+
+    @property
+    def helpText(self):
+        try:
+            return self._helpText
+        except AttributeError:
+            self._helpText = self.sendCommannd('h')
+        return self._helpText
+
+    @property
+    def capabilities(self):
+        try:
+            return self._capabilities
+        except AttributeError:
+            self._capabilities = loads(self.sendCommand('c'))
+            # shapes in the right order, don't mess it up
+            self._capabilities['animations'].sort()
+            self._capabilities['filters'].sort()
+        return self._capabilities
+
+    @property
+    def shapes(self):
+        return self.capabilities['shapes']
+
+    @property
+    def filters(self):
+        return self.capabilities['filters']
+
+    @property
+    def animations(self):
+        return self.capabilities['animations']
+
+    def reset(self):
+        self.sendCommand('r')
     
     def model(self):
         '''
@@ -282,7 +316,6 @@ class StatusThing(object):
             if len(model) == 0:
                 continue
             r.setdefault(entity.name,model)
-            
         return r
     
     
@@ -320,12 +353,13 @@ class StatusThing(object):
         Use this method to shutdown communication with the remote
         StatusThing application. 
         '''
-        data = bytes.fromhex('04')
+        data = bytes.fromhex('04') # sending ctrl-d is cooler than a q
         self.socket.send(data)
         self.responses.append(self.socket.recv(self.recvsz))
         self.socket.close()
         del(self._socket)
 
+        
 if __name__ == '__main__':
     
     # XXX this is debugging stuff.  should replace with a command-line

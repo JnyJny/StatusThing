@@ -26,9 +26,15 @@ Command line argument processing
     [done]specify starting shape|colors|symbol|animation, see Preferences.plist
 
 StatusView
-    specify size of icon: large ( 22x22) or small
+    height clipped to height of status bar, longer width?
+    specify size of icon: large ( 22x22) or small, affects parent inset rect
     rotation bounding boxes to reduce clipping on layers on animation
     add a tooltip on hover to show something last update peer and message
+    text layer bounds are being animated when fontSize changes, looks dumb
+    try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
+    [done]change shape handling to also accept a dictionary "shape":{"name":shape-name,"rotation":degrees}
+    [done]text centering fixed
+    [done]get configuration does not include running animations or active filters
     [nope]range checking on user supplied symbol string - non-issue
     [done]construct dictionary of current configuration on demand
     [done-ish]keep shape if requested shape is bogus
@@ -42,12 +48,14 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 StatusController
-    implement reset command
+    [done]order of capabilities arrays are unsatisfactory.
+    [done]implement reset command
+    [done]circle and rounded square missing from shape section of capabilties dictionary
     [done]send a JSON dictionary of available shapes, animations, filters, capabilities command?
     [done]make "color" a synonym for "fill" on background layer
     [done]make "color" a synonym for "stroke" on foreground layer
     [done]make "color" a synonym for "foreground" on text layer
-    [done] implement get configuration user command ( allow get in preferences? )
+    [done]implement get configuration user command ( allow get in preferences? )
 
 Shape Factory
     system defined shapes
@@ -55,10 +63,14 @@ Shape Factory
     [done]fix square's angle to differentiate from diamond -> 90
 
 Animation Factory
-    newsticker to display longer strings.
+    exchange speed string for duration in seconds, change animation:1|0 to animation:[0,n] seconds
+    long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
     morph between list of shapes -> "morph":{"shapes":[shapename,shapename,...],"speed":speed}
     Move animation dictionary to plist.
-    tweak values for slowest, slower,slow,normal,fast,faster,fastest
+    [done]ticker Left to right, reverseticker, right to left
+    [in-progress]tweak values for slowest, slower,slow,normal,fast,faster,fastest
+    [done]change wink timing function to EaseIn/EaseOut
+    [done]make wink an alias for winky instead of winkx
     [done]coarse grained duration control: slow,normal,fast
     [done]winkx, winky
     [done]stretchy - embiggen just the Y-axis
@@ -109,11 +121,13 @@ statusItemMenu
 Preference Pane - global
     animation chooser
     filter chooser
+
     choose text string, font and fontSize
     add lineWidth sliders
     ApplicationPrivatePortNumber, doesn't send the port to userDefaults
-    connect NSPreferencePane to applicaition
+    connect NSPreferencePane to application
     populate NSPreferencePane bundle with controls
+    [done]text field to enter JSON dictionaries to directly affect example status view, preview changes or something
     [done]create a NSPreferencePane bundle
     [done]position window at the center of the screen
     [done]close shared color panel when preference window closes
@@ -135,6 +149,7 @@ StatusListener
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
     If using static port assignment and port is unavailable, make an error noise.
+    Add color names to capabilities dictionary
     [done]move controlling logic to StatusController where it belongs
     [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary

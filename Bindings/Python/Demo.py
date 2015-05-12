@@ -4,7 +4,6 @@ from time import sleep
 from statusthing import StatusThing, ColorRGBA
 from collections import OrderedDict
 import colorama
-import curses
 
 st = StatusThing()
 
@@ -30,6 +29,8 @@ class StatusThingDemo(StatusThing):
 
     def __fini__(self):
         self.done()
+        print("Be seeing you space cowboy!")
+        print("EOF")
 
     @property
     def roygbiv(self):
@@ -59,10 +60,9 @@ class StatusThingDemo(StatusThing):
     #
 
     def start(self,aBeat=1.75,sections=None):
-
+        self.reset()
         # for section in sections
         #    section.play(aBeat)
-        
         self.shape = 'circle'
         self.foreground.color = 'black'
         self.foreground.lineWidth = 2
@@ -85,7 +85,7 @@ class StatusThingDemo(StatusThing):
         self.commit()
         sleep(aBeat)
         self.text.enbiggen = True
-        self.text.spin = True
+        self.text.spin = 'fast'
         self.commit()
         sleep(aBeat)
         self.text.enbiggen = False
@@ -96,7 +96,16 @@ class StatusThingDemo(StatusThing):
         print("I am StatusThing and I know lots of tricks.")
         sleep(aBeat)
         print("For instance, I can change",colorize("shape,",'green'),len(self.shapes),'and counting.')
-        for idx,shape in enumerate(self.shapes[1:]):
+
+        shapes = list(self.shapes)
+        try:
+            shapes.remove('None')
+        except:
+            pass
+
+        shapes.sort()
+        
+        for idx,shape in enumerate(shapes):
             end = '\n' if idx and idx % 7 == 0 else ''
             comma = ', ' if self.shapes[-1] != shape else ''
             print(shape.capitalize()+comma,end=end,flush=not end)
@@ -240,8 +249,7 @@ class StatusThingDemo(StatusThing):
         sleep(aBeat/2)
         print("    The demo and the bindings are also available on github.")
         sleep(aBeat)
-        print("Be seeing you space cowboy!")
-        print("EOF")
+
         self.hidden(bg=True,fg=False,txt=True)
         self.commit()
 

@@ -17,6 +17,8 @@ extern NSString *const StatusThingPlistFileExtension;
 extern NSString *const StatusThingPreferenceLaunchOnLogin;
 extern NSString *const StatusThingPreferenceAllowRemoteConnections;
 extern NSString *const StatusThingPreferenceAllowAnimations;
+extern NSString *const StatusThingPreferenceAllowFilters;
+extern NSString *const StatusThingPreferenceLotsOfThings;
 extern NSString *const StatusThingPreferenceUseBonjour;
 extern NSString *const StatusThingPreferencePortNumber;
 extern NSString *const StatusThingPreferenceStatusViewDictionary;

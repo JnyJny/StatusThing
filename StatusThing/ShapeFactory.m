@@ -161,7 +161,16 @@ static NSString *const ShapeKeyAngle      = @"angle";
 
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect
 {
+    return [self createShapePath:shape inRect:rect rotatedBy:0];
+}
+
+- (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
+{
     CGPathRef pathRef = nil;
+    
+    CGAffineTransform t;
+
+    t = CGAffineTransformMakeRotation(DegToRad(degrees));
     
     if ([shape caseInsensitiveCompare:ShapeNameNone] == NSOrderedSame) {
         // draw nothing
@@ -169,7 +178,7 @@ static NSString *const ShapeKeyAngle      = @"angle";
     }
     
     if ([shape caseInsensitiveCompare:ShapeNameCircle] == NSOrderedSame) {
-        pathRef = CGPathCreateWithEllipseInRect(rect, nil);
+        pathRef = CGPathCreateWithEllipseInRect(rect, &t);
         return pathRef;
     }
     
@@ -178,7 +187,7 @@ static NSString *const ShapeKeyAngle      = @"angle";
         
         // XXX magic constant 3
         
-        pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, nil);
+        pathRef = CGPathCreateWithRoundedRect(rect, 3, 3, &t);
         return pathRef;
     }
     
@@ -186,7 +195,7 @@ static NSString *const ShapeKeyAngle      = @"angle";
     
     NSArray *points = [self pointsForShape:shape
                             centeredInRect:rect
-                                 rotatedBy:0];
+                                 rotatedBy:degrees];
     
     if (!points) {
         return nil;

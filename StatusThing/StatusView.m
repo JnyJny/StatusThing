@@ -44,7 +44,27 @@ static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
 
-static CGFloat const StatusViewInsetDelta                      = 5.0;
+static CGFloat const StatusViewInsetDelta                      = 2.0;
+
+static NSString * const ShapeKeyName                           = @"name";
+static NSString * const ShapeKeyHeading                        = @"heading";// set
+static NSString * const ShapeKeyRotate                         = @"rotate";// additive
+
+static NSString * const LayerKeyFill                           = @"fill";
+static NSString * const LayerKeyStroke                         = @"stroke";
+static NSString * const LayerKeyLineWidth                      = @"lineWidth";
+static NSString * const LayerKeyHidden                         = @"hidden";
+static NSString * const LayerKeyFont                           = @"font";
+static NSString * const LayerKeyFontSize                       = @"fontSize";
+static NSString * const LayerKeyString                         = @"string";
+static NSString * const LayerKeyForeground                     = @"foreground";
+static NSString * const LayerKeyBackground                     = @"background";
+static NSString * const LayerKeyAnimations                     = @"animations";
+
+static NSString * const CapabilityKeyShapes                    = @"shapes";
+static NSString * const CapabilityKeyAnimations                = @"animations";
+static NSString * const CapabilityKeyFilters                   = @"filters";
+
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
@@ -56,6 +76,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @property (strong,nonatomic) NSNotificationCenter *notificationCenter;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
+@property (copy,nonatomic  ) ApplyDictionaryBlock  updateShape;
 
 
 @end
@@ -68,6 +89,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @synthesize shapeFactory = _shapeFactory;
 @synthesize shape        = _shape;
 @synthesize capabilities = _capabilities;
+@synthesize shapeHeading = _shapeHeading;
 
 #pragma mark - Lifecycle Methods
 
@@ -101,9 +123,11 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     self.background.position = center;
     self.foreground.position = center;
     
-    self.text.bounds      = CGRectMake(0, 0, self.text.fontSize, self.text.fontSize);
+    CGSize sz = [self.text.string sizeWithAttributes:@{NSFontAttributeName:[NSFont fontWithName:(NSString *)self.text.font
+                                                                                           size:self.text.fontSize]}];
+    self.text.bounds      = CGRectMake(0, 0, sz.width, sz.height);
     self.text.position    = center;
-    self.text.anchorPoint = CGPointMake(0.5, 0.3); // XXX this is SO arbitrary.
+    self.text.anchorPoint = CGPointMake(0.5, 0.5);
 
     
 }
@@ -115,7 +139,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     // XXX better now that createShapePath:inRect has moved to shapeFactory
     // 
     
-    CGPathRef path = [self.shapeFactory createShapePath:self.shape inRect:self.insetRect];
+    CGPathRef path = [self.shapeFactory createShapePath:self.shape inRect:self.insetRect rotatedBy:self.shapeHeading];
     
     if (path) {
         self.foreground.path = CGPathCreateCopy(path);
@@ -202,7 +226,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         _text.name = TextLayerName;
         _text.bounds = self.layer.bounds;
         _text.string = @"";
-        _text.font = CFBridgingRetain(DefaultFontName);
+        _text.font = (__bridge CFTypeRef)(DefaultFontName);
         _text.fontSize = DefaultFontSize;
         _text.alignmentMode = kCAAlignmentCenter;
         _text.foregroundColor = CGColorCreateGenericRGB(0, 0, 0, 1.0);
@@ -214,6 +238,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     if (!_shape) {
         _shape = ShapeNameCircle;
+        _shapeHeading = 0;
     }
     return _shape;
 }
@@ -257,9 +282,9 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 - (NSDictionary *)capabilities
 {
     if (!_capabilities) {
-        _capabilities = @{ @"shapes":self.shapeFactory.shapes.allKeys,
-                           @"animations":self.animationFactory.animations.allKeys,
-                           @"filters":self.filterFactory.filters.allKeys };
+        _capabilities = @{ CapabilityKeyShapes:[ShapeFactory allShapes],
+                           CapabilityKeyAnimations:self.animationFactory.animations.allKeys,
+                           CapabilityKeyFilters:self.filterFactory.filters.allKeys };
     }
     return _capabilities;
 }
@@ -374,6 +399,23 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     };
 }
 
+- (ApplyDictionaryBlock)updateShape
+{
+    return ^void(StatusView *target,NSDictionary *info) {
+        
+        [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
+            
+            if ([key caseInsensitiveCompare:ShapeKeyName] == NSOrderedSame) {
+                target.shape = obj;
+            }
+            
+            if ([key caseInsensitiveCompare:ShapeKeyHeading] == NSOrderedSame) {
+                target.shapeHeading = [obj floatValue];
+            }
+
+        }];
+    };
+}
 
 #pragma mark - Methods
 
@@ -411,7 +453,14 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
         
         if ([key isEqualToString:StatusViewPropertyNameShape]) {
-            weakSelf.shape = obj;
+            
+            if ([obj isKindOfClass:NSString.class]) {
+                weakSelf.shape = obj;
+            }
+
+            if ([obj isKindOfClass:NSDictionary.class]) {
+                weakSelf.updateShape(weakSelf,obj);
+            }
         }
         if ([key isEqualToString:StatusViewPropertyNameForeground]) {
             weakSelf.updateShapeLayer(weakSelf.foreground,obj);
@@ -432,51 +481,56 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     NSMutableDictionary *backgroundInfo = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *foregroundInfo = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *textInfo       = [[NSMutableDictionary alloc] init];
-    
-    
-    // XXX active animations are missing..
+    NSArray             *animationKeys  = nil;
 
-    // background: fillColor, lineWidth, strokeColor, hidden
-    
     if (self.background.fillColor) {
-        [backgroundInfo setObject: [[NSColor colorWithCGColor:self.background.fillColor] dictionaryForColor]
-                           forKey: @"fill"];
+        [backgroundInfo setObject:[[NSColor colorWithCGColor:self.background.fillColor] dictionaryForColor]
+                           forKey:LayerKeyFill];
     }
     if (self.background.strokeColor) {
-        [backgroundInfo setObject: [[NSColor colorWithCGColor:self.background.strokeColor] dictionaryForColor]
-                           forKey: @"stroke"];
+        [backgroundInfo setObject:[[NSColor colorWithCGColor:self.background.strokeColor] dictionaryForColor]
+                           forKey:LayerKeyStroke];
     }
-    [backgroundInfo setObject: [NSNumber numberWithFloat:self.background.lineWidth] forKey:@"lineWidth"];
-    [backgroundInfo setObject: [NSNumber numberWithBool:self.background.hidden] forKey:@"hidden"];
+    [backgroundInfo setObject:[NSNumber numberWithFloat:self.background.lineWidth] forKey:LayerKeyLineWidth];
+    [backgroundInfo setObject:[NSNumber numberWithBool:self.background.hidden] forKey:LayerKeyHidden];
 
+
+    animationKeys = [self.background animationKeys];
+    if (animationKeys) {
+        [backgroundInfo setObject:animationKeys forKey:LayerKeyAnimations];
+    }
     
     // foreground
     if (self.foreground.fillColor) {
-        [foregroundInfo setObject: [[NSColor colorWithCGColor:self.foreground.fillColor] dictionaryForColor]
-                           forKey: @"fill"];
+        [foregroundInfo setObject:[[NSColor colorWithCGColor:self.foreground.fillColor] dictionaryForColor]
+                           forKey:LayerKeyFill];
     }
     
     if (self.foreground.strokeColor) {
-        [foregroundInfo setObject: [[NSColor colorWithCGColor:self.foreground.strokeColor] dictionaryForColor]
-                           forKey: @"stroke"];
+        [foregroundInfo setObject:[[NSColor colorWithCGColor:self.foreground.strokeColor] dictionaryForColor]
+                           forKey:LayerKeyStroke];
     }
-    [foregroundInfo setObject: [NSNumber numberWithFloat:self.foreground.lineWidth] forKey:@"lineWidth"];
-    [foregroundInfo setObject: [NSNumber numberWithBool:self.foreground.hidden] forKey:@"hidden"];
-
+    [foregroundInfo setObject:[NSNumber numberWithFloat:self.foreground.lineWidth] forKey:LayerKeyLineWidth];
+    [foregroundInfo setObject:[NSNumber numberWithBool:self.foreground.hidden] forKey:LayerKeyHidden];
+    animationKeys = [self.foreground animationKeys];
+    if ( animationKeys) {
+        [foregroundInfo setObject:animationKeys forKey:LayerKeyAnimations];
+    }
 
     
-    // text: foregroundColor, font, fontSize, string
     if (self.text.foregroundColor) {
         [textInfo setObject:[[NSColor colorWithCGColor:self.text.foregroundColor] dictionaryForColor]
-                     forKey:@"foreground"];
+                     forKey:LayerKeyForeground];
     }
-    [textInfo setObject: self.text.string forKey:@"string"];
     
-    [textInfo setObject: (NSString *)self.text.font forKey:@"font"];
-    [textInfo setObject: [NSNumber numberWithFloat:self.text.fontSize] forKey:@"fontSize"];
-    [textInfo setObject: [NSNumber numberWithBool:self.text.hidden] forKey:@"hidden"];
-    
-    
+    [textInfo setObject: self.text.string forKey:LayerKeyString];
+    [textInfo setObject:(NSString *)self.text.font forKey:LayerKeyFont];
+    [textInfo setObject:[NSNumber numberWithFloat:self.text.fontSize] forKey:LayerKeyFontSize];
+    [textInfo setObject:[NSNumber numberWithBool:self.text.hidden] forKey:LayerKeyHidden];
+    animationKeys = [self.text animationKeys];
+    if ( animationKeys) {
+        [textInfo setObject:animationKeys forKey:LayerKeyAnimations];
+    }
     
     return @{ StatusViewPropertyNameShape:self.shape,
               StatusViewPropertyNameBackground:backgroundInfo,
