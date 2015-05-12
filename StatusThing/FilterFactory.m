@@ -13,6 +13,15 @@
 
 @synthesize filters = _filters;
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        //NSLog(@"filters %@",[CIFilter filterNamesInCategories:nil]);
+    }
+    return self;
+}
+
 // XXX filter names shouldn't collide with animation or shape names
 //     bad things will happen.
 

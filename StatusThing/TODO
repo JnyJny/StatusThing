@@ -31,7 +31,8 @@ StatusView
     rotation bounding boxes to reduce clipping on layers on animation
     add a tooltip on hover to show something last update peer and message
     text layer bounds are being animated when fontSize changes, looks dumb
-    try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
+    long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
+    [done]try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
     [done]change shape handling to also accept a dictionary "shape":{"name":shape-name,"rotation":degrees}
     [done]text centering fixed
     [done]get configuration does not include running animations or active filters
@@ -65,7 +66,6 @@ Shape Factory
 
 Animation Factory
     exchange speed string for duration in seconds, change animation:1|0 to animation:[0,n] seconds
-    long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
     morph between list of shapes -> "morph":{"shapes":[shapename,shapename,...],"speed":speed}
     Move animation dictionary to plist.
     [done]ticker Left to right, reverseticker, right to left

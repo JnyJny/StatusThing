@@ -66,6 +66,13 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
         [self.statusItem.button addSubview:self.statusView];
         [self.statusView centerInRect:self.statusItem.button.bounds];
         [self updateWithDictionary:[NSUserDefaults standardUserDefaults].dictionaryRepresentation];
+        
+        NSDistributedNotificationCenter *distributedNotificationCenter = [NSDistributedNotificationCenter defaultCenter];
+        
+        [distributedNotificationCenter addObserver:self
+                                    selector:@selector(appleInterfaceThemeDidChange:)
+                                        name:AppleInterfaceThemeChangedNotification
+                                      object:nil];
     }
 
     return self;
@@ -157,13 +164,33 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
                                   object:nil];
 
 }
-//
+
 - (void)stop
 {
     [self.notificationCenter removeObserver:self];
     
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     [self.statusListener stop];
+}
+
+- (void)appleInterfaceThemeDidChange:(NSNotification *)note
+{
+
+    NSString *interfaceStyle = [self.userDefaults valueForKey:AppleInterfaceStyle];
+    
+    NSArray *filters = nil;
+
+    if (interfaceStyle && ([interfaceStyle caseInsensitiveCompare:AppleInterfaceStyleDark] == NSOrderedSame)) {
+        // this crashes horribly.
+        CIFilter *invertColor = [CIFilter filterWithName:@"CIColorInvert"];
+        [invertColor setDefaults];
+        invertColor.name = @"invertColor";
+        filters = @[ invertColor ];
+    }
+
+    [self.statusView setContentFilters:filters];
+
+
 }
 
 #pragma mark - IBAction Methods
