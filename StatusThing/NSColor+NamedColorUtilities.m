@@ -96,11 +96,18 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
     NSDictionary *info = [NSDictionary dictionaryWithObjects:rgbaValues
                                                      forKeys:cNames];
 
-    
     return [NSColor colorForDictionary:info];
+}
+
++ (NSArray *)allColorNames
+{
     
+    NSMutableArray *allColors = [[NSMutableArray alloc] init];
     
-    
+    for ( NSColorList *colorList in [NSColorList availableColorLists] ) {
+        [allColors addObjectsFromArray:colorList.allKeys];
+    }
+    return allColors;
 }
 
 @end

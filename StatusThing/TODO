@@ -48,6 +48,7 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 StatusController
+    [done]Add color names to capabilities dictionary
     [done]order of capabilities arrays are unsatisfactory.
     [done]implement reset command
     [done]circle and rounded square missing from shape section of capabilties dictionary
@@ -149,7 +150,7 @@ StatusListener
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
     If using static port assignment and port is unavailable, make an error noise.
-    Add color names to capabilities dictionary
+
     [done]move controlling logic to StatusController where it belongs
     [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary

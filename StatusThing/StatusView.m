@@ -64,6 +64,7 @@ static NSString * const LayerKeyAnimations                     = @"animations";
 static NSString * const CapabilityKeyShapes                    = @"shapes";
 static NSString * const CapabilityKeyAnimations                = @"animations";
 static NSString * const CapabilityKeyFilters                   = @"filters";
+static NSString * const CapabilityKeyColors                    = @"colors";
 
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
@@ -284,7 +285,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     if (!_capabilities) {
         _capabilities = @{ CapabilityKeyShapes:[ShapeFactory allShapes],
                            CapabilityKeyAnimations:self.animationFactory.animations.allKeys,
-                           CapabilityKeyFilters:self.filterFactory.filters.allKeys };
+                           CapabilityKeyFilters:self.filterFactory.filters.allKeys,
+                           CapabilityKeyColors:[NSColor allColorNames]};
     }
     return _capabilities;
 }

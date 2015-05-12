@@ -222,7 +222,6 @@ class StatusThing(object):
                               self.message]
         return self._entities
 
-
     @property
     def socket(self):
         '''
@@ -287,6 +286,10 @@ class StatusThing(object):
     @property
     def animations(self):
         return self.capabilities['animations']
+
+    @property
+    def colors(self):
+        return self.capabilities['colors']
 
     def reset(self):
         self.sendCommand('r')
