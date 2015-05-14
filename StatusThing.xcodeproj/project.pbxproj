@@ -25,6 +25,7 @@
 		1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BC11AF412F100127706 /* StatusThingUtilities.m */; };
 		1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */; };
 		1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DC62BD71AF5BEA600127706 /* Credits.rtf */; };
+		1DD4CA901B05265C00A58BA0 /* License in Resources */ = {isa = PBXBuildFile; fileRef = 1DD4CA8F1B05265C00A58BA0 /* License */; };
 		1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */ = {isa = PBXBuildFile; fileRef = 1DE88EFE1AFC07F900FAF640 /* statusthing.py */; };
 		1DE88F0A1AFC0A3300FAF640 /* StatusThingPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DE88F091AFC0A3300FAF640 /* StatusThingPreferencePane.h */; };
 		1DE88F0C1AFC0A3300FAF640 /* StatusThingPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE88F0B1AFC0A3300FAF640 /* StatusThingPreferencePane.m */; };
@@ -79,6 +80,7 @@
 		1DC62BD21AF5BBB700127706 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
 		1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
 		1DC62BD71AF5BEA600127706 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		1DD4CA8F1B05265C00A58BA0 /* License */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = License; sourceTree = "<group>"; };
 		1DE88EFE1AFC07F900FAF640 /* statusthing.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = statusthing.py; sourceTree = "<group>"; };
 		1DE88F051AFC0A3300FAF640 /* StatusThingPreferencePane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusThingPreferencePane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DE88F081AFC0A3300FAF640 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 			children = (
 				1D6DB45B1AE3187400277C13 /* README.md */,
 				1D6DB4521AE2C16000277C13 /* TODO */,
+				1DD4CA8F1B05265C00A58BA0 /* License */,
 			);
 			name = "Meta Data";
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			files = (
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1D2C85FA1AE9890600761F49 /* DefaultPreferences.plist in Resources */,
+				1DD4CA901B05265C00A58BA0 /* License in Resources */,
 				1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */,
 				1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */,
 				1D7E26911AF171D000FA5E71 /* StatusThing.xib in Resources */,

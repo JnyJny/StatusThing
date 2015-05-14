@@ -35,7 +35,7 @@ The cool thing about the n-gram figures is they are star shaped, and they look t
 
 ### Text
 
-Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? Make sure you use the ticker animation to get it all displayed!
+Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuff? Got you covered! Want to display a message? Make sure you use the ticker animation to get it all displayed!
 
 ### Messages
 
@@ -156,3 +156,6 @@ Planned client bindings are:
 
 See the <a href="https://github.com/JnyJny/StatusThing/blob/master/StatusThing/TODO">TODO</a> file for the most up-to-date status of on-going work.
 
+## License
+
+This software is licensed with the MIT license. 
