@@ -50,7 +50,9 @@ Dictionaries control the attributes of four main elements in StatusThing: shape,
 ### Shapes
 
 ```sh
-{ "shape":"none|circle|line|square|diamond|roundedSquare|pentagon|hexagon|septagon|octogon|nonagon|decagon|endecagon|trigram|quadragram|pentagram|hexagram|septagram|octagram|nonagram|decagram|endecagram" }
+{ "shape":"none|circle|line|square|diamond|roundedSquare|pentagon|hexagon|
+           septagon|octogon|nonagon|decagon|endecagon|trigram|quadragram|
+           pentagram|hexagram|septagram|octagram|nonagram|decagram|endecagram" }
 ```
 
 Specifying a shape in the top level of a dictionary will set the shape for both the foreground and background layers. It may be possible in the future to specify seperate shapes for each layer.  But not right now.
@@ -82,26 +84,29 @@ animation-name : boolean|string,
   "hidden"     : boolean }
 ```
 
-The font for the text text is given by name, stuff like 'Courier', 'Helvetica Bold', 'Super Made-up Font Extra-Extra-Light Oblique'.
+The font for the text is given by name, stuff like 'Courier', 'Helvetica Bold', 'Super Made-up Font Extra-Extra-Light Oblique'.
 
 The fontSize is specified in points and frankly the text positioning code is really unsatisfactory and disappointing. My advice is to keep it between 12 and 12 for now.
 
 
 #### Color Specifiers
 ```sh
-"fill|stroke|foreground":"colorName"
-"fill|stroke|foreground":{ "red":float,"green":float,"blue":float,"alpha" }
+"fill|stroke|foreground|color":"colorName"
+"fill|stroke|foreground|color":{ "red":float,"green":float,"blue":float,"alpha" }
 ```
 
 - fill       : color used to fill whichever shape you choose.
 - stroke     : color used to outline the shape
 - foreground : color used to fill the text
+- color      : context sensitive synonym
 
 Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0. If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1. I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
 
-Colors can also be specified by name.  The more common names are support, as are "banana" and "strawberry" and all the crayonbox color names.
+Colors can also be specified by name.  The more common names are supported, as are "banana" and "strawberry" and all the crayonbox color names.
 
 Of course, if an element is hidden changing it's color won't be immediately apparent.
+
+The string "color" means different things depending on whether the parent key is "foreground", "background" or "text". With foreground, color is a synonym for 'stroke'. With background, color is a synonym for 'fill'.  And for text, color is a synonym for 'foreground'. 
 
 #### Animations
 
