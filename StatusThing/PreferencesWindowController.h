@@ -20,7 +20,10 @@
 @property (weak              ) IBOutlet NSButton    *backgroundHiddenButton;
 @property (weak              ) IBOutlet NSButton    *textHiddenButton;
 @property (weak              ) IBOutlet NSButton    *allowAnimationsButton;
+@property (weak              ) IBOutlet NSButton    *allowFiltersButton;
 @property (weak              ) IBOutlet NSButton    *allowRemoteConnectionsButton;
+@property (weak              ) IBOutlet NSButton    *lotsOfThingsButton;
+@property (weak              ) IBOutlet NSButton    *useBonjourButton;
 @property (weak              ) IBOutlet NSTextField *staticPortNumberTextField;
 @property (weak              ) IBOutlet NSButton    *launchOnLoginButton;
 @property (weak              ) IBOutlet NSTextField *inputTextField;
