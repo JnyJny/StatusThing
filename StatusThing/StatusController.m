@@ -10,6 +10,7 @@
 #import <Foundation/Foundation.h>
 #import "NSColor+NamedColorUtilities.h"
 #import "PreferencesWindowController.h"
+
 #import "StatusThingUtilities.h"
 
 #pragma mark - String Constants
@@ -73,6 +74,8 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
                                     selector:@selector(appleInterfaceThemeDidChange:)
                                         name:AppleInterfaceThemeChangedNotification
                                       object:nil];
+        // check now
+        [self appleInterfaceThemeDidChange:nil];
     }
 
     return self;
@@ -177,15 +180,17 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
 {
 
     NSString *interfaceStyle = [self.userDefaults valueForKey:AppleInterfaceStyle];
-    
-    NSArray *filters = nil;
+    NSMutableArray *filters = nil;
+    CIFilter *filter;
 
     if (interfaceStyle && ([interfaceStyle caseInsensitiveCompare:AppleInterfaceStyleDark] == NSOrderedSame)) {
-        // this crashes horribly.
-        CIFilter *invertColor = [CIFilter filterWithName:@"CIColorInvert"];
-        [invertColor setDefaults];
-        invertColor.name = @"invertColor";
-        filters = @[ invertColor ];
+        filters = [[NSMutableArray alloc] init];
+        for(NSString *filterName in @[ @"CIColorInvert", @"CIPhotoEffectNoir"]) {
+            filter = [CIFilter filterWithName:filterName];
+            [filter setDefaults];
+            filter.name = filterName;
+            [filters addObject:filter];
+        }
     }
 
     [self.statusView setContentFilters:filters];

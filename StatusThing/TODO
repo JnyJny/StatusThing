@@ -32,6 +32,7 @@ StatusView
     add a tooltip on hover to show something last update peer and message
     text layer bounds are being animated when fontSize changes, looks dumb
     long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
+    [done]added monochrome filter to CIColorInvert when in dark mode to get rid of weird colors
     [done]try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
     [done]change shape handling to also accept a dictionary "shape":{"name":shape-name,"rotation":degrees}
     [done]text centering fixed
@@ -49,6 +50,7 @@ StatusView
     [done]center StatusView in the NSStatusItem's button's view
 
 StatusController
+    [done]detect dark mode on start up
     [done]Add color names to capabilities dictionary
     [done]order of capabilities arrays are unsatisfactory.
     [done]implement reset command
@@ -84,7 +86,7 @@ Animation Factory
     [done] FLIP[X|Y]
     [deferred]Animation editor?
 
-Filter Factory
+Filter Factory - deferred
     did somebody request gratuitous image filters?  nope. doing it anyway.
     add filters to: individual layers, base layer ( percolate down the hierarchy?)
     shine

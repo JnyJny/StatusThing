@@ -43,7 +43,8 @@
                 <outlet property="window" destination="o4p-KN-6xV" id="kKf-eK-JNe"/>
             </connections>
         </customObject>
-        <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
+        <customObject id="ZK2-w1-dT1" customClass="SUUpdater"/>
+        <customObject id="oC8-Rm-SA3" customClass="StatusThingPreferencesPane"/>
         <menu title="StatusThing Status Item" id="6cb-xW-SUs">
             <items>
                 <menuItem title="About" id="Isw-Tv-eWg">
@@ -67,12 +68,12 @@
                 </menuItem>
                 <menuItem title="Check For Updates..." id="IbT-Lq-F3f">
                     <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="checkForUpdates:" target="ZK2-w1-dT1" id="yUY-Kp-wmP"/>
+                    </connections>
                 </menuItem>
                 <menuItem title="Preferences..." id="J6J-eD-1od">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="showWindow:" target="Qh3-Hb-mVj" id="1I4-tK-yYh"/>
-                    </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="1xO-Sb-ZDD"/>
                 <menuItem title="Reset To Idle" id="iu6-up-uw8">
@@ -88,14 +89,14 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="307" y="-156.5"/>
+            <point key="canvasLocation" x="280" y="-261.5"/>
         </menu>
         <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="272" y="990" width="232" height="664"/>
+            <rect key="contentRect" x="272" y="851" width="232" height="664"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1577"/>
             <view key="contentView" id="cB6-PS-dNQ">
-                <rect key="frame" x="0.0" y="-1" width="232" height="664"/>
+                <rect key="frame" x="0.0" y="5" width="232" height="664"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AkN-Np-h7e">
@@ -286,7 +287,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ns-dP-0A9">
-                                    <rect key="frame" x="18" y="43" width="200" height="98"/>
+                                    <rect key="frame" x="18" y="43" width="200" height="71"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ePB-vH-Ksn">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -324,7 +325,7 @@
             <connections>
                 <outlet property="delegate" destination="Qh3-Hb-mVj" id="86g-3E-jk4"/>
             </connections>
-            <point key="canvasLocation" x="-291" y="153"/>
+            <point key="canvasLocation" x="-8" y="14"/>
         </window>
     </objects>
 </document>

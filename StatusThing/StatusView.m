@@ -44,7 +44,7 @@ static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
 
-static CGFloat const StatusViewInsetDelta                      = 2.0;
+static CGFloat const StatusViewInsetDelta                      = 4.0;
 
 static NSString * const ShapeKeyName                           = @"name";
 static NSString * const ShapeKeyHeading                        = @"heading";// set
