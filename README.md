@@ -106,7 +106,7 @@ Of course, if an element is hidden changing it's color won't be immediately appa
 #### Animations
 
 ```sh
-{ "spin[cw|ccw]" :[0|1]|speed-string,
+{ "spin[cw|ccw]"  :[0|1]|speed-string,
    "throb"        :[0|1]|speed-string,
    "bounce"       :[0|1]|speed-string,
    "shake"        :[0|1]|speed-string,
@@ -123,6 +123,22 @@ Of course, if an element is hidden changing it's color won't be immediately appa
 All of these animations can be sent in the dictionaries for any layer and multiple animations may be specified in each dictionary. Not all of them look good together, but you can do it.  Throbbing background, flipping foreground and an enbiggening, rotating text is pretty distracting. Which I guess is the point.
 
 Send a value of 1 to activate the animation and a zero to deactivate it.  A string speed value is also accepted, it can be one of; slowest, slower, slow, normal, fast, faster, fastest. The default speed for most animations is "normal" ( the ticker and reverseticker animations default to slowest ). 
+
+## Interactive Commands
+
+StatusThing isn't picky about how you talk to it; netcat, telnet or any other program which has the ability to open a TCP socket. When connected, there a variety of commands you can issue in addition to JSON dictionaries.  Here is an excerpt from the online help:
+
+```sh
+Commands:
+q|Q   - quit         : ask the server to terminate this connection
+c     - capabilities : ask the server for it's capabilties
+C     - capabilities : ask the server for it's capabilties, pretty printed
+g     - get          : ask the server for it's current configuration
+G     - get          : ask the server for it's current configuration, pretty printed
+r|R   - reset        : reset to idle values set in preferences, stops animations
+h|H|? - help         : this help
+```
+The [g]et and [c]apabilities command return JSON dictionaries.  The [g]et dictionary is the current configuration of StatusThing. The [c]apabilities dictionary is a list of all the animations, colors and shapes that are supported by StatusThing.  This should make writting and maintaining various bindings relatively easy. 
 
 ## Bindings
 
