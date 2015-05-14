@@ -6,4 +6,3 @@ build
 *.pyc
 *~
 *.boneyard*
-Pods/
