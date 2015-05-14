@@ -75,7 +75,7 @@ NSString *const ResponseActionDone  = @"done";
     NSNumber *portNumber = [self.userDefaults objectForKey:StatusThingPreferencePortNumber];
 
     if (!portNumber) {
-        portNumber = @0;
+        portNumber = @21212;
     }
     return portNumber.unsignedShortValue;
 }
@@ -99,7 +99,7 @@ NSString *const ResponseActionDone  = @"done";
         [_socketPort.address getBytes:&addr length:sizeof(addr)];
         
         self.port = ntohs(addr.sin_port);
-
+        
     }
     return _socketPort;
 }
@@ -138,6 +138,7 @@ NSString *const ResponseActionDone  = @"done";
 
 #pragma mark - Methods
 
+
 - (void)start
 {
 
@@ -152,10 +153,8 @@ NSString *const ResponseActionDone  = @"done";
     
     [self.listening acceptConnectionInBackgroundAndNotify];
     
-    if ([self.userDefaults boolForKey:StatusThingPreferenceUseBonjour]) {
-        [self.netService publish];
-    }
-    
+    [self.netService publish];
+
     self.running = YES;
 }
 
