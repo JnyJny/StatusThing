@@ -26,7 +26,10 @@
 		1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BC11AF412F100127706 /* StatusThingUtilities.m */; };
 		1DC62BD51AF5BBB700127706 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */; };
 		1DC62BD81AF5BEA600127706 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 1DC62BD71AF5BEA600127706 /* Credits.rtf */; };
-		1DD831CF1B044C7600E85FA3 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD831CE1B044C7600E85FA3 /* PreferencePanes.framework */; };
+		1DD054C11B044ABA001B5DB5 /* StatusThingPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 1DD054C01B044ABA001B5DB5 /* StatusThingPreferencePane.h */; };
+		1DD054C31B044ABA001B5DB5 /* StatusThingPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD054C21B044ABA001B5DB5 /* StatusThingPreferencePane.m */; };
+		1DD054C51B044ABA001B5DB5 /* StatusThingPreferencePane.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1DD054C41B044ABA001B5DB5 /* StatusThingPreferencePane.tiff */; };
+		1DD054C81B044ABA001B5DB5 /* StatusThingPreferencePane.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD054C61B044ABA001B5DB5 /* StatusThingPreferencePane.xib */; };
 		1DE88EFD1AFBB67700FAF640 /* FilterFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */; };
 		1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */ = {isa = PBXBuildFile; fileRef = 1DE88EFE1AFC07F900FAF640 /* statusthing.py */; };
 		462AC7FBD6ADE6CA12A9C65A /* libPods-StatusThing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6375E16847497C61F48186A7 /* libPods-StatusThing.a */; };
@@ -82,7 +85,11 @@
 		1DC62BD31AF5BBB700127706 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
 		1DC62BD71AF5BEA600127706 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		1DD054BC1B044ABA001B5DB5 /* StatusThingPreferencePane.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StatusThingPreferencePane.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DD831CE1B044C7600E85FA3 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = System/Library/Frameworks/PreferencePanes.framework; sourceTree = SDKROOT; };
+		1DD054BF1B044ABA001B5DB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DD054C01B044ABA001B5DB5 /* StatusThingPreferencePane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusThingPreferencePane.h; sourceTree = "<group>"; };
+		1DD054C21B044ABA001B5DB5 /* StatusThingPreferencePane.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusThingPreferencePane.m; sourceTree = "<group>"; };
+		1DD054C41B044ABA001B5DB5 /* StatusThingPreferencePane.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = StatusThingPreferencePane.tiff; sourceTree = "<group>"; };
+		1DD054C71B044ABA001B5DB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StatusThingPreferencePane.xib; sourceTree = "<group>"; };
 		1DE88EFB1AFBB67700FAF640 /* FilterFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterFactory.h; sourceTree = "<group>"; };
 		1DE88EFC1AFBB67700FAF640 /* FilterFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterFactory.m; sourceTree = "<group>"; };
 		1DE88EFE1AFC07F900FAF640 /* statusthing.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = statusthing.py; sourceTree = "<group>"; };
@@ -96,7 +103,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DD831CF1B044C7600E85FA3 /* PreferencePanes.framework in Frameworks */,
 				462AC7FBD6ADE6CA12A9C65A /* libPods-StatusThing.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -192,6 +198,7 @@
 				1DAF8F721ADFFEE2009CE2BE /* StatusThing */,
 				1DAF8F861ADFFEE2009CE2BE /* StatusThingTests */,
 				1DE88F241B00F77800FAF640 /* BuildScripts */,
+				1DD054BD1B044ABA001B5DB5 /* StatusThingPreferencePane */,
 				1DAF8F711ADFFEE2009CE2BE /* Products */,
 				41A05AA9B2D660B13F3DA670 /* Pods */,
 				9EDD6A9322DAFFA4469C615E /* Frameworks */,
@@ -297,6 +304,26 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		1DD054BD1B044ABA001B5DB5 /* StatusThingPreferencePane */ = {
+			isa = PBXGroup;
+			children = (
+				1DD054C01B044ABA001B5DB5 /* StatusThingPreferencePane.h */,
+				1DD054C21B044ABA001B5DB5 /* StatusThingPreferencePane.m */,
+				1DD054C41B044ABA001B5DB5 /* StatusThingPreferencePane.tiff */,
+				1DD054C61B044ABA001B5DB5 /* StatusThingPreferencePane.xib */,
+				1DD054BE1B044ABA001B5DB5 /* Supporting Files */,
+			);
+			path = StatusThingPreferencePane;
+			sourceTree = "<group>";
+		};
+		1DD054BE1B044ABA001B5DB5 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1DD054BF1B044ABA001B5DB5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		1DE88EF91AFBB64300FAF640 /* Factories */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,7 +359,6 @@
 		9EDD6A9322DAFFA4469C615E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1DD831CE1B044C7600E85FA3 /* PreferencePanes.framework */,
 				6375E16847497C61F48186A7 /* libPods-StatusThing.a */,
 			);
 			name = Frameworks;
@@ -345,6 +371,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD054C11B044ABA001B5DB5 /* StatusThingPreferencePane.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,6 +503,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD054C51B044ABA001B5DB5 /* StatusThingPreferencePane.tiff in Resources */,
+				1DD054C81B044ABA001B5DB5 /* StatusThingPreferencePane.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +589,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD054C31B044ABA001B5DB5 /* StatusThingPreferencePane.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,6 +602,17 @@
 			targetProxy = 1DAF8F841ADFFEE2009CE2BE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1DD054C61B044ABA001B5DB5 /* StatusThingPreferencePane.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DD054C71B044ABA001B5DB5 /* Base */,
+			);
+			name = StatusThingPreferencePane.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		1DAF8F8B1ADFFEE2009CE2BE /* Debug */ = {
@@ -789,7 +830,6 @@
 				1DD054CB1B044ABA001B5DB5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
