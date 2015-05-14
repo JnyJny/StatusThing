@@ -19,8 +19,6 @@ NSString * const AnimationNameSpinCCW  = @"spinccw";
 NSString * const AnimationNameThrob    = @"throb";
 NSString * const AnimationNameBounce   = @"bounce";
 NSString * const AnimationNameShake    = @"shake";
-NSString * const AnimationNameShakeX   = @"shakex";
-NSString * const AnimationNameShakeY   = @"shakey";
 NSString * const AnimationNameFlip     = @"flip";
 NSString * const AnimationNameFlipY    = @"flipy";
 NSString * const AnimationNameFlipX    = @"flipx";
@@ -38,18 +36,13 @@ NSString * const AnimationNameTickerRL = @"reverseticker";
 
 NSString * const AnimationSpeedSlowest = @"slowest";
 NSString * const AnimationSpeedSlower  = @"slower";
-NSString * const AnimationSpeedSlow    = @"slower";
-NSString * const AnimationSpeedNormal  = @"slower";
+NSString * const AnimationSpeedSlow    = @"slow";
+NSString * const AnimationSpeedNormal  = @"normal";
 NSString * const AnimationSpeedFast    = @"fast";
 NSString * const AnimationSpeedFaster  = @"faster";
 NSString * const AnimationSpeedFastest = @"fastest";
 
-
-
 @interface AnimationFactory ()
-
-@property (copy,nonatomic) DictionaryEnumBlock configureAnimationBlock;
-@property (copy,nonatomic) DictionaryEnumBlock configureAnimationGroupBlock;
 
 @end
 
@@ -105,15 +98,6 @@ NSString * const AKTimingFunction = @"timingfunction";
                                                   AKAutoreverses:@YES,
                                                   AKByValue:@2},
 
-                         AnimationNameShakeX  : @{AKKeyPath:@"position.x",
-                                                  AKTimingFunction:kCAMediaTimingFunctionEaseOut,
-                                                  AKAutoreverses:@YES,
-                                                  AKByValue:@2},
-
-                         AnimationNameShakeY   : @{AKKeyPath:@"position.y",
-                                                   AKTimingFunction:kCAMediaTimingFunctionEaseOut,
-                                                   AKAutoreverses:@YES,
-                                                   AKByValue:@2},
 
                          AnimationNameEnbiggen : @{AKKeyPath:@"transform.scale",
                                                    AKFromValue:@1,
@@ -176,9 +160,11 @@ NSString * const AKTimingFunction = @"timingfunction";
                                                    AKToValue:@0.0},
                          
                          AnimationNameTickerLR : @{ AKKeyPath:@"position.x",
+                                                    AKDuration:@6.0,
                                                     AKAutoreverses:@NO },
                          
                          AnimationNameTickerRL : @{ AKKeyPath:@"position.x",
+                                                    AKDuration:@6.0,
                                                     AKAutoreverses:@NO },
 
                         };
@@ -189,13 +175,13 @@ NSString * const AKTimingFunction = @"timingfunction";
 - (NSDictionary *)speeds
 {
     if (!_speeds) {
-        _speeds = @{ AnimationSpeedSlowest:@4.0,
-                     AnimationSpeedSlower:@2.0,
-                     AnimationSpeedSlow:@1.0,
-                     AnimationSpeedNormal:@0.50,
-                     AnimationSpeedFast:@0.25,
-                     AnimationSpeedFaster:@0.12,
-                     AnimationSpeedFastest:@0.06 };
+        _speeds = @{ AnimationSpeedSlowest:@6.0,
+                     AnimationSpeedSlower :@3.0,
+                     AnimationSpeedSlow   :@1.5,
+                     AnimationSpeedNormal :@0.50,
+                     AnimationSpeedFast   :@0.25,
+                     AnimationSpeedFaster :@0.125,
+                     AnimationSpeedFastest:@0.0625 };
     }
     return _speeds;
 }
@@ -224,8 +210,6 @@ NSString * const AKTimingFunction = @"timingfunction";
 {
     NSDictionary *info = self.animations[name];
     
-
-    
     CABasicAnimation *basic = nil;
     if (info) {
         basic = [CABasicAnimation animationWithKeyPath:info[AKKeyPath]];
@@ -233,7 +217,15 @@ NSString * const AKTimingFunction = @"timingfunction";
         basic.repeatCount = HUGE_VALF;
         basic.autoreverses = NO;
 
-        basic.duration = duration>0?duration:0.05;
+        if (duration <= 0) {
+            if (info[AKDuration]) {
+                duration = [info[AKDuration] floatValue];
+            }
+            else {
+                duration = 0.50;
+            }
+        }
+        basic.duration = duration;
         
         if (info[AKAutoreverses]) {
             basic.autoreverses = [info[AKAutoreverses] boolValue];
@@ -254,10 +246,6 @@ NSString * const AKTimingFunction = @"timingfunction";
         if (info[AKRepeatCount]) {
             basic.repeatCount = [info[AKRepeatCount] floatValue];
         }
-        
-        if (info[AKDuration]) {
-            basic.duration = [info[AKDuration] floatValue];
-        }
     }
     return basic;
 
@@ -276,8 +264,9 @@ NSString * const AKTimingFunction = @"timingfunction";
     CGFloat duration;
     
     name = [name lowercaseString];
+    speed = [speed lowercaseString];
 
-    duration = [self.speeds[(speed)?speed:AnimationSpeedFast] floatValue];
+    duration = (speed)?[self.speeds[speed] floatValue]:0.0;
     
     CABasicAnimation *animation = [self animationForName:name withDuration:duration];
     

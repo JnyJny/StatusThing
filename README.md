@@ -10,40 +10,42 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
 
 ## Features
 - Listens for client TCP/IP stream connections (port 21212 by default)
-- Clients can send JSON dictionaries to change the appearance of the icon:
-  - Shape of the foreground and background layers.
-  - Colors
-  - Arbitrary Unicode Text
-  - Text color, font and font size.
-  - Hide and show shape, outline and text
-  - ANIMATIONS! Yes. Three layers of animation; foreground, background and text.
+- Has three seperately configurable layers: background, foreground and text
+- Clients send JSON dictionaries to change the appearance of the icon:
+  - Shape and color of the fore and background.
+  - Text color, font, font size and content.
+  - Text content can be any string, including Unicode characters.
+  - Layers can be hidden independently.
+  - ANIMATIONS! All three layers can be independently animated.
+  - Interactive help when connected via the network.
+  - Configurable port number.
+  - Configurable idle presentation.
+  - Restrict remote access.
+  - Restrict use of animations.
   - Short update messages (not yet).
-  - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant ( srsly )
+  - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant (srsly).
 
 
 ### Shapes
-Shapes are rendered on the fly, making StatusThing resolution independent.  Clients can also toggle the shape outline to get that extra level of customization.
+Shapes are rendered on the fly, making StatusThing resolution independent.
 
-Shapes include: circle, line, triangle, square, rounded square, diamond, pentagon, hexagon, septagon, octagon, nonagon, decagon, endecagon, *gasp* trigram, quadragram, pentagram, hexagram, septagram, octagram, nonagram, decagram, and endecagram.
+Shapes include: circle, line, triangle, square, rounded square, diamond, n-gons where n = { 5, 11} and n-grams where n = {3, 11}.
 
-The cool thing about the *-gram figures is they are star shaped, and they look totally bad-ass when animated!
+The cool thing about the n-gram figures is they are star shaped, and they look totally bad-*ss when animated!
 
 ### Text
 
-Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? See the next section.
-
+Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuf? Got you covered! Want to display a message? Make sure you use the ticker animation to get it all displayed!
 
 ### Messages
 
 Future Feature: Client supplied short messages to help give context to changes in status. 
 
-# JSON
+## JSON
 
-ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain tersely if you care to read what it writes. It will ignore JSON dictionaries with unknown content (as per RFC1743).  Each line sent is expected to be a complete JSON dictionary, so no embedded newlines or carriage returns.  Multiple dictionaries can be sent, or you can send one big dictionary.  When you are done, shutdown your side of the socket and call it a day.
+ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain tersely if you care to read what it writes. It will ignore JSON dictionaries with unknown content (as per RFC1743). Each line sent is expected to be a complete JSON dictionary, so no embedded newlines. Multiple dictionaries can be sent, or you can send one big dictionary. When you are done, shutdown your side of the socket and call it a day.
 
-Don't worry, the server will give you a hand if you forget what all options can go into a dictionary.  The server responds to "help","reset" and "quit".  Later on the command "get" might be implemented to get the current state of StatusThing. 
-
-Dictionaries control the attributes of three main elements in StatusThing: foreground layer, background layer and text.
+Dictionaries control the attributes of four main elements in StatusThing: shape, foreground, background and text.
 
 ### Shapes
 
@@ -55,14 +57,16 @@ Specifying a shape in the top level of a dictionary will set the shape for both 
 
 ### Layers
 
-The StatusThing icon is composed of three layers: background, foreground and text in that order.  The three are composited together to make the final icon. 
+The StatusThing icon is composed of three layers: background, foreground and text in that order back to front.  The three are composited together to make the final icon. 
 
 #### Foreground and Background Layers
 
 ```sh
 { "stroke"    : color-specifier,
   "fill"      : color-specifier,
+  "color"     : synonym for "stroke" or "fill", context sensitive
   "lineWidth" : float,
+animation-name: boolean|string,
   "hidden"    : boolean }
 ```
 
@@ -70,9 +74,11 @@ The StatusThing icon is composed of three layers: background, foreground and tex
 
 ```sh
 { "foreground" : color-specifier,
+  "color"      : synonym for "foreground"
   "font"       : string,
   "fontSize"   : float,
   "string"     : string,
+animation-name : boolean|string,
   "hidden"     : boolean }
 ```
 
@@ -91,7 +97,7 @@ The fontSize is specified in points and frankly the text positioning code is rea
 - stroke     : color used to outline the shape
 - foreground : color used to fill the text
 
-Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0.  If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1.  I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
+Colors can be specified as dictionaries of RGBA values, missing values are interpreted as 0. RGBA values should vary between 0.0 and 1.0. If they are > 1, I will assume you are expressing the color using a range of numbers between 0 and 255 and scale the number to a float between 0 and 1. I probably should default alpha to 1, so for now the color dictionary should have a minimum of two items in it: a color:number pair and a 'alpha':number pair.
 
 Colors can also be specified by name.  The more common names are support, as are "banana" and "strawberry" and all the crayonbox color names.
 
@@ -100,25 +106,23 @@ Of course, if an element is hidden changing it's color won't be immediately appa
 #### Animations
 
 ```sh
-- { "spin[cw]":0|1,
-    "spinccw":0|1,
-    "throb":0|1,
-    "bounce":0|1,
-    "shake":0|1,
-    "flip[y]":0|1,
-    "flipX":0|1,
-    "wobble":0|1,
-    "blink":0|1
-    "enbiggen":0|1,
-    "stretch":0|1 }
+{ "spin[cw|ccw]" :[0|1]|speed-string,
+   "throb"        :[0|1]|speed-string,
+   "bounce"       :[0|1]|speed-string,
+   "shake"        :[0|1]|speed-string,
+   "flip[xy]"     :[0|1]|speed-string,
+   "wobble"       :[0|1]|speed-string,
+   "blink"        :[0|1]|speed-string,
+   "enbiggen"     :[0|1]|speed-string,
+   "stretch[xy]"  :[0|1]|speed-string,
+   "ticker"       :[0|1]|speed-string,
+   "reverseticker":[0|1]|speed-string
 }
 ```
 
-All of these animations can be sent in the dictionaries for any layer and multiple animations may be specified in each dictionary.  Not all of them look good together, but you can do it.  Throbbing background, flipping foreground and an enbiggening, rotating text is pretty distracting. Which I guess is the point.
+All of these animations can be sent in the dictionaries for any layer and multiple animations may be specified in each dictionary. Not all of them look good together, but you can do it.  Throbbing background, flipping foreground and an enbiggening, rotating text is pretty distracting. Which I guess is the point.
 
-Send a value of 1 to active the animation and a zero to deactivate it.  All animations stop when the status bar icon is right clicked.
-
-
+Send a value of 1 to activate the animation and a zero to deactivate it.  A string speed value is also accepted, it can be one of; slowest, slower, slow, normal, fast, faster, fastest. The default speed for most animations is "normal" ( the ticker and reverseticker animations default to slowest ). 
 
 ## Bindings
 
@@ -129,5 +133,5 @@ Planned client bindings are:
 
 ### Planned Features
 
-See the <a href="https://github.com/JnyJny/StatusThing/blob/master/StatusThing/TODO">TODO</a> file for a more comprehensive list of planned features.
+See the <a href="https://github.com/JnyJny/StatusThing/blob/master/StatusThing/TODO">TODO</a> file for the most up-to-date status of on-going work.
 

@@ -27,10 +27,9 @@ Command line argument processing
 
 StatusView
     height clipped to height of status bar, longer width?
-    specify size of icon: large ( 22x22) or small, affects parent inset rect
+    specify size of icon: large ( 22x22) or small (18x18), affects parent inset rect
     rotation bounding boxes to reduce clipping on layers on animation
     add a tooltip on hover to show something last update peer and message
-    text layer bounds are being animated when fontSize changes, looks dumb
     long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
     [done]try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
     [done]change shape handling to also accept a dictionary "shape":{"name":shape-name,"rotation":degrees}
@@ -84,13 +83,6 @@ Animation Factory
     [done] FLIP[X|Y]
     [deferred]Animation editor?
 
-Filter Factory
-    did somebody request gratuitous image filters?  nope. doing it anyway.
-    add filters to: individual layers, base layer ( percolate down the hierarchy?)
-    shine
-    twinkle
-    lens flare
-    halo 
 
 Interface builder
     put something in Credits.rtf
@@ -104,15 +96,10 @@ StatusViewArrayController
 StatusViewArray
 
 Error Handling
-    Fail when unable to bind the given port
+    Fail when unable to bind the given port, or bind to another port?
     [done]Send error notices back to clients when JSON doesn't work out
 
-JSON dispatch object
-    [fixed]Take the smarts out of the various Status* objects
-    [done]May need a few command-type verbs like reset and help
-
 statusItemMenu
-    Sparkle check for updates.
     messages subMenu holding list of messages
     message dict: { from:"Girl Behind You" body:"Do you like me" reply:{ "YES":"sweet!","NO":"bogus!"}}
     [done]Reset to Idle Configuration
@@ -121,11 +108,9 @@ statusItemMenu
 
 Preference Pane - global
     animation chooser
-    filter chooser
-
     choose text string, font and fontSize
     add lineWidth sliders
-    ApplicationPrivatePortNumber, doesn't send the port to userDefaults
+    ApplicationPrivatePortNumber, doesn't send the port to userDefaults, support multi-StatusThings
     connect NSPreferencePane to application
     populate NSPreferencePane bundle with controls
     [done]text field to enter JSON dictionaries to directly affect example status view, preview changes or something
@@ -150,7 +135,6 @@ StatusListener
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
     If using static port assignment and port is unavailable, make an error noise.
-
     [done]move controlling logic to StatusController where it belongs
     [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary
@@ -174,7 +158,7 @@ Icon
     "kazoos are cool, kazoos all day suck"
 
 Packaging?
-    Do I need a dmg or pkg applicaiton packaging?
+    get autobuild number incrementing working
     define a release process
     [done]have Travis CI upload releases to GitHub
     [done] Configured Travis CI
@@ -185,7 +169,7 @@ Shapes
     System template images
 
 Licensing
-    Copyright messages in source needs to be replace with CC appropriate verbiage
+    Add a MIT license
 
 Strategy
     One application per port
@@ -198,9 +182,7 @@ Strategy
 Startup
     [NOT TESTED]Start on login - in preferences
 
-Update Checking Stuff
-    Sparkle? On hold until Travis CI can send builds to Github
-    need to learn how to use cocoapods
+Sparkle Integration - deferred
 
 Python Client Bindings
     Adapt Demo script to have better modularity

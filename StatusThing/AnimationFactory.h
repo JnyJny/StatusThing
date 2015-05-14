@@ -16,8 +16,6 @@ extern NSString * const AnimationNameSpinCCW;
 extern NSString * const AnimationNameThrob;
 extern NSString * const AnimationNameBounce;
 extern NSString * const AnimationNameShake;
-extern NSString * const AnimationNameShakeX;
-extern NSString * const AnimationNameShakeY;
 extern NSString * const AnimationNameFlip;
 extern NSString * const AnimationNameFlipY;
 extern NSString * const AnimationNameFlipX;

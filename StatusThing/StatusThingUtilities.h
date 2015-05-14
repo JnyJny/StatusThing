@@ -18,8 +18,6 @@ extern NSString *const StatusThingPreferenceLaunchOnLogin;
 extern NSString *const StatusThingPreferenceAllowRemoteConnections;
 extern NSString *const StatusThingPreferenceAllowAnimations;
 extern NSString *const StatusThingPreferenceAllowFilters;
-extern NSString *const StatusThingPreferenceLotsOfThings;
-extern NSString *const StatusThingPreferenceUseBonjour;
 extern NSString *const StatusThingPreferencePortNumber;
 extern NSString *const StatusThingPreferenceStatusViewDictionary;
 
@@ -39,6 +37,5 @@ extern NSString *const StatusThingNetworkConfigurationChangedNotification;
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)disableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)isLoginItemEnabledForBundle:(NSBundle *)bundle;
-+ (BOOL)isDarkInterfaceStyle;
 
 @end

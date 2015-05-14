@@ -25,7 +25,7 @@
 			<key>fill</key>
 			<string>clear</string>
 			<key>lineWidth</key>
-			<integer>2</integer>
+			<real>0.5</real>
 		</dict>
 		<key>background</key>
 		<dict>
@@ -36,11 +36,11 @@
 				<key>red</key>
 				<integer>0</integer>
 				<key>green</key>
-				<string>1</string>
+				<string>0</string>
 				<key>blue</key>
 				<string>0</string>
 				<key>alpha</key>
-				<real>0.5</real>
+				<integer>0</integer>
 			</dict>
 			<key>stroke</key>
 			<string>black</string>

@@ -25,7 +25,6 @@
         <customObject id="Qh3-Hb-mVj" customClass="PreferencesWindowController">
             <connections>
                 <outlet property="allowAnimationsButton" destination="YZe-d5-WS1" id="S1Y-Ko-Qu8"/>
-                <outlet property="allowFiltersButton" destination="VmF-dn-Oaz" id="YF2-mx-p0r"/>
                 <outlet property="allowRemoteConnectionsButton" destination="gYo-ZL-nn3" id="oKx-Tr-fLA"/>
                 <outlet property="backgroundColorWell" destination="Nhq-Iq-KO4" id="zT6-lo-6my"/>
                 <outlet property="backgroundHiddenButton" destination="FwV-ov-Y9j" id="IrZ-l7-ReG"/>
@@ -39,7 +38,6 @@
                 <outlet property="staticPortNumberTextField" destination="AkN-Np-h7e" id="KWc-F8-fwk"/>
                 <outlet property="textColorWell" destination="w2h-v7-Y9Z" id="Nut-2E-IPo"/>
                 <outlet property="textHiddenButton" destination="PzU-Wr-H3Q" id="XBw-5X-cRK"/>
-                <outlet property="useBonjourButton" destination="hlo-ha-dod" id="VXj-tv-Zeo"/>
                 <outlet property="window" destination="o4p-KN-6xV" id="kKf-eK-JNe"/>
             </connections>
         </customObject>
@@ -65,9 +63,6 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Check For Updates..." id="IbT-Lq-F3f">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                </menuItem>
                 <menuItem title="Preferences..." id="J6J-eD-1od">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
@@ -88,19 +83,19 @@
                     </connections>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="307" y="-156.5"/>
+            <point key="canvasLocation" x="43" y="-134.5"/>
         </menu>
         <window title="Status Thing" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" frameAutosaveName="statusThingPreferenceWindow" animationBehavior="default" id="o4p-KN-6xV" userLabel="Status Thing">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
-            <rect key="contentRect" x="272" y="990" width="232" height="664"/>
+            <rect key="contentRect" x="272" y="990" width="232" height="460"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1577"/>
             <view key="contentView" id="cB6-PS-dNQ">
-                <rect key="frame" x="0.0" y="-1" width="232" height="664"/>
+                <rect key="frame" x="0.0" y="-7" width="232" height="460"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AkN-Np-h7e">
                         <rect key="frame" x="62" y="55" width="138" height="22"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Allocated By Bonjour" drawsBackground="YES" id="WzE-B0-Y8q">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="" drawsBackground="YES" id="WzE-B0-Y8q">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -110,7 +105,7 @@
                         </connections>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gYo-ZL-nn3">
-                        <rect key="frame" x="18" y="103" width="152" height="18"/>
+                        <rect key="frame" x="18" y="83" width="152" height="18"/>
                         <string key="toolTip">Allows clients on remote hosts to connect to StatusThing. Uncheck to allow only clients on the local host to be able to connect.</string>
                         <buttonCell key="cell" type="check" title="Remote Connections" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="4d1-Ke-hkD">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -121,24 +116,13 @@
                         </connections>
                     </button>
                     <button toolTip="Some of the animations are distracting.  Uncheck to bring your blood pressure down." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YZe-d5-WS1">
-                        <rect key="frame" x="18" y="238" width="128" height="18"/>
+                        <rect key="frame" x="18" y="103" width="128" height="18"/>
                         <buttonCell key="cell" type="check" title="Allow Animations" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="Fxz-cD-YcK">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
                             <action selector="toggleAllowAnimations:" target="Qh3-Hb-mVj" id="JZh-7q-5yn"/>
-                        </connections>
-                    </button>
-                    <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hlo-ha-dod">
-                        <rect key="frame" x="18" y="83" width="99" height="18"/>
-                        <string key="toolTip">Let Bonjour automagically pick the network port StatusThing listens on and advertise it to the local network.  Uncheck and supply the port number you want StatusThing to use. </string>
-                        <buttonCell key="cell" type="check" title="Use Bonjour" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="L2R-Kp-BkM">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggleUseBonjour:" target="Qh3-Hb-mVj" id="SlO-9v-IOV"/>
                         </connections>
                     </button>
                     <box autoresizesSubviews="NO" fixedFrame="YES" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="MD3-eT-e6m">
@@ -171,16 +155,13 @@
                         </textFieldCell>
                     </textField>
                     <box autoresizesSubviews="NO" fixedFrame="YES" title="Idle Appearance" borderType="line" translatesAutoresizingMaskIntoConstraints="NO" id="1PQ-9c-lGt">
-                        <rect key="frame" x="-3" y="278" width="238" height="366"/>
+                        <rect key="frame" x="-3" y="123" width="238" height="317"/>
                         <view key="contentView">
-                            <rect key="frame" x="1" y="1" width="236" height="350"/>
+                            <rect key="frame" x="1" y="1" width="236" height="301"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <customView autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VVA-Nz-UQl">
-                                    <rect key="frame" x="18" y="310" width="30" height="30"/>
-                                </customView>
                                 <comboBox focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="J6R-MT-3te">
-                                    <rect key="frame" x="69" y="311" width="152" height="25"/>
+                                    <rect key="frame" x="69" y="262" width="152" height="25"/>
                                     <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="border" focusRingType="none" alignment="left" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="5NX-49-rCk">
                                         <font key="font" metaFont="systemBold"/>
                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -191,14 +172,14 @@
                                     </connections>
                                 </comboBox>
                                 <colorWell toolTip="The stroke color for the foreground layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B4H-st-Gd6">
-                                    <rect key="frame" x="103" y="270" width="44" height="23"/>
+                                    <rect key="frame" x="103" y="235" width="44" height="23"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
                                         <action selector="foregroundColorSelected:" target="Qh3-Hb-mVj" id="noU-kW-fhU"/>
                                     </connections>
                                 </colorWell>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FKB-De-1To">
-                                    <rect key="frame" x="20" y="273" width="79" height="17"/>
+                                    <rect key="frame" x="16" y="238" width="79" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Foreground:" id="Ih0-he-bNj">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -206,14 +187,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <colorWell toolTip="The fill color for the background layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhq-Iq-KO4">
-                                    <rect key="frame" x="103" y="239" width="44" height="23"/>
+                                    <rect key="frame" x="103" y="204" width="44" height="23"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
                                         <action selector="backgroundColorSelected:" target="Qh3-Hb-mVj" id="IOP-8A-oi4"/>
                                     </connections>
                                 </colorWell>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UaQ-Fh-zzQ">
-                                    <rect key="frame" x="16" y="242" width="83" height="17"/>
+                                    <rect key="frame" x="16" y="207" width="83" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Background:" id="KiN-g9-SvB">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -221,14 +202,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <colorWell toolTip="The foreground color for the text layer." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w2h-v7-Y9Z">
-                                    <rect key="frame" x="103" y="209" width="44" height="22"/>
+                                    <rect key="frame" x="103" y="174" width="44" height="22"/>
                                     <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <connections>
                                         <action selector="textColorSelected:" target="Qh3-Hb-mVj" id="rf4-gW-OWM"/>
                                     </connections>
                                 </colorWell>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gSP-Ak-vZn">
-                                    <rect key="frame" x="153" y="272" width="67" height="18"/>
+                                    <rect key="frame" x="153" y="237" width="67" height="18"/>
                                     <buttonCell key="cell" type="check" title="Hidden" bezelStyle="regularSquare" imagePosition="left" inset="2" id="xS2-2i-fno">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -238,7 +219,7 @@
                                     </connections>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FwV-ov-Y9j">
-                                    <rect key="frame" x="153" y="241" width="67" height="18"/>
+                                    <rect key="frame" x="153" y="206" width="67" height="18"/>
                                     <buttonCell key="cell" type="check" title="Hidden" bezelStyle="regularSquare" imagePosition="left" inset="2" id="g7D-Bl-yaa">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -248,7 +229,7 @@
                                     </connections>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PzU-Wr-H3Q">
-                                    <rect key="frame" x="153" y="211" width="67" height="18"/>
+                                    <rect key="frame" x="153" y="176" width="67" height="18"/>
                                     <buttonCell key="cell" type="check" title="Hidden" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Auv-u5-is6">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
@@ -278,13 +259,35 @@
                                     </connections>
                                 </button>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fXh-xo-4Z6">
-                                    <rect key="frame" x="58" y="212" width="41" height="17"/>
+                                    <rect key="frame" x="58" y="177" width="41" height="17"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Text:" id="HxV-S8-ZsZ">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jhn-Xg-lG1">
+                                    <rect key="frame" x="16" y="149" width="204" height="17"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" placeholderString="JSON" id="Neh-WZ-Go3">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <box autoresizesSubviews="NO" fixedFrame="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="e5b-kJ-JZ5">
+                                    <rect key="frame" x="15" y="260" width="60" height="28"/>
+                                    <view key="contentView">
+                                        <rect key="frame" x="1" y="1" width="58" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <subviews>
+                                            <customView autoresizesSubviews="NO" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VVA-Nz-UQl">
+                                                <rect key="frame" x="18" y="3" width="22" height="22"/>
+                                            </customView>
+                                        </subviews>
+                                    </view>
+                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </box>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Ns-dP-0A9">
                                     <rect key="frame" x="18" y="43" width="200" height="98"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ePB-vH-Ksn">
@@ -296,35 +299,17 @@
                                         <action selector="didEnterText:" target="Qh3-Hb-mVj" id="aL4-af-VEI"/>
                                     </connections>
                                 </textField>
-                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jhn-Xg-lG1">
-                                    <rect key="frame" x="16" y="144" width="204" height="65"/>
-                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" placeholderString="JSON" id="Neh-WZ-Go3">
-                                        <font key="font" metaFont="system"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
                             </subviews>
                         </view>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
-                    <button toolTip="Some of the animations are distracting.  Uncheck to bring your blood pressure down." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VmF-dn-Oaz">
-                        <rect key="frame" x="18" y="218" width="97" height="18"/>
-                        <buttonCell key="cell" type="check" title="Allow Filters" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="tAa-It-oaf">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="toggleAllowFilters:" target="Qh3-Hb-mVj" id="f08-DG-bDK"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <connections>
                 <outlet property="delegate" destination="Qh3-Hb-mVj" id="86g-3E-jk4"/>
             </connections>
-            <point key="canvasLocation" x="-291" y="153"/>
+            <point key="canvasLocation" x="-259" y="51"/>
         </window>
     </objects>
 </document>

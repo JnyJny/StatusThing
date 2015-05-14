@@ -63,9 +63,3 @@ Animation entries consist of a name and boolean pair.
 
 See the output of the [c]apabilities command for a list of animations.
 
-Filters
-
-Not implemented yet.
-
-See the output of the [c]apabilities command for a list of filters.
-

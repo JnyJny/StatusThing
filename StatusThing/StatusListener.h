@@ -24,14 +24,6 @@ extern NSString *const ResponseActionDone;
 @optional
 - (NSDictionary *)processRequest:(NSDictionary *)request;  // preferred
 - (NSDictionary *)clientDidConnect:(NSDictionary *)info;
-
-// these methods go
-- (NSDictionary *)processRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
-- (NSDictionary *)handleOutOfBandRequest:(NSDictionary *)info fromClient:(NSDictionary *)clientInfo;
-
-- (void)updateWithDictionary:(NSDictionary *)info;
-- (void)updateWithArray:(NSArray *)list;
-
 @end
 
 @interface StatusListener : NSObject <NSStreamDelegate>
@@ -39,6 +31,7 @@ extern NSString *const ResponseActionDone;
 @property (strong, nonatomic) id<StatusListenerDelegate> delegate;
    
 @property (assign,nonatomic) unsigned short port;
+@property (strong,nonatomic,readonly) NSArray *activeConnections;
 
 // this property goes
 @property (strong,nonatomic) NSDictionary *resetInfo;

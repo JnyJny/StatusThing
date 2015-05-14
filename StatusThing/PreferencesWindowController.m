@@ -57,6 +57,7 @@
     if (!_exampleStatusView) {
         _exampleStatusView = [[StatusView alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
     }
+
     return _exampleStatusView;
 }
 
@@ -70,9 +71,7 @@
     
     [self.allowRemoteConnectionsButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]];
     [self.allowAnimationsButton        setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowAnimations]];
-    [self.useBonjourButton             setState:[self.userDefaults boolForKey:StatusThingPreferenceUseBonjour]];
     [self.launchOnLoginButton          setState:[self.userDefaults boolForKey:StatusThingPreferenceLaunchOnLogin]];
-    [self.staticPortNumberTextField    setEnabled:!self.useBonjourButton.state];
     [self.staticPortNumberTextField    setIntegerValue:[self.userDefaults integerForKey:StatusThingPreferencePortNumber]];
     
     // NSModalPaneWindowLevel forces the window up to the top if it's visible but buried
@@ -87,8 +86,6 @@
 {
     [self.exampleStatusView.foreground setHidden:sender.state];
 }
-
-
 
 - (IBAction)toggleHideBackground:(NSButton *)sender
 {
@@ -118,35 +115,6 @@
     
     [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
                                            object:nil];
-}
-
-- (IBAction)toggleAllowFilters:(NSButton *)sender
-{
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceAllowFilters];
-    
-    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
-                                           object:nil];
-}
-
-- (IBAction)toggleLotsOfThings:(NSButton *)sender
-{
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceLotsOfThings];
-    
-}
-
-- (IBAction)toggleUseBonjour:(NSButton *)sender
-{
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceUseBonjour];
-    [self.staticPortNumberTextField setEnabled:!sender.state];
-
-    if (sender.state) {
-        [self.notificationCenter postNotificationName:StatusThingNetworkConfigurationChangedNotification
-                                               object:nil];
-    }
-    
 }
 
 - (IBAction)portNumberUpdated:(NSTextField *)sender
@@ -198,7 +166,7 @@
 {
     [self.userDefaults synchronize];
     
-    //NSLog(@"didPushReset:%@",[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]);
+    NSLog(@"didPushReset:%@",[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]);
     [self.exampleStatusView updateWithDictionary:[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
     
     [self.exampleStatusView removeAllAnimations];

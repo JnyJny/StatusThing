@@ -13,7 +13,6 @@
 #import "BlockUtilities.h"
 #import "ShapeFactory.h"
 #import "AnimationFactory.h"
-#import "FilterFactory.h"
 
 #pragma mark - String Constants
 
@@ -44,7 +43,7 @@ static NSString * const DefaultFontName                        = @"Courier";
 static CGFloat    const DefaultFontSize                        = 12.;
 static NSString * const DefaultString                          = @"\u018f";
 
-static CGFloat const StatusViewInsetDelta                      = 2.0;
+static CGFloat const StatusViewInsetDelta                      = 4.0;
 
 static NSString * const ShapeKeyName                           = @"name";
 static NSString * const ShapeKeyHeading                        = @"heading";// set
@@ -63,7 +62,6 @@ static NSString * const LayerKeyAnimations                     = @"animations";
 
 static NSString * const CapabilityKeyShapes                    = @"shapes";
 static NSString * const CapabilityKeyAnimations                = @"animations";
-static NSString * const CapabilityKeyFilters                   = @"filters";
 static NSString * const CapabilityKeyColors                    = @"colors";
 
 
@@ -73,7 +71,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 @property (strong,nonatomic) ShapeFactory         *shapeFactory;
 @property (strong,nonatomic) AnimationFactory     *animationFactory;
-@property (strong,nonatomic) FilterFactory        *filterFactory;
 @property (strong,nonatomic) NSNotificationCenter *notificationCenter;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
@@ -215,7 +212,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         _foreground.fillColor = nil;
         _foreground.backgroundColor = nil;
         _foreground.strokeColor = CGColorCreateGenericRGB(0, 0, 0, 1);
-        _foreground.lineWidth = 3.0;
+        _foreground.lineWidth = 0.5;
     }
     return _foreground;
 }
@@ -266,13 +263,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     return _animationFactory;
 }
 
-- (FilterFactory *)filterFactory
-{
-    if (!_filterFactory) {
-        _filterFactory = [[FilterFactory alloc] init];
-    }
-    return _filterFactory;
-}
+
 
 - (CGRect)insetRect
 {
@@ -285,7 +276,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     if (!_capabilities) {
         _capabilities = @{ CapabilityKeyShapes:[ShapeFactory allShapes],
                            CapabilityKeyAnimations:self.animationFactory.animations.allKeys,
-                           CapabilityKeyFilters:self.filterFactory.filters.allKeys,
                            CapabilityKeyColors:[NSColor allColorNames]};
     }
     return _capabilities;

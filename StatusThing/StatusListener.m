@@ -152,9 +152,7 @@ NSString *const ResponseActionDone  = @"done";
     
     [self.listening acceptConnectionInBackgroundAndNotify];
     
-    if ([self.userDefaults boolForKey:StatusThingPreferenceUseBonjour]) {
-        [self.netService publish];
-    }
+    [self.netService publish];
     
     self.running = YES;
 }
