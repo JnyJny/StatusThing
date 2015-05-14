@@ -124,14 +124,11 @@ statusItemMenu
 Preference Pane - global
     animation chooser
     filter chooser
-
     choose text string, font and fontSize
     add lineWidth sliders
     ApplicationPrivatePortNumber, doesn't send the port to userDefaults
-    connect NSPreferencePane to application
-    populate NSPreferencePane bundle with controls
+    figure out NSPreferencePane
     [done]text field to enter JSON dictionaries to directly affect example status view, preview changes or something
-    [done]create a NSPreferencePane bundle
     [done]position window at the center of the screen
     [done]close shared color panel when preference window closes
     [done]change port on the fly
@@ -152,7 +149,6 @@ StatusListener
     Fallback to INET_ADDRANY and port 0 if the requested port is unavailable.
     Add listening on ipv6 port
     If using static port assignment and port is unavailable, make an error noise.
-
     [done]move controlling logic to StatusController where it belongs
     [done]extend protocol to ask delegate a question: what animations/shapes/filters are available, current configuration?
     [done]peer info dictionary
@@ -187,7 +183,7 @@ Shapes
     System template images
 
 Licensing
-    Copyright messages in source needs to be replace with CC appropriate verbiage
+    MIT license.. copyright me. 
 
 Strategy
     One application per port
