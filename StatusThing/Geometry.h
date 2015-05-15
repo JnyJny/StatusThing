@@ -16,12 +16,7 @@
 #define M_PI_5      0.6283185307179586               // PI/5
 #define M_PI_3      1.0471975511965976               // PI/3
 
-
-
-
 #define DegToRad(D) ((D)*M_PI_180)
 #define RadToDeg(R) ((R)*M_180_PI)
-
-
 
 #endif

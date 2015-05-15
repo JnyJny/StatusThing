@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1D2C85FA1AE9890600761F49 /* DefaultPreferences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D2C85F91AE9890600761F49 /* DefaultPreferences.plist */; };
+		1D5624051B053D2E00FA9BAC /* MessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5624021B053D2E00FA9BAC /* MessageView.m */; };
+		1D5624081B0551F800FA9BAC /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5624071B0551F800FA9BAC /* MessageView.xib */; };
 		1D6795721AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6795711AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m */; };
 		1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4501AE2AD0000277C13 /* StatusView.m */; };
 		1D6DB4671AE3416000277C13 /* NSColor+NamedColorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6DB4661AE3416000277C13 /* NSColor+NamedColorUtilities.m */; };
@@ -45,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		1D2C85F91AE9890600761F49 /* DefaultPreferences.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultPreferences.plist; sourceTree = "<group>"; };
+		1D5624021B053D2E00FA9BAC /* MessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageView.m; sourceTree = "<group>"; };
+		1D5624031B053D2E00FA9BAC /* MessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageView.h; sourceTree = "<group>"; };
+		1D5624071B0551F800FA9BAC /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MessageView.xib; sourceTree = "<group>"; };
 		1D67956C1AF7CA1500E075D2 /* Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
 		1D6795701AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+HandleNSColor.h"; sourceTree = "<group>"; };
 		1D6795711AF9C13A00E075D2 /* NSUserDefaults+HandleNSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+HandleNSColor.m"; sourceTree = "<group>"; };
@@ -158,6 +163,8 @@
 			children = (
 				1D6DB44F1AE2AD0000277C13 /* StatusView.h */,
 				1D6DB4501AE2AD0000277C13 /* StatusView.m */,
+				1D5624031B053D2E00FA9BAC /* MessageView.h */,
+				1D5624021B053D2E00FA9BAC /* MessageView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -282,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				1D7E26901AF171D000FA5E71 /* StatusThing.xib */,
+				1D5624071B0551F800FA9BAC /* MessageView.xib */,
 			);
 			name = NIBs;
 			sourceTree = "<group>";
@@ -451,6 +459,7 @@
 				1DAF8F7B1ADFFEE2009CE2BE /* Images.xcassets in Resources */,
 				1D2C85FA1AE9890600761F49 /* DefaultPreferences.plist in Resources */,
 				1DD4CA901B05265C00A58BA0 /* License in Resources */,
+				1D5624081B0551F800FA9BAC /* MessageView.xib in Resources */,
 				1DE88EFF1AFC07F900FAF640 /* statusthing.py in Resources */,
 				1D7E268B1AF15B4200FA5E71 /* HelpText in Resources */,
 				1D7E26911AF171D000FA5E71 /* StatusThing.xib in Resources */,
@@ -493,6 +502,7 @@
 				1D6DB4511AE2AD0000277C13 /* StatusView.m in Sources */,
 				1DC62BBC1AF3CD6500127706 /* AnimationFactory.m in Sources */,
 				1DC62BC21AF412F100127706 /* StatusThingUtilities.m in Sources */,
+				1D5624051B053D2E00FA9BAC /* MessageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

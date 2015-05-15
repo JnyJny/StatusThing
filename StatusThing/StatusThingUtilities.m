@@ -43,6 +43,7 @@ NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThi
 }
 
 
+
 #pragma mark - Login item query/enable/disable
 
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle

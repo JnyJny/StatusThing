@@ -81,7 +81,6 @@ static NSString *const ShapeKeyAngle      = @"angle";
 
 - (NSDictionary *)shapes
 {
-    
     if (!_shapes) {
         _shapes = @{ShapeNameNone:         @{ ShapeKeySides:@0,  ShapeKeyConvex:@NO,  ShapeKeyAngle:@0 },
                     ShapeNameLine:         @{ ShapeKeySides:@2,  ShapeKeyConvex:@YES, ShapeKeyAngle:@0 },
@@ -168,7 +167,7 @@ static NSString *const ShapeKeyAngle      = @"angle";
 {
     CGPathRef pathRef = nil;
     
-    CGAffineTransform t;
+    __block CGAffineTransform t;
 
     t = CGAffineTransformMakeRotation(DegToRad(degrees));
     
@@ -191,8 +190,6 @@ static NSString *const ShapeKeyAngle      = @"angle";
         return pathRef;
     }
     
-    __block CGMutablePathRef mPathRef = CGPathCreateMutable();
-    
     NSArray *points = [self pointsForShape:shape
                             centeredInRect:rect
                                  rotatedBy:degrees];
@@ -200,6 +197,8 @@ static NSString *const ShapeKeyAngle      = @"angle";
     if (!points) {
         return nil;
     }
+    __block CGMutablePathRef mPathRef = CGPathCreateMutable();
+
     
     CGPathMoveToPoint(mPathRef, nil,
                       [[points firstObject] pointValue].x,
@@ -207,7 +206,7 @@ static NSString *const ShapeKeyAngle      = @"angle";
     
     
     [points enumerateObjectsUsingBlock:^(NSValue *obj, NSUInteger idx, BOOL *stop) {
-        CGPathAddLineToPoint(mPathRef, nil, [obj pointValue].x, [obj pointValue].y);
+        CGPathAddLineToPoint(mPathRef, &t, [obj pointValue].x, [obj pointValue].y);
     }];
     
     CGPathCloseSubpath(mPathRef);

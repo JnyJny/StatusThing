@@ -29,7 +29,8 @@
     
     [self.exampleStatusView centerInRect:self.exampleView.bounds];
     
-    [self.shapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
+    [self.foregroundShapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
+    [self.backgroundShapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
 }
 
 
@@ -99,7 +100,15 @@
 
 - (IBAction)shapeSelected:(NSComboBox *)sender
 {
-    [self.exampleStatusView setShape:sender.stringValue];
+    
+    if (sender == self.foregroundShapeComboxBox) {
+        [self.exampleStatusView setForegroundShape:sender.stringValue];
+    }
+    
+    if (sender == self.backgroundShapeComboxBox) {
+        [self.exampleStatusView setBackgroundShape:sender.stringValue];
+    }
+    
 }
 
 - (IBAction)toggleRemoteConnections:(NSButton *)sender
@@ -166,12 +175,13 @@
 {
     [self.userDefaults synchronize];
     
-    NSLog(@"didPushReset:%@",[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]);
     [self.exampleStatusView updateWithDictionary:[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
     
     [self.exampleStatusView removeAllAnimations];
     
-    [self.shapeComboxBox selectItemWithObjectValue:self.exampleStatusView.shape];
+    [self.foregroundShapeComboxBox selectItemWithObjectValue:self.exampleStatusView.foregroundShape.capitalizedString];
+    [self.backgroundShapeComboxBox selectItemWithObjectValue:self.exampleStatusView.backgroundShape.capitalizedString];
+    
     
     [self.backgroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.fillColor]];
     [self.foregroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.foreground.strokeColor]];

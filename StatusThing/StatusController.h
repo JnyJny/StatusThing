@@ -24,11 +24,16 @@ extern NSString * const ResponseTextUnknownContainerFormat;
 
 @interface StatusController : NSObject <StatusListenerDelegate>
 
-@property (strong,nonatomic) NSStatusItem        *statusItem;
 @property (strong,nonatomic) IBOutlet NSMenu     *statusMenu;
 @property (strong,nonatomic) IBOutlet NSMenuItem *portMenuItem;
+@property (strong,nonatomic) IBOutlet NSMenuItem *messagesMenuItem;
+@property (strong,nonatomic) IBOutlet NSMenu     *messagesMenu;
+@property (strong,nonatomic) IBOutlet NSMenuItem *clearMessagesItem;
+
+@property (strong,nonatomic) NSStatusItem        *statusItem;
 @property (strong,nonatomic) StatusView          *statusView;
 @property (strong,nonatomic) StatusListener      *statusListener;
+
 
 
 - (void)start;

@@ -29,8 +29,11 @@ StatusView
     height clipped to height of status bar, longer width?
     specify size of icon: large ( 22x22) or small (18x18), affects parent inset rect
     rotation bounding boxes to reduce clipping on layers on animation
-    add a tooltip on hover to show something last update peer and message
     long string centering looks weird before the ticker animation starts, if text.bounds.with >> view bounds, align left?
+    replace isEqualToString: comparisons with caseInsensitiveCompare:
+    clear tooltip if accept messages preference changes
+    [done]add a tooltip on hover to show something last update peer and message
+    [done]add speed strings to capabilities dictionary
     [done]try inverted color filter when user selects dark mode in System Preferences, General, use dark menu bar and Dock
     [done]change shape handling to also accept a dictionary "shape":{"name":shape-name,"rotation":degrees}
     [done]text centering fixed
@@ -64,11 +67,10 @@ Shape Factory
     [done]fix square's angle to differentiate from diamond -> 90
 
 Animation Factory
-    exchange speed string for duration in seconds, change animation:1|0 to animation:[0,n] seconds
     morph between list of shapes -> "morph":{"shapes":[shapename,shapename,...],"speed":speed}
     Move animation dictionary to plist.
     [done]ticker Left to right, reverseticker, right to left
-    [in-progress]tweak values for slowest, slower,slow,normal,fast,faster,fastest
+    [done]tweak values for slowest, slower,slow,normal,fast,faster,fastest
     [done]change wink timing function to EaseIn/EaseOut
     [done]make wink an alias for winky instead of winkx
     [done]coarse grained duration control: slow,normal,fast
@@ -92,6 +94,23 @@ Notifications
     Instead of a history menu item ("Messages") let Notifications keep a record of stuff.
     Save history to a CSV?
 
+Messages
+    variable message view depending on from, body
+    scrollable message body.. truncates body
+    show message log in finder option
+    save messages to a file (default logfile in ~/Library/whatever/.../ ?)
+    change log replay?  from t0 to t1?
+    log changes? -> host:time:dictionary
+    hide/show messages related menus if accept messages preferences changes
+    [done]give MessageView a csv property to use when saving messages to a file
+    [done]set/clear tooltip  using message body text
+    [done]messages disabled/enabled depending on presence of messages
+    [done]clear messages disabled/enabled depnding on presence of messages
+    [done]newest messages inserted at top of list
+    [done]clear messages menu
+    [done]messages submenu populated with message menuItems
+
+
 StatusViewArrayController
 StatusViewArray
 
@@ -113,6 +132,7 @@ Preference Pane - global
     ApplicationPrivatePortNumber, doesn't send the port to userDefaults, support multi-StatusThings
     connect NSPreferencePane to application
     populate NSPreferencePane bundle with controls
+    accept messsages toggle
     [done]text field to enter JSON dictionaries to directly affect example status view, preview changes or something
     [done]create a NSPreferencePane bundle
     [done]position window at the center of the screen
@@ -169,7 +189,7 @@ Shapes
     System template images
 
 Licensing
-    Add a MIT license
+    [done]Add a MIT license
 
 Strategy
     One application per port

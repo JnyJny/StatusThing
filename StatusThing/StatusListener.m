@@ -221,7 +221,7 @@ NSString *const ResponseActionDone  = @"done";
         
         if (!handled) {
             // XXX if delegate sends something other than NSString or NSData in ResponseKeyData
-            //     may be we should shutdown? at least make an error noise
+            //     maybe we should shutdown? at least make an error noise
             NSLog(@"StatusListener.handleNewConnection: delegate ResponseKeyData = %@",
                   response[ResponseKeyData]);
         }

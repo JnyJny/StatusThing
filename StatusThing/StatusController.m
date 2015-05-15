@@ -11,17 +11,18 @@
 #import "NSColor+NamedColorUtilities.h"
 #import "PreferencesWindowController.h"
 #import "StatusThingUtilities.h"
+#import "MessageView.h"
 
 #pragma mark - String Constants
 
 #pragma mark - Private
-static NSString *const StatusThingStatusView        = @"statusView";
-static NSString *const PortMenuItemTitleFormat      = @"     Listening On Port %hu";
-static NSString *const StatusThingHelpFile          = @"HelpText";
-static NSString *const StatusThingHelpFileExtension = @"";
-static NSString *const LocalHostIPv4                = @"127.0.0.1";
-static NSString *const LocalHostName                = @"localhost";
-static NSString *const LocalHostIPv6                = @"";
+static NSString * const StatusThingKeyStatusView       = @"statusView";
+static NSString * const PortMenuItemTitleFormat        = @"     Listening On Port %hu";
+static NSString * const StatusThingHelpFile            = @"HelpText";
+static NSString * const StatusThingHelpFileExtension   = @"";
+static NSString * const LocalHostIPv4                  = @"127.0.0.1";
+static NSString * const LocalHostName                  = @"localhost";
+static NSString * const LocalHostIPv6                  = @"";
 
 #pragma mark - Public
 
@@ -36,7 +37,11 @@ NSString * const ResponseTextResetUnavilable           = @"Oops: reset is unavai
 NSString * const ResponseTextDelegateError             = @"Oops: delegate error. Author sucks.";
 NSString * const ResponseTextNotADictionary            = @"Err: You should send dictionaries.";
 NSString * const ResponseTextConfigurationNotAvailable = @"Configuration data is not available.";
-NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is not available.";
+NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabilities data is not available.";
+
+NSString * const StatusThingKeyMessage                 = @"message";
+NSString * const MessageKeyFrom                        = @"from";
+NSString * const MessageKeyBody                        = @"body";
 
 #pragma mark - Private Interface
 
@@ -55,6 +60,8 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
 - (void)awakeFromNib
 {
     [self.statusItem setMenu:self.statusMenu];
+    [self.messagesMenuItem setEnabled:NO];
+    [self.clearMessagesItem setEnabled:NO];
 }
 
 - (instancetype)init
@@ -146,6 +153,7 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
 
 #pragma mark - Methods
 
+
 - (void)start
 {
     [self.statusListener start];
@@ -165,6 +173,7 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
 
 }
 
+
 - (void)stop
 {
     [self.notificationCenter removeObserver:self];
@@ -172,6 +181,7 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
     [[NSStatusBar systemStatusBar] removeStatusItem:self.statusItem];
     [self.statusListener stop];
 }
+
 
 - (void)appleInterfaceThemeDidChange:(NSNotification *)note
 {
@@ -189,8 +199,40 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
     }
 
     [self.statusView setContentFilters:filters];
+}
 
 
+- (void)postMessage:(NSDictionary *)msg forRequest:(NSDictionary *)request
+{
+    if (!msg || ![msg isKindOfClass:NSDictionary.class]) {
+        // No message to post if there isn't a StatusThingKeyMessage dictionary in info
+        return;
+    }
+    NSMenuItem *msgItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+
+    MessageView *msgView =[[MessageView alloc] initWithFrame:CGRectZero];
+    
+    [msgView sentBy:msg[MessageKeyFrom]
+        fromAddress:request[RequestKeyAddress]
+             onDate:request[RequestKeyTimestamp]
+           withBody:msg[MessageKeyBody]];
+    
+    [msgItem setView:msgView];
+    
+    [self.messagesMenu insertItem:msgItem atIndex:0];
+    [self.messagesMenuItem setEnabled:YES];
+    [self.clearMessagesItem setEnabled:YES];
+    
+    [self.statusItem setToolTip:msg[MessageKeyBody]];
+
+}
+
+- (IBAction)clearMessages:(id)sender
+{
+    [self.messagesMenu removeAllItems];
+    [self.messagesMenuItem setEnabled:NO];
+    [self.clearMessagesItem setEnabled:NO];
+    [self.statusItem setToolTip:nil];
 }
 
 #pragma mark - IBAction Methods
@@ -375,6 +417,9 @@ NSString * const ResponseTextCapabilitiesNotAvailable  = @"Capabiltieis data is 
             
             if ([obj isKindOfClass:NSDictionary.class]) {
                 [self.statusView updateWithDictionary:obj];
+                if (obj[StatusThingKeyMessage]) {
+                    [self postMessage:obj[StatusThingKeyMessage] forRequest:request];
+                }
                 response= @{ ResponseKeyAction:ResponseActionOk,
                              ResponseKeyData:[self appendPromptTo:ResponseTextOk] };
             }

@@ -63,6 +63,8 @@ static NSString * const LayerKeyAnimations                     = @"animations";
 static NSString * const CapabilityKeyShapes                    = @"shapes";
 static NSString * const CapabilityKeyAnimations                = @"animations";
 static NSString * const CapabilityKeyColors                    = @"colors";
+static NSString * const CapabilityKeySpeeds                    = @"speeds";
+
 
 
 typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
@@ -72,22 +74,31 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @property (strong,nonatomic) ShapeFactory         *shapeFactory;
 @property (strong,nonatomic) AnimationFactory     *animationFactory;
 @property (strong,nonatomic) NSNotificationCenter *notificationCenter;
+
+@property (assign          ) CGFloat               foregroundShapeHeading;
+@property (assign          ) CGFloat               backgroundShapeHeading;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShapeLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateTextLayer;
 @property (copy,nonatomic  ) ApplyDictionaryBlock  updateShape;
+
 
 
 @end
 
 @implementation StatusView
 
-@synthesize background   = _background;
-@synthesize foreground   = _foreground;
-@synthesize text         = _text;
-@synthesize shapeFactory = _shapeFactory;
-@synthesize shape        = _shape;
-@synthesize capabilities = _capabilities;
-@synthesize shapeHeading = _shapeHeading;
+
+@synthesize background             = _background;
+@synthesize backgroundShape        = _backgroundShape;
+@synthesize backgroundShapeHeading = _backgroundShapeHeading;
+@synthesize foreground             = _foreground;
+@synthesize foregroundShape        = _foregroundShape;
+@synthesize foregroundShapeHeading = _foregroundShapeHeading;
+@synthesize text                   = _text;
+@synthesize shapeFactory           = _shapeFactory;
+@synthesize capabilities           = _capabilities;
+
+
 
 #pragma mark - Lifecycle Methods
 
@@ -133,21 +144,38 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx
 {
-    // XXX this will hinder per-layer shape assignments later on
-    // XXX better now that createShapePath:inRect has moved to shapeFactory
-    // 
-    
-    CGPathRef path = [self.shapeFactory createShapePath:self.shape inRect:self.insetRect rotatedBy:self.shapeHeading];
-    
-    if (path) {
-        self.foreground.path = CGPathCreateCopy(path);
-        self.background.path = CGPathCreateCopy(path);
-        CGPathRelease(path);
+    CGPathRef path;
+
+    if ( ([self.foregroundShape caseInsensitiveCompare:self.backgroundShape] == NSOrderedSame) &&
+        (self.foregroundShapeHeading == self.backgroundShapeHeading) ){
+        path = [self.shapeFactory createShapePath:self.foregroundShape
+                                           inRect:self.insetRect
+                                        rotatedBy:self.foregroundShapeHeading];
+        if (path) {
+            self.foreground.path = CGPathCreateCopy(path);
+            self.background.path = CGPathCreateCopy(path);
+            CGPathRelease(path);
+        }
+        else {
+            self.foreground.path = nil;
+            self.background.path = nil;
+        }
     }
     else {
-        self.foreground.path = nil;
-        self.background.path = nil;
+        
+        self.foreground.path = [self.shapeFactory createShapePath:self.foregroundShape
+                                                           inRect:self.insetRect
+                                                        rotatedBy:self.foregroundShapeHeading];
+        
+        self.background.path = [self.shapeFactory createShapePath:self.backgroundShape
+                                                           inRect:self.insetRect
+                                                        rotatedBy:self.backgroundShapeHeading];
     }
+    
+    
+    
+
+
 }
 
 // drawLayer:inContext isn't called unless there is an empty drawRect:
@@ -234,17 +262,34 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 
 - (NSString *)shape
 {
-    if (!_shape) {
-        _shape = ShapeNameCircle;
-        _shapeHeading = 0;
+    if ([self.foregroundShape caseInsensitiveCompare:self.backgroundShape] != NSOrderedSame) {
+        // concat fore & back
+        return [NSString stringWithFormat:@"%@,%@",self.backgroundShape,self.foregroundShape];
     }
-    return _shape;
+    return self.foregroundShape;
 }
 
-- (void)setShape:(NSString *)shape
+
+
+- (NSString *)foregroundShape
 {
-    _shape = shape;
-    [self setNeedsDisplay:YES]; //needed
+    if (!_foregroundShape) {
+        _foregroundShape = ShapeNameCircle;
+        _foregroundShapeHeading = 0;
+    }
+    return _foregroundShape;
+}
+
+- (void)setForegroundShape:(NSString *)foregroundShape
+{
+    _foregroundShape = foregroundShape;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)setBackgroundShape:(NSString *)backgroundShape
+{
+    _backgroundShape = backgroundShape;
+    [self setNeedsDisplay:YES];
 }
 
 - (ShapeFactory *)shapeFactory
@@ -276,6 +321,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     if (!_capabilities) {
         _capabilities = @{ CapabilityKeyShapes:[ShapeFactory allShapes],
                            CapabilityKeyAnimations:self.animationFactory.animations.allKeys,
+                           CapabilityKeySpeeds:self.animationFactory.speeds.allKeys,
                            CapabilityKeyColors:[NSColor allColorNames]};
     }
     return _capabilities;
@@ -320,6 +366,38 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             }
             if ([key isEqualToString:CALayerPropertyNameHidden]) {
                 target.hidden = [obj boolValue];
+            }
+            
+            if ([key caseInsensitiveCompare:StatusViewPropertyNameShape] == NSOrderedSame) {
+                // this is terrible.
+                if ([obj isKindOfClass:NSString.class]) {
+                    if ([target.name isEqualToString:ForegroundLayerName]) {
+                        self.foregroundShape = obj;
+                    }
+                    if ([target.name isEqualToString:BackgroundLayerName]) {
+                        self.backgroundShape = obj;
+                    }
+                }
+                
+                if ([obj isKindOfClass:NSDictionary.class]) {
+                    if (obj[ShapeKeyName]) {
+                        if ([target.name isEqualToString:ForegroundLayerName]) {
+                            self.foregroundShape = obj[ShapeKeyName];
+                        }
+                        if ([target.name isEqualToString:BackgroundLayerName]) {
+                            self.backgroundShape = obj[ShapeKeyName];
+                        }
+                    }
+                    if (obj[ShapeKeyHeading]) {
+                        if ([target.name isEqualToString:ForegroundLayerName]) {
+                            self.foregroundShapeHeading = [obj[ShapeKeyHeading] floatValue];
+                        }
+                        if ([target.name isEqualToString:BackgroundLayerName]) {
+                            self.backgroundShapeHeading = [obj[ShapeKeyHeading] floatValue];
+                        }
+                    }
+                }
+                
             }
             
             if (allowAnimations && [self.animationFactory hasAnimationNamed:key]) {
@@ -398,11 +476,13 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         [info enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop) {
             
             if ([key caseInsensitiveCompare:ShapeKeyName] == NSOrderedSame) {
-                target.shape = obj;
+                target.foregroundShape = obj;
+                target.backgroundShape = obj;
             }
             
             if ([key caseInsensitiveCompare:ShapeKeyHeading] == NSOrderedSame) {
-                target.shapeHeading = [obj floatValue];
+                target.foregroundShapeHeading = [obj floatValue];
+                target.backgroundShapeHeading = [obj floatValue];
             }
 
         }];
@@ -447,7 +527,8 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
         if ([key isEqualToString:StatusViewPropertyNameShape]) {
             
             if ([obj isKindOfClass:NSString.class]) {
-                weakSelf.shape = obj;
+                weakSelf.foregroundShape = obj;
+                weakSelf.backgroundShape = obj;
             }
 
             if ([obj isKindOfClass:NSDictionary.class]) {

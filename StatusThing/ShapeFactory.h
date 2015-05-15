@@ -31,24 +31,19 @@ extern NSString *const ShapeNameNonagram;
 extern NSString *const ShapeNameDecagram;
 extern NSString *const ShapeNameEndecagram;
 
-#pragma mark - pointsForShape:centeredInRect:rotatedBy: DOES NOT generate these shapes
-
-// Generate paths for these shapes with Core Graphics instead.
 extern NSString *const ShapeNameNone;
 extern NSString *const ShapeNameCircle;
 extern NSString *const ShapeNameRoundedSquare;
 
 #pragma mark -
 
-
-
 @interface ShapeFactory : NSObject
 
 @property (strong,nonatomic,readonly) NSDictionary *shapes;
 
 + (NSArray *)allShapes;
-- (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 
+- (NSArray *)pointsForShape:(NSString *)shape centeredInRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect;
 - (CGPathRef)createShapePath:(NSString *)shape inRect:(CGRect)rect rotatedBy:(CGFloat)degrees;
 

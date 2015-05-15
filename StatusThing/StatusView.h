@@ -12,11 +12,12 @@
 @interface StatusView : NSView
 
 @property (strong,nonatomic,readonly) CAShapeLayer *background;
+@property (strong,nonatomic         ) NSString     *backgroundShape;
 @property (strong,nonatomic,readonly) CAShapeLayer *foreground;
+@property (strong,nonatomic         ) NSString     *foregroundShape;
+
 @property (strong,nonatomic,readonly) CATextLayer  *text;
-@property (assign,nonatomic,readonly) CGRect       insetRect;
-@property (strong,nonatomic         ) NSString     *shape;
-@property (assign,nonatomic         ) CGFloat       shapeHeading; //degrees
+@property (assign,nonatomic,readonly) CGRect        insetRect;
 @property (strong,nonatomic,readonly) NSDictionary *capabilities;
 
 - (void)removeAllAnimations;

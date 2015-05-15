@@ -22,7 +22,7 @@ Inspired by <a href="https://github.com/tonsky/AnyBar">AnyBar</a>, StatusThing i
   - Configurable idle presentation.
   - Restrict remote access.
   - Restrict use of animations.
-  - Short update messages (not yet).
+  - Short messages.
   - <a href="http://www.rfc-editor.org/rfc/rfc7493.txt">RFC 7493</a> I-JSON messaging protocol compliant (srsly).
 
 
@@ -47,6 +47,20 @@ ThingStatus hopes you will send it well-formed JSON dictionaries. It will compla
 
 Dictionaries control the attributes of four main elements in StatusThing: shape, foreground, background and text.
 
+The general shape of a StatusThing dictionary is:
+
+```sh
+{ "shape":string | {"name":string,"rotate":float},
+  "message":{"from":string,"body":string},
+  "background":{},
+  "foreground":{},
+  "text":{},
+}
+```
+
+You can use as much or as little as it takes to make you happy. 
+
+
 ### Shapes
 
 ```sh
@@ -55,7 +69,8 @@ Dictionaries control the attributes of four main elements in StatusThing: shape,
            pentagram|hexagram|septagram|octagram|nonagram|decagram|endecagram" }
 ```
 
-Specifying a shape in the top level of a dictionary will set the shape for both the foreground and background layers. It may be possible in the future to specify seperate shapes for each layer.  But not right now.
+Specifying a shape in the top level of a dictionary will set the shape for both the foreground and background layers. The foreground and background shapes can be set independently by including a "shape":string key/value pair in the respective dictionary.  Some combinations work better than others.  Especially when they are animate.d 
+
 
 ### Layers
 
@@ -129,6 +144,20 @@ All of these animations can be sent in the dictionaries for any layer and multip
 
 Send a value of 1 to activate the animation and a zero to deactivate it.  A string speed value is also accepted, it can be one of; slowest, slower, slow, normal, fast, faster, fastest. The default speed for most animations is "normal" ( the ticker and reverseticker animations default to slowest ). 
 
+### Messages
+
+Clients can send short postcard-like messages to StatusThing:
+
+```sh
+"message":{
+    "from":"",
+    "body":""
+}
+```
+The from and body keys are optional, however without those populated it's sort of a boring message.
+
+Messages show up in the "Messages" submenu, newest at the top. If there is body text, it will be used as the tooltip. Hover over StatusThing after receiving a message and all will become clear.  Speaking of clear, use the "Clear Messages" menu item to get rid of all the messages you've received.
+
 ## Interactive Commands
 
 StatusThing isn't picky about how you talk to it; netcat, telnet or any other program which has the ability to open a TCP socket. When connected, there a variety of commands you can issue in addition to JSON dictionaries.  Here is an excerpt from the online help:
@@ -143,7 +172,7 @@ G     - get          : ask the server for it's current configuration, pretty pri
 r|R   - reset        : reset to idle values set in preferences, stops animations
 h|H|? - help         : this help
 ```
-The [g]et and [c]apabilities command return JSON dictionaries.  The [g]et dictionary is the current configuration of StatusThing. The [c]apabilities dictionary is a list of all the animations, colors and shapes that are supported by StatusThing.  This should make writting and maintaining various bindings relatively easy. 
+The [g]et and [c]apabilities command return JSON dictionaries.  The [g]et dictionary is the current configuration of StatusThing. The [c]apabilities dictionary is a list of all the animations, speeds, colors and shapes that are supported by StatusThing.  This should make writing and maintaining various bindings relatively easy. 
 
 ## Bindings
 
