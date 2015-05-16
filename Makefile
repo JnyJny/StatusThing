@@ -4,16 +4,17 @@
 TARGET=StatusThing
 RELEASE_ROOT=build/Release
 
-VERSION := $(shell agvtool vers -terse)
+BUILD := $(shell agvtool vers -terse)
 MVERSION := $(shell agvtool mvers -terse1 | sed -e "s/ /-/")
 
 BUILD_TARGET=$(RELEASE_ROOT)/$(TARGET).app
 
-PKG_TARGET=$(TARGET)-$(MVERSION)-v$(VERSION).app.gz
+PKG_TARGET=$(TARGET)-$(MVERSION)-buildv$(BUILD).app.gz
 
 all: build
 
-build: clean 
+build: clean
+	agvtool bump
 	xcodebuild build
 
 pkg: build

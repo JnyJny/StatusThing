@@ -133,6 +133,7 @@ Preference Pane - global
     connect NSPreferencePane to application
     populate NSPreferencePane bundle with controls
     accept messsages toggle
+    lock/unlock shape pickers
     [done]text field to enter JSON dictionaries to directly affect example status view, preview changes or something
     [done]create a NSPreferencePane bundle
     [done]position window at the center of the screen
