@@ -9,7 +9,7 @@ MVERSION := $(shell agvtool mvers -terse1 | sed -e "s/ /-/")
 
 BUILD_TARGET=$(RELEASE_ROOT)/$(TARGET).app
 
-PKG_TARGET=$(TARGET)-$(MVERSION)-buildv$(BUILD).app.gz
+PKG_TARGET=$(TARGET)-$(MVERSION)-build-$(BUILD).app.gz
 
 all: pkg
 
