@@ -11,7 +11,7 @@ BUILD_TARGET=$(RELEASE_ROOT)/$(TARGET).app
 
 PKG_TARGET=$(TARGET)-$(MVERSION)-buildv$(BUILD).app.gz
 
-all: build
+all: pkg
 
 build: clean
 	agvtool bump
