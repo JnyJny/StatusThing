@@ -48,7 +48,7 @@ StatusThing hopes you will send it well-formed JSON dictionaries. It will compla
 
 Dictionaries control the attributes of four main elements of StatusThing: shape, foreground, background and text.
 
-The general components of a StatusThing dictionary is:
+The general components of a StatusThing dictionary are:
 
 ```sh
 { "shape":string | {"name":string,"heading":float},
@@ -161,7 +161,7 @@ Clients can send short postcard-like messages to StatusThing:
 ```
 The from and body keys are optional, however without those populated it's sort of a boring message.
 
-Messages show up in the "Messages" submenu, newest at the top. If there is body text, it will be used as the tooltip. Hover over StatusThing after receiving a message and all will become clear.  Speaking of clear, use the "Clear Messages" menu item to get rid of all the messages you've received.  Frankly, this feature needs some more work. 
+Messages show up in the "Messages" submenu, newest at the top. If there is body text, it will be used as the tooltip. Hover over StatusThing after receiving a message and all will become clear.  Speaking of clear, use the "Clear Messages" menu item to get rid of all the messages you've received.  Frankly, this feature needs some more work to handle edge cases.  
 
 ## Interactive Commands
 
