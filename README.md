@@ -44,11 +44,11 @@ Not enough to set an enbiggening poop-emoji on a throbbing red background to ind
 
 ## JSON
 
-ThingStatus hopes you will send it well-formed JSON dictionaries. It will complain tersely if you care to read what it writes. It will ignore JSON dictionaries with unknown content (as per RFC1743). Each line sent is expected to be a complete JSON dictionary, so no embedded newlines. Multiple dictionaries can be sent, or you can send one big dictionary. When you are done, shutdown your side of the socket and call it a day.
+StatusThing hopes you will send it well-formed JSON dictionaries. It will complain tersely if you care to read what it writes. It will ignore JSON dictionaries with unknown content (as per RFC1743). Each line sent is expected to be a complete JSON dictionary, so no embedded newlines. Multiple dictionaries can be sent, or you can send one big dictionary. When you are done, shutdown your side of the socket and call it a day.
 
-Dictionaries control the attributes of four main elements in StatusThing: shape, foreground, background and text.
+Dictionaries control the attributes of four main elements of StatusThing: shape, foreground, background and text.
 
-The general shape of a StatusThing dictionary is:
+The general components of a StatusThing dictionary is:
 
 ```sh
 { "shape":string | {"name":string,"heading":float},
@@ -73,7 +73,6 @@ You can use as much or as little as it takes to make you happy.
 ```
 
 Specifying a shape in the top level of a dictionary will set the shape for both the foreground and background layers. The foreground and background shapes can be set independently by including a definition in their respective dictionaries.  Some combinations work better than others.  Especially when they are animated. If you include a top-level shape definiton and shape definitons in either the fore or background, the last one defined wins.
-
 
 ### Layers
 
