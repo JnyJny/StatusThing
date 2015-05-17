@@ -126,6 +126,8 @@ statusItemMenu
     [working]About?
 
 Preference Pane - global
+    speed picker, allow users to choose how fast fast is.
+    scale up examplestatusview and actual size ( XXXL and Regular)
     animation chooser
     choose text string, font and fontSize
     add lineWidth sliders
