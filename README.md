@@ -35,11 +35,12 @@ The cool thing about the n-gram figures is they are star shaped, and they look t
 
 ### Text
 
-Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuff? Got you covered! Want to display a message? Make sure you use the ticker animation to get it all displayed!
+Client supplied text displayed in center of status icon. Want to send a Unicode character? No problem! Want it drawn in Purple? No problem! What about throbbing, spinning and other stuff? Got you covered! Want to display a message? Make sure you use the ticker animation to get it all displayed!  Need a longer message? Keep reading!
 
 ### Messages
 
-Future Feature: Client supplied short messages to help give context to changes in status. 
+Not enough to set an enbiggening poop-emoji on a throbbing red background to indicate that your root filesystem is full?  Send some text along to make it even more clear what your message is!  Think of it as more of a postcard than a registered letter; you provide a JSON message dictionary with a "from" element and a "body" element.  It can be "from" your filesystem or your user ID or whatever makes it easier to identify the source of the message for the intended receiver. The "body" is whatever text you want to send. Although you should probably keep it short, there is only room there for roughly half-a-tweet. Messages will show up in the "Messages" sub-menu and the body text will show up as a tool tip (hover your cursor over StatusThing for a second).
+
 
 ## JSON
 
