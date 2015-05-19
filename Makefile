@@ -23,3 +23,6 @@ pkg: build
 clean:
 	@xcodebuild clean
 	@rm -f $(TARGET)*.app.gz
+
+immaculate: 
+	defaults delete com.symbolicarmageddon.StatusThing

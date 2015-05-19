@@ -63,10 +63,7 @@ NSString * const MessageKeyBody                        = @"body";
     [self.messagesMenuItem setEnabled:NO];
     [self.clearMessagesItem setEnabled:NO];
     
-    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]) {
-        [self.messagesMenuItem setHidden:YES];
-        [self.clearMessagesItem setHidden:YES];
-    }
+
     
 }
 
@@ -162,6 +159,12 @@ NSString * const MessageKeyBody                        = @"body";
 
 - (void)start
 {
+    // problems with defaults being available
+    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]) {
+        [self.messagesMenuItem setHidden:YES];
+        [self.clearMessagesItem setHidden:YES];
+    }
+    
     [self.statusListener start];
     NSLog(@"listening on port %u",self.statusListener.port);
     

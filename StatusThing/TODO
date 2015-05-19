@@ -135,6 +135,7 @@ Preference Pane - global
     ApplicationPrivatePortNumber, doesn't send the port to userDefaults, support multi-StatusThings
     connect NSPreferencePane to application
     populate NSPreferencePane bundle with controls
+    animations in magnified exampleStatusView disappear halfway through animation
     [done]speed picker, allow users to choose how fast fast is.
     [done]scale up examplestatusview and actual size ( XXXL and Regular)
     [done]choose text string, font and fontSize
