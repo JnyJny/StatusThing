@@ -62,6 +62,12 @@ NSString * const MessageKeyBody                        = @"body";
     [self.statusItem setMenu:self.statusMenu];
     [self.messagesMenuItem setEnabled:NO];
     [self.clearMessagesItem setEnabled:NO];
+    
+    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]) {
+        [self.messagesMenuItem setHidden:YES];
+        [self.clearMessagesItem setHidden:YES];
+    }
+    
 }
 
 - (instancetype)init
@@ -170,6 +176,11 @@ NSString * const MessageKeyBody                        = @"body";
                                 selector:@selector(restartStatusListner:)
                                     name:StatusThingNetworkConfigurationChangedNotification
                                   object:nil];
+    
+    [self.notificationCenter addObserver:self
+                                selector:@selector(messagePreferencesChanged:)
+                                    name:StatusThingMessagingPreferenceChangedNotification
+                                  object:nil];
 
 }
 
@@ -204,10 +215,12 @@ NSString * const MessageKeyBody                        = @"body";
 
 - (void)postMessage:(NSDictionary *)msg forRequest:(NSDictionary *)request
 {
-    if (!msg || ![msg isKindOfClass:NSDictionary.class]) {
-        // No message to post if there isn't a StatusThingKeyMessage dictionary in info
+    if (!msg ||
+        ![msg isKindOfClass:NSDictionary.class] ||
+        ![self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]) {
         return;
     }
+    
     NSMenuItem *msgItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
 
     MessageView *msgView =[[MessageView alloc] initWithFrame:CGRectZero];
@@ -254,6 +267,20 @@ NSString * const MessageKeyBody                        = @"body";
     [self.notificationCenter removeObserver:self];
     
     [self start];
+}
+
+- (void)messagePreferencesChanged:(NSNotification *)note
+{
+    if (![self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]) {
+        [self clearMessages:nil];
+        [self.messagesMenuItem setHidden:YES];
+        [self.clearMessagesItem setHidden:YES];
+    }
+    else {
+        
+        [self.messagesMenuItem setHidden:NO];
+        [self.clearMessagesItem setHidden:NO];
+    }
 }
 
 
@@ -417,9 +444,8 @@ NSString * const MessageKeyBody                        = @"body";
             
             if ([obj isKindOfClass:NSDictionary.class]) {
                 [self.statusView updateWithDictionary:obj];
-                if (obj[StatusThingKeyMessage]) {
-                    [self postMessage:obj[StatusThingKeyMessage] forRequest:request];
-                }
+                [self postMessage:obj[StatusThingKeyMessage] forRequest:request];
+
                 response= @{ ResponseKeyAction:ResponseActionOk,
                              ResponseKeyData:[self appendPromptTo:ResponseTextOk] };
             }

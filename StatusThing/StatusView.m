@@ -97,6 +97,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 @synthesize text                   = _text;
 @synthesize shapeFactory           = _shapeFactory;
 @synthesize capabilities           = _capabilities;
+@synthesize insetDelta             = _insetDelta;
 
 
 
@@ -106,6 +107,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
 {
     self = [super initWithFrame:rect];
     if ( self ) {
+        self.insetDelta = 0;
         self.wantsLayer = YES;
         self.layer.opaque = NO;
         [self.layer addSublayer:self.background];
@@ -137,8 +139,6 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     self.text.bounds      = CGRectMake(0, 0, sz.width, sz.height);
     self.text.position    = center;
     self.text.anchorPoint = CGPointMake(0.5, 0.5);
-
-    
 }
 
 
@@ -308,11 +308,14 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     return _animationFactory;
 }
 
-
+- (void)setInsetDelta:(CGFloat)insetDelta
+{
+    _insetDelta = insetDelta + StatusViewInsetDelta;
+}
 
 - (CGRect)insetRect
 {
-    return CGRectIntegral(CGRectInset(self.layer.bounds,StatusViewInsetDelta,StatusViewInsetDelta));
+    return CGRectIntegral(CGRectInset(self.layer.bounds,self.insetDelta,self.insetDelta));
 }
 
 
@@ -321,7 +324,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     if (!_capabilities) {
         _capabilities = @{ CapabilityKeyShapes:[ShapeFactory allShapes],
                            CapabilityKeyAnimations:self.animationFactory.animations.allKeys,
-                           CapabilityKeySpeeds:self.animationFactory.speeds.allKeys,
+                           CapabilityKeySpeeds:[StatusThingUtilities speeds].allKeys,
                            CapabilityKeyColors:[NSColor allColorNames]};
     }
     return _capabilities;
@@ -402,7 +405,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             
             if (allowAnimations && [self.animationFactory hasAnimationNamed:key]) {
                 if ([obj isKindOfClass:NSString.class]) {
-                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andDuration:[self durationForSpeed:obj]]
                                   forKey:key];
                 }
                 if ([obj isKindOfClass:NSNumber.class]) {
@@ -452,7 +455,7 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
             if (allowAnimations && [self.animationFactory hasAnimationNamed:key]) {
                 
                 if ([obj isKindOfClass:NSString.class]) {
-                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andSpeed:obj]
+                    [target addAnimation:[self.animationFactory animationForLayer:target withName:key andDuration:[self durationForSpeed:obj]]
                                   forKey:key];
                 }
                 if ([obj isKindOfClass:NSNumber.class]) {
@@ -512,6 +515,12 @@ typedef void (^ApplyDictionaryBlock)(id target,NSDictionary *info);
     [self.background removeAllAnimations];
     [self.foreground removeAllAnimations];
     [self.text       removeAllAnimations];
+}
+
+- (CGFloat)durationForSpeed:(NSString *)speed
+{
+    return [[StatusThingUtilities speeds][speed] floatValue];
+    
 }
 
 #pragma mark - Update using blocks

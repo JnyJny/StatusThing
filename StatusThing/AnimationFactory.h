@@ -31,23 +31,13 @@ extern NSString * const AnimationNameWinkY;
 extern NSString * const AnimationNameTickerLR;
 extern NSString * const AnimationNameTickerRL;
 
-
-extern NSString * const AnimationSpeedSlowest;
-extern NSString * const AnimationSpeedSlower;
-extern NSString * const AnimationSpeedSlow;
-extern NSString * const AnimationSpeedNormal;
-extern NSString * const AnimationSpeedFast;
-extern NSString * const AnimationSpeedFaster;
-extern NSString * const AnimationSpeedFastest;
-
 @interface AnimationFactory : NSObject
 
 @property (strong,nonatomic) NSDictionary *animations;
-@property (strong,nonatomic) NSDictionary *speeds;
 
 - (BOOL)hasAnimationNamed:(NSString *)animationName;
 
 - (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name;
 
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name andSpeed:(NSString *)speed;
+- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name andDuration:(CGFloat)duration;
 @end

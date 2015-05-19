@@ -10,24 +10,38 @@
 
 #pragma mark - Constants
 
-NSString *const StatusThingDomain                                  = @"com.symbolicarmageddon.StatusThing";
+NSString *const StatusThingDomain                                    = @"com.symbolicarmageddon.StatusThing";
 
-NSString *const StatusThingDefaultPreferencesFile                  = @"DefaultPreferences";
-NSString *const StatusThingPlistFileExtension                      = @"plist";
+NSString *const StatusThingDefaultPreferencesFile                    = @"DefaultPreferences";
+NSString *const StatusThingPlistFileExtension                        = @"plist";
 
 // These are keys and _NOT_ key paths
-NSString *const StatusThingPreferenceLaunchOnLogin                 = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
-NSString *const StatusThingPreferenceAllowRemoteConnections        = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
-NSString *const StatusThingPreferenceAllowAnimations               = @"com.symbolicarmageddon.StatusThing.allowAnimations";
-NSString *const StatusThingPreferencePortNumber                    = @"com.symbolicarmageddon.StatusThing.portNumber";
-NSString *const StatusThingPreferenceStatusViewDictionary          = @"com.symbolicarmageddon.StatusThing.statusView";
+NSString *const StatusThingPreferenceLaunchOnLogin                   = @"com.symbolicarmageddon.StatusThing.launchOnLogin";
+NSString *const StatusThingPreferenceAllowRemoteConnections          = @"com.symbolicarmageddon.StatusThing.allowRemoteConnections";
+NSString *const StatusThingPreferenceAllowAnimations                 = @"com.symbolicarmageddon.StatusThing.allowAnimations";
+NSString *const StatusThingPreferencePortNumber                      = @"com.symbolicarmageddon.StatusThing.portNumber";
+NSString *const StatusThingPreferenceStatusViewDictionary            = @"com.symbolicarmageddon.StatusThing.statusView";
+NSString *const StatusThingPreferenceAllowMessages                   = @"com.symbolicarmageddon.StatusThing.allowMessages";
+NSString *const StatusThingPreferenceAnimationSpeeds                 = @"com.symbolicarmageddon.StatusThing.AnimationSpeeds";
 
-NSString *const AppleInterfaceThemeChangedNotification             = @"AppleInterfaceThemeChangedNotification";
-NSString *const AppleInterfaceStyle                                = @"AppleInterfaceStyle";
-NSString *const AppleInterfaceStyleDark                            = @"dark";
 
-NSString *const StatusThingIdleConfigurationChangedNotification    = @"StatusThingIdleConfigurationChangedNotification";
-NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThingNetworkConfigurationChangedNotification";
+NSString *const AppleInterfaceThemeChangedNotification               = @"AppleInterfaceThemeChangedNotification";
+NSString *const AppleInterfaceStyle                                  = @"AppleInterfaceStyle";
+NSString *const AppleInterfaceStyleDark                              = @"dark";
+
+NSString *const StatusThingIdleConfigurationChangedNotification      = @"StatusThingIdleConfigurationChangedNotification";
+NSString *const StatusThingAnimationPreferenceChangedNotification = @"StatusThingAnimationPreferenceChangedNotification";
+NSString *const StatusThingNetworkConfigurationChangedNotification   = @"StatusThingNetworkConfigurationChangedNotification";
+NSString *const StatusThingRemoteAccessPreferenceChangedNotification = @"StatusThingRemoteAccessPreferenceChangedNotification";
+NSString *const StatusThingMessagingPreferenceChangedNotification    = @"StatusThingMessagingPreferenceChangedNotification";
+
+NSString *const StatusThingAnimationSpeedKeyFastest                  = @"fastest";
+NSString *const StatusThingAnimationSpeedKeyFaster                   = @"faster";
+NSString *const StatusThingAnimationSpeedKeyFast                     = @"fast";
+NSString *const StatusThingAnimationSpeedKeyNormal                   = @"normal";
+NSString *const StatusThingAnimationSpeedKeySlow                     = @"slow";
+NSString *const StatusThingAnimationSpeedKeySlower                   = @"slower";
+NSString *const StatusThingAnimationSpeedKeySlowest                  = @"slowest";
 
 
 @implementation StatusThingUtilities
@@ -40,6 +54,8 @@ NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThi
     NSString *path = [[NSBundle mainBundle] pathForResource:StatusThingDefaultPreferencesFile
                                                      ofType:StatusThingPlistFileExtension];
     [userDefaults registerDefaults:[NSDictionary dictionaryWithContentsOfFile:path]];
+    
+    [userDefaults synchronize];
 }
 
 
@@ -132,6 +148,31 @@ NSString *const StatusThingNetworkConfigurationChangedNotification = @"StatusThi
 }
 
 
+
+
++ (NSDictionary *)speeds
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    return [userDefaults objectForKey:StatusThingPreferenceAnimationSpeeds];
+    
+}
+
+
++ (void)resetSpeedsToDefaultValues
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:StatusThingDefaultPreferencesFile
+                                                             ofType:StatusThingPlistFileExtension];
+    
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+
+    [userDefaults setObject:defaults[StatusThingPreferenceAnimationSpeeds]
+                     forKey:StatusThingPreferenceAnimationSpeeds];
+    
+    [userDefaults synchronize];
+}
 
 
 @end

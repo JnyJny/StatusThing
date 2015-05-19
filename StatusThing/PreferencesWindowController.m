@@ -14,8 +14,11 @@
 
 
 @interface PreferencesWindowController ()
-@property (strong,nonatomic) NSUserDefaults *userDefaults;
-@property (strong,nonatomic) NSNotificationCenter *notificationCenter;
+@property (strong,nonatomic  ) NSUserDefaults       *userDefaults;
+@property (strong,nonatomic  ) NSNotificationCenter *notificationCenter;
+@property (strong,nonatomic  ) NSMutableDictionary  *animationSpeeds;
+@property (strong,nonatomic  ) StatusView           *exampleStatusView;
+@property (strong,nonatomic  ) NSFontManager        *fontManager;
 
 @end
 
@@ -27,10 +30,58 @@
 {
     [self.exampleView addSubview:self.exampleStatusView];
     
-    [self.exampleStatusView centerInRect:self.exampleView.bounds];
+}
+
+- (void)initializePreferencesSettings
+{
+
+    [self.backgroundShapeList addItemsWithTitles:[ShapeFactory allShapes]];
+    [self.foregroundShapeList addItemsWithTitles:[ShapeFactory allShapes]];
     
-    [self.foregroundShapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
-    [self.backgroundShapeComboxBox addItemsWithObjectValues:[ShapeFactory allShapes]];
+    [self.textFontList addItemsWithTitles:[self.fontManager availableFonts]];
+    
+    [self.staticPortNumberTextField setIntegerValue:[self.userDefaults integerForKey:StatusThingPreferencePortNumber]];
+    
+    [self.allowAnimationsButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowAnimations]];
+    [self.allowMessagesButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowMessages]];
+    [self.allowRemoteConnectionsButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]];
+    
+    [self.fastestField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeyFastest] floatValue]];
+    [self.fasterField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeyFaster] floatValue]];
+    [self.fastField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeyFast] floatValue]];
+    [self.normalField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeyNormal] floatValue]];
+    [self.slowField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeySlow] floatValue]];
+    [self.slowerField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeySlower] floatValue]];
+    [self.slowestField setFloatValue:[self.animationSpeeds[StatusThingAnimationSpeedKeySlowest] floatValue]];
+}
+
+- (void)initializePreferencesAppearance
+{
+    [self.exampleStatusView updateWithDictionary:[self.userDefaults objectForKey:StatusThingPreferenceStatusViewDictionary]];
+    
+    [self.backgroundHiddenToggle setState:!self.exampleStatusView.background.hidden];
+    [self.backgroundShapeList setTitle:self.exampleStatusView.backgroundShape];
+    [self.backgroundFillColor setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.fillColor]];
+    [self.backgroundStrokeColor setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.strokeColor]];
+    [self.backgroundLineWidthField setFloatValue:self.exampleStatusView.background.lineWidth];
+    [self.backgroundLineWidthStepper setFloatValue:self.exampleStatusView.background.lineWidth];
+    
+    [self.foregroundHiddenToggle setState:!self.exampleStatusView.foreground.hidden];
+    [self.foregroundShapeList setTitle:self.exampleStatusView.foregroundShape];
+    [self.foregroundFillColor setColor:[NSColor colorWithCGColor:self.exampleStatusView.foreground.fillColor]];
+    [self.foregroundStrokeColor setColor:[NSColor colorWithCGColor:self.exampleStatusView.foreground.strokeColor]];
+    [self.foregroundLineWidthField setFloatValue:self.exampleStatusView.foreground.lineWidth];
+    [self.foregroundLineWidthStepper setFloatValue:self.exampleStatusView.foreground.lineWidth];
+    
+    [self.textHiddenToggle setState:!self.exampleStatusView.text.hidden];
+    [self.textForegroundColor setColor:[NSColor colorWithCGColor:self.exampleStatusView.text.foregroundColor]];
+
+    [self.textStringField setStringValue:self.exampleStatusView.text.string];
+    [self.textFontSizeField setFloatValue:self.exampleStatusView.text.fontSize];
+    [self.textFontSizeStepper setFloatValue:self.exampleStatusView.text.fontSize];
+    [self.textFontList setTitle:self.exampleStatusView.text.font];
+
+    
 }
 
 
@@ -53,10 +104,35 @@
     return _notificationCenter;
 }
 
+- (NSFontManager *)fontManager
+{
+    if (!_fontManager) {
+        _fontManager = [NSFontManager sharedFontManager];
+    }
+    return _fontManager;
+}
+
+- (NSMutableDictionary *)animationSpeeds
+{
+    if (!_animationSpeeds) {
+        _animationSpeeds = [NSMutableDictionary dictionaryWithDictionary:[StatusThingUtilities speeds]];
+    }
+    return _animationSpeeds;
+}
+
 - (StatusView *)exampleStatusView
 {
     if (!_exampleStatusView) {
-        _exampleStatusView = [[StatusView alloc] initWithFrame:CGRectMake(0, 0, 22, 22)];
+        
+        CGFloat n = MIN(CGRectGetWidth(self.exampleView.bounds),
+                        CGRectGetHeight(self.exampleView.bounds));
+        
+        _exampleStatusView = [[StatusView alloc] initWithFrame:self.exampleView.bounds];
+        //        [_exampleStatusView centerInRect:self.exampleView.bounds];
+        
+        _exampleStatusView.insetDelta = (n - 22.)/2;
+        
+        _exampleStatusView.layer.anchorPoint = CGPointMake(0.5, 0.5);
     }
 
     return _exampleStatusView;
@@ -67,13 +143,16 @@
 - (IBAction)showWindow:(id)sender
 {
 
+    [self initializePreferencesSettings];
+    [self initializePreferencesAppearance];
     
-    [self didPushReset:nil];
+    CATransform3D t = CATransform3DScale(self.exampleStatusView.layer.transform, 5, 5, 0);
     
-    [self.allowRemoteConnectionsButton setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowRemoteConnections]];
-    [self.allowAnimationsButton        setState:[self.userDefaults boolForKey:StatusThingPreferenceAllowAnimations]];
-    [self.launchOnLoginButton          setState:[self.userDefaults boolForKey:StatusThingPreferenceLaunchOnLogin]];
-    [self.staticPortNumberTextField    setIntegerValue:[self.userDefaults integerForKey:StatusThingPreferencePortNumber]];
+    //    self.exampleStatusView.layer.transform = t;
+    self.exampleStatusView.layer.sublayerTransform = t;
+    
+    [[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
+    [NSColor setIgnoresAlpha:NO];
     
     // NSModalPaneWindowLevel forces the window up to the top if it's visible but buried
     // check against isOccluded?
@@ -83,136 +162,347 @@
 
 }
 
-- (IBAction)toggleHideForeground:(NSButton *)sender
-{
-    [self.exampleStatusView.foreground setHidden:sender.state];
-}
 
-- (IBAction)toggleHideBackground:(NSButton *)sender
-{
-    [self.exampleStatusView.background setHidden:sender.state];
-}
 
-- (IBAction)toggleHideText:(NSButton *)sender
-{
-    [self.exampleStatusView.text setHidden:sender.state];
-}
 
-- (IBAction)shapeSelected:(NSComboBox *)sender
+- (IBAction)toggleDidChange:(NSButton *)sender
 {
-    
-    if (sender == self.foregroundShapeComboxBox) {
-        [self.exampleStatusView setForegroundShape:sender.stringValue];
+    if (sender == self.allowAnimationsButton) {
+        [self.userDefaults setBool:sender.state
+                            forKey:StatusThingPreferenceAllowAnimations];
+        
+        [self.notificationCenter postNotificationName:StatusThingAnimationPreferenceChangedNotification
+                                               object:nil];
+        return;
+        // NOTREACHED
     }
     
-    if (sender == self.backgroundShapeComboxBox) {
-        [self.exampleStatusView setBackgroundShape:sender.stringValue];
+    if (sender == self.allowMessagesButton) {
+        [self.userDefaults setBool:sender.state
+                            forKey:StatusThingPreferenceAllowMessages];
+        [self.notificationCenter postNotificationName:StatusThingMessagingPreferenceChangedNotification
+                                               object:nil];
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.allowRemoteConnectionsButton) {
+        [self.userDefaults setBool:sender.state
+                            forKey:StatusThingPreferenceAllowRemoteConnections];
+        
+        [self.notificationCenter postNotificationName:StatusThingRemoteAccessPreferenceChangedNotification
+                                               object:nil];
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.launchOnLoginButton) {
+        
+        [self.userDefaults setBool:sender.state
+                            forKey:StatusThingPreferenceLaunchOnLogin];
+        
+        if (sender.state) {
+            [StatusThingUtilities enableLoginItemForBundle:nil];
+        }
+        else {
+            [StatusThingUtilities disableLoginItemForBundle:nil];
+        }
+        
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.toggleShapeLock) {
+        if (sender.state) {
+            [self popUpDidChange:self.backgroundShapeList];
+        }
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.backgroundHiddenToggle) {
+        [self.exampleStatusView.background setHidden:!sender.state];
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.foregroundHiddenToggle) {
+        [self.exampleStatusView.foreground setHidden:!sender.state];
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.textHiddenToggle) {
+        [self.exampleStatusView.text setHidden:!sender.state];
+        return;
+        // NOTREACHED
+    }
+    
+    
+}
+
+- (IBAction)numberFieldDidChange:(NSTextField *)sender
+{
+    
+    NSNumber *value = [NSNumber numberWithFloat:sender.floatValue];
+    
+    if (sender == self.staticPortNumberTextField) {
+        value = [NSNumber numberWithUnsignedShort:sender.integerValue];
+        [self.userDefaults setObject:value forKey:StatusThingPreferencePortNumber];
+        [self.notificationCenter postNotificationName:StatusThingNetworkConfigurationChangedNotification
+                                               object:nil];
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.fastestField) {
+        [self.fastestStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFastest] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.fasterField) {
+        [self.fasterStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFaster] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.fastField) {
+        [self.fastStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFast] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.normalField) {
+        [self.normalStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyNormal] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.slowField) {
+        [self.slowStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlow] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.slowerField) {
+        [self.slowerStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlower] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.slowestField) {
+        [self.slowestStepper setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlowest] = value;
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.backgroundLineWidthField) {
+        [self.backgroundLineWidthStepper setFloatValue:sender.floatValue];
+        [self.exampleStatusView.background setLineWidth:sender.floatValue];
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.foregroundLineWidthField) {
+        [self.foregroundLineWidthStepper setFloatValue:sender.floatValue];
+        [self.exampleStatusView.foreground setLineWidth:sender.floatValue];
+        return;
+        //NOTREACHED
+    }
+    
+    if (sender == self.textFontSizeField) {
+        [self.textFontSizeStepper setFloatValue:sender.floatValue];
+        [self.exampleStatusView.text setFontSize:sender.floatValue];
+        return;
+        //NOTREACHED
     }
     
 }
 
-- (IBAction)toggleRemoteConnections:(NSButton *)sender
+
+- (IBAction)stepperDidChangeValue:(NSStepper *)sender
 {
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceAllowRemoteConnections];
+    
+    NSNumber *value = [NSNumber numberWithFloat:sender.floatValue];
+    
+    if (sender == self.fastestStepper) {
+        [self.fastestField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFastest] = value;
+    }
+    
+    if (sender == self.fasterStepper) {
+        [self.fasterField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFaster] = value;
+    }
+    
+    if (sender == self.fastStepper) {
+        [self.fastField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyFast] = value;
+    }
+    
+    if (sender == self.normalStepper) {
+        [self.normalField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeyNormal] = value;
+    }
+    
+    if (sender == self.slowStepper) {
+        [self.slowField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlow] = value;
+    }
+    
+    if (sender == self.slowerStepper) {
+        [self.slowerField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlower] = value;
+    }
+    
+    if (sender == self.slowestStepper) {
+        [self.slowestField setFloatValue:sender.floatValue];
+        self.animationSpeeds[StatusThingAnimationSpeedKeySlowest] = value;
+    }
+    
+    if (sender == self.backgroundLineWidthStepper) {
+        [self.backgroundLineWidthField setFloatValue:sender.floatValue];
+        [self.exampleStatusView.background setLineWidth:sender.floatValue];
+    }
+    
+    if (sender == self.foregroundLineWidthStepper) {
+        [self.foregroundLineWidthField setFloatValue:sender.floatValue];
+        [self.exampleStatusView.foreground setLineWidth:sender.floatValue];
+    }
+    
+    if (sender == self.textFontSizeStepper) {
+        [self.textFontSizeField setFloatValue:sender.floatValue];
+        [self.exampleStatusView.text setFontSize:sender.floatValue];
+    }
+    
 }
 
-- (IBAction)toggleAllowAnimations:(NSButton *)sender
+- (IBAction)didPushButton:(NSButton *)sender
 {
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceAllowAnimations];
+    if (sender == self.restoreAnimationSpeeds) {
+        _animationSpeeds = nil;
+        [self initializePreferencesSettings];
+    }
     
-    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
-                                           object:nil];
+    if (sender == self.saveAnimationSpeeds) {
+        [self.userDefaults setObject:self.animationSpeeds forKey:StatusThingPreferenceAnimationSpeeds];
+    }
+    
+    if (sender == self.resetButton) {
+        // reset the exampleStatusView
+        [self initializePreferencesAppearance];
+    }
+    
+    if (sender == self.acceptButton) {
+        // save the exampleStatusView configuration as default settings
+        [self.userDefaults setObject:self.exampleStatusView.currentConfiguration
+                              forKey:StatusThingPreferenceStatusViewDictionary];
+        [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
+                                               object:nil];
+    }
+    
 }
 
-- (IBAction)portNumberUpdated:(NSTextField *)sender
+- (IBAction)popUpDidChange:(NSPopUpButton *)sender
 {
-    NSNumber *portNumber = [NSNumber numberWithUnsignedShort:sender.intValue];
-
-    [self.userDefaults setObject:portNumber
-                          forKey:StatusThingPreferencePortNumber];
+    [sender setTitle:sender.selectedItem.title];
     
-    [self.notificationCenter postNotificationName:StatusThingNetworkConfigurationChangedNotification
-                                           object:nil];
-}
-
-- (IBAction)toggleLaunchOnLogin:(NSButton *)sender
-{
-    [self.userDefaults setBool:sender.state
-                        forKey:StatusThingPreferenceLaunchOnLogin];
-}
-
-- (IBAction)foregroundColorSelected:(NSColorWell *)sender
-{
-    self.exampleStatusView.foreground.strokeColor = [sender.color CGColor];
-}
-
-- (IBAction)backgroundColorSelected:(NSColorWell *)sender
-{
-    self.exampleStatusView.background.fillColor = [sender.color CGColor];
-}
-
-- (IBAction)textColorSelected:(NSColorWell *)sender
-{
-    self.exampleStatusView.text.foregroundColor = [sender.color CGColor];
-}
-
-- (IBAction)didPushSave:(NSButton *)sender
-{
-    // get configuration dictionary from exampleStatusView and save it
-    // with the key StatusThingPreferencesStatusViewDictionary since
-    // we have been updating the state of exampleStatusView
-
-    [self.userDefaults setObject:[self.exampleStatusView currentConfiguration]
-                          forKey:StatusThingPreferenceStatusViewDictionary];
+    if ((sender == self.backgroundShapeList) ||
+        (sender == self.foregroundShapeList)) {
+        
+        if (self.toggleShapeLock.state) {
+            [self.backgroundShapeList setTitle:sender.selectedItem.title];
+            [self.foregroundShapeList setTitle:sender.selectedItem.title];
+        }
+        [self.exampleStatusView setForegroundShape:self.foregroundShapeList.selectedItem.title];
+        [self.exampleStatusView setBackgroundShape:self.backgroundShapeList.selectedItem.title];
+        return;
+        // NOTREACHED
+    }
     
-    [self.notificationCenter postNotificationName:StatusThingIdleConfigurationChangedNotification
-                                           object:nil];
-}
-
-- (IBAction)didPushReset:(NSButton *)sender
-{
-    [self.userDefaults synchronize];
+    if (sender == self.textFontList) {
+        [self.exampleStatusView.text setFont:(__bridge CFTypeRef)(sender.selectedItem.title)];
+        return;
+        // NOTREACHED
+    }
     
-    [self.exampleStatusView updateWithDictionary:[self.userDefaults dictionaryForKey:StatusThingPreferenceStatusViewDictionary]];
-    
-    [self.exampleStatusView removeAllAnimations];
-    
-    [self.foregroundShapeComboxBox selectItemWithObjectValue:self.exampleStatusView.foregroundShape.capitalizedString];
-    [self.backgroundShapeComboxBox selectItemWithObjectValue:self.exampleStatusView.backgroundShape.capitalizedString];
-    
-    
-    [self.backgroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.background.fillColor]];
-    [self.foregroundColorWell setColor:[NSColor colorWithCGColor:self.exampleStatusView.foreground.strokeColor]];
-    [self.textColorWell       setColor:[NSColor colorWithCGColor:self.exampleStatusView.text.foregroundColor]];
-    
-    [self.backgroundHiddenButton setState:self.exampleStatusView.background.hidden];
-    [self.foregroundHiddenButton setState:self.exampleStatusView.foreground.hidden];
-    [self.textHiddenButton       setState:self.exampleStatusView.text.hidden];
-    
-    [self.inputResultField setStringValue:@"Ok"];
-    [self.inputResultField setStringValue:@""];
 }
 
 - (IBAction)didEnterText:(NSTextField *)sender
 {
 
-    NSError *error = nil;
+    if (sender == self.inputTextField) {
+        NSError *error = nil;
     
-    id obj = [NSJSONSerialization JSONObjectWithData:[sender.stringValue dataUsingEncoding:NSUTF8StringEncoding]
-                                             options:0
-                                               error:&error];
+        id obj = [NSJSONSerialization JSONObjectWithData:[sender.stringValue dataUsingEncoding:NSUTF8StringEncoding]
+                                                 options:0
+                                                   error:&error];
     
-    [self.inputResultField setStringValue:(error)?error.localizedFailureReason:@"OK"];
+        [self.inputResultField setStringValue:(error)?error.localizedFailureReason:@"OK"];
 
-    if ([obj isKindOfClass:NSDictionary.class]) {
-        [self.exampleStatusView updateWithDictionary:obj];
-    }
-    else {
-        [self.inputResultField setStringValue:@"Expecting a JSON formated dictionary."];
+        if ([obj isKindOfClass:NSDictionary.class]) {
+            [self.exampleStatusView updateWithDictionary:obj];
+        }
+        else {
+            [self.inputResultField setStringValue:@"Expecting a JSON formated dictionary."];
+        }
+        
+        return;
+        // NOTREACHED
     }
     
+    if (sender == self.textStringField) {
+        [self.exampleStatusView.text setString:sender.stringValue];
+        return;
+        // NOTREACHED
+    }
+}
+
+
+- (IBAction)colorWellDidChange:(NSColorWell *)sender
+{
+    
+    CGColorRef cgColor = [sender.color CGColor];
+    
+    if (sender == self.backgroundFillColor) {
+        self.exampleStatusView.background.fillColor = cgColor;
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.backgroundStrokeColor) {
+        self.exampleStatusView.background.strokeColor = cgColor;
+        return;
+        // NOTREACHED
+    }
+    
+    if (sender == self.foregroundFillColor) {
+        self.exampleStatusView.foreground.fillColor = cgColor;
+        return;
+        // NOTREACHED
+
+    }
+    
+    if (sender == self.foregroundStrokeColor) {
+        self.exampleStatusView.foreground.strokeColor = cgColor;
+        return;
+        // NOTREACHED
+
+    }
+    
+    if (sender == self.textForegroundColor) {
+        self.exampleStatusView.text.foregroundColor = cgColor;
+        return;
+        // NOTREACHED
+    }
     
 }
 

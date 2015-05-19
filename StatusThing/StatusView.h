@@ -17,7 +17,8 @@
 @property (strong,nonatomic         ) NSString     *foregroundShape;
 
 @property (strong,nonatomic,readonly) CATextLayer  *text;
-@property (assign,nonatomic,readonly) CGRect        insetRect;
+@property (assign,nonatomic         ) CGFloat      insetDelta;
+@property (assign,nonatomic,readonly) CGRect       insetRect;
 @property (strong,nonatomic,readonly) NSDictionary *capabilities;
 
 - (void)removeAllAnimations;

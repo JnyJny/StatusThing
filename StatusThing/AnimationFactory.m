@@ -34,13 +34,6 @@ NSString * const AnimationNameWinkY    = @"winky";
 NSString * const AnimationNameTickerLR = @"ticker";
 NSString * const AnimationNameTickerRL = @"reverseticker";
 
-NSString * const AnimationSpeedSlowest = @"slowest";
-NSString * const AnimationSpeedSlower  = @"slower";
-NSString * const AnimationSpeedSlow    = @"slow";
-NSString * const AnimationSpeedNormal  = @"normal";
-NSString * const AnimationSpeedFast    = @"fast";
-NSString * const AnimationSpeedFaster  = @"faster";
-NSString * const AnimationSpeedFastest = @"fastest";
 
 @interface AnimationFactory ()
 
@@ -66,14 +59,14 @@ NSString * const AKTimingFunction = @"timingfunction";
     if (!_animations) {
         _animations = @{ AnimationNameSpin    : @{AKKeyPath:@"transform.rotation",
                                                   AKFromValue:@0,
-                                                  AKToValue:@M_2PI},
+                                                  AKToValue:@M_4PI},
 
                          AnimationNameSpinCW  : @{AKKeyPath:@"transform.rotation",
-                                                  AKFromValue:@M_2PI,
+                                                  AKFromValue:@M_4PI,
                                                   AKToValue:@0},
 
                          AnimationNameSpinCCW : @{AKKeyPath:@"transform.rotation",
-                                                  AKFromValue:@M_2PI,
+                                                  AKFromValue:@M_4PI,
                                                   AKToValue:@0},
 
                          AnimationNameWobble  : @{AKKeyPath:@"transform.rotation",
@@ -172,19 +165,6 @@ NSString * const AKTimingFunction = @"timingfunction";
     return _animations;
 }
 
-- (NSDictionary *)speeds
-{
-    if (!_speeds) {
-        _speeds = @{ AnimationSpeedSlowest:@6.0,
-                     AnimationSpeedSlower :@3.0,
-                     AnimationSpeedSlow   :@1.5,
-                     AnimationSpeedNormal :@0.50,
-                     AnimationSpeedFast   :@0.25,
-                     AnimationSpeedFaster :@0.125,
-                     AnimationSpeedFastest:@0.0625 };
-    }
-    return _speeds;
-}
 
 
 #pragma mark - Public Methods
@@ -255,18 +235,14 @@ NSString * const AKTimingFunction = @"timingfunction";
 {
     return [self animationForLayer:layer
                           withName:name
-                          andSpeed:nil];
+                          andDuration:0];
     
 }
 
-- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name andSpeed:(NSString *)speed
+- (CABasicAnimation *)animationForLayer:(CALayer *)layer withName:(NSString *)name andDuration:(CGFloat)duration
 {
-    CGFloat duration;
     
     name = [name lowercaseString];
-    speed = [speed lowercaseString];
-
-    duration = (speed)?[self.speeds[speed] floatValue]:0.0;
     
     CABasicAnimation *animation = [self animationForName:name withDuration:duration];
     

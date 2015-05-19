@@ -2,6 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>com.symbolicarmageddon.StatusThing.AnimationSpeeds</key>
+	<dict>
+		<key>fastest</key>
+		<real>0.0625</real>
+		<key>faster</key>
+		<real>0.125</real>
+		<key>fast</key>
+		<real>0.25</real>
+		<key>normal</key>
+		<real>0.5</real>
+		<key>slow</key>
+		<real>1.5</real>
+		<key>slower</key>
+		<integer>3</integer>
+		<key>slowest</key>
+		<real>6</real>
+	</dict>
 	<key>NSInitialToolTipDelay</key>
 	<integer>1</integer>
 	<key>com.symbolicarmageddon.StatusThing.launchOnLogin</key>
@@ -10,7 +27,7 @@
 	<true/>
 	<key>com.symbolicarmageddon.StatusThing.allowAnimations</key>
 	<true/>
-	<key>com.symbolicarmageddon.StatusThing.useBonjour</key>
+	<key>com.symbolicarmageddon.StatusThing.allowMessages</key>
 	<true/>
 	<key>com.symbolicarmageddon.StatusThing.portNumber</key>
 	<real>21212</real>

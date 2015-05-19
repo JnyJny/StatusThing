@@ -17,9 +17,10 @@ extern NSString *const StatusThingPlistFileExtension;
 extern NSString *const StatusThingPreferenceLaunchOnLogin;
 extern NSString *const StatusThingPreferenceAllowRemoteConnections;
 extern NSString *const StatusThingPreferenceAllowAnimations;
-extern NSString *const StatusThingPreferenceAllowFilters;
+extern NSString *const StatusThingPreferenceAllowMessages;
 extern NSString *const StatusThingPreferencePortNumber;
 extern NSString *const StatusThingPreferenceStatusViewDictionary;
+extern NSString *const StatusThingPreferenceAnimationSpeeds;
 
 #pragma mark - Apple Interface Constants
 extern NSString *const AppleInterfaceThemeChangedNotification;
@@ -30,6 +31,17 @@ extern NSString *const AppleInterfaceStyleDark;
 
 extern NSString *const StatusThingIdleConfigurationChangedNotification;
 extern NSString *const StatusThingNetworkConfigurationChangedNotification;
+extern NSString *const StatusThingAnimationPreferenceChangedNotification;
+extern NSString *const StatusThingRemoteAccessPreferenceChangedNotification;
+extern NSString *const StatusThingMessagingPreferenceChangedNotification;
+
+extern NSString *const StatusThingAnimationSpeedKeyFastest;
+extern NSString *const StatusThingAnimationSpeedKeyFaster;
+extern NSString *const StatusThingAnimationSpeedKeyFast;
+extern NSString *const StatusThingAnimationSpeedKeyNormal;
+extern NSString *const StatusThingAnimationSpeedKeySlow;
+extern NSString *const StatusThingAnimationSpeedKeySlower;
+extern NSString *const StatusThingAnimationSpeedKeySlowest;
 
 @interface StatusThingUtilities : NSObject
 
@@ -37,5 +49,7 @@ extern NSString *const StatusThingNetworkConfigurationChangedNotification;
 + (BOOL)enableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)disableLoginItemForBundle:(NSBundle *)bundle;
 + (BOOL)isLoginItemEnabledForBundle:(NSBundle *)bundle;
++ (NSDictionary *)speeds;
+
 
 @end

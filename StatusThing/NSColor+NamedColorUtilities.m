@@ -14,12 +14,13 @@ NSString *const RGBAColorComponentGreen = @"green";
 NSString *const RGBAColorComponentBlue  = @"blue";
 NSString *const RGBAColorComponentAlpha = @"alpha";
 
+NSString *const ColorNameClear = @"clear";
+
 @implementation NSColor (NamedColorUtilities)
 
 
 + (NSColor *)colorForObject:(id)object
 {
- 
     if ( [object isKindOfClass:[NSString class]]) {
         return [NSColor colorForString:object];
     }
@@ -35,6 +36,14 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
 + (NSColor *)colorForString:(NSString *)colorString
 {
     NSColor *color = nil;
+    
+    if (!colorString) {
+        return nil;
+    }
+    
+    if ([colorString caseInsensitiveCompare:ColorNameClear] == NSOrderedSame) {
+        return [NSColor clearColor];
+    }
     
     // XXX not especially performant, but it does find a variety of colors by name
     
@@ -55,6 +64,7 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
 + (NSColor *)colorForDictionary:(NSDictionary *)info
 {
     // info may have red, blue, green, alpha key/values  empty dictionary is black
+
     
     CGFloat red = 0;
     CGFloat green = 0;
@@ -68,6 +78,7 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
     
     return [NSColor colorWithRed:Scale(red) green:Scale(green) blue:Scale(blue) alpha:Scale(alpha)];
 }
+
 
 - (NSDictionary *)dictionaryForColor
 {
@@ -86,7 +97,7 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
 
 + (NSColor *)colorForArray:(NSArray *)rgbaValues
 {
-    // what to do for values with counts of 0,1,2,3
+    // what to do for values with counts of 0,1,2,3?
     
     NSArray *cNames = @[RGBAColorComponentRed,
                         RGBAColorComponentGreen,
@@ -103,6 +114,8 @@ NSString *const RGBAColorComponentAlpha = @"alpha";
 {
     
     NSMutableArray *allColors = [[NSMutableArray alloc] init];
+    
+    [allColors addObject:ColorNameClear];
     
     for ( NSColorList *colorList in [NSColorList availableColorLists] ) {
         [allColors addObjectsFromArray:colorList.allKeys];
