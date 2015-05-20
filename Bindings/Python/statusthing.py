@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 '''python bindings to talk to a Mac OSX StatusThing
 
@@ -9,14 +9,13 @@ http://github.com/jnyjny/StatusThing
 from json import dumps,loads
 from socket import create_connection
 
-
 class Layer(object):
     '''
     Models a StatusThing layer: foreground, background or text
     depending on the properties supplied to __init__.
     '''
 
-    def __init__(self,name,properties,animations,filters=None):
+    def __init__(self,name,properties,animations):
         self.name = name
         self.properties = properties
 
@@ -27,19 +26,17 @@ class Layer(object):
             self.properties.append('color')
         
         self.animations = animations
-        
-        self.filters = filters
 
-        self._categories = [self.properties,self.animations,self.filters]
+        self._categories = [self.properties,self.animations]
         
         self.clear()
 
     def clear(self):
         '''
-        Walks the lists of layer properties, animations and filters
-        and sets them all to None.  The value of None signifies that
-        the property, animation or filter should be ignored by the
-        model method.
+        Walks the lists of layer properties and animations and sets 
+        them all to None.  The value of None signifies that the property
+        or animation should be ignored by the model method.
+
         '''
         for category in self._categories:
             for propertyName in category:
@@ -58,11 +55,11 @@ class Layer(object):
             
     def model(self):
         '''
-        This method returns a dictionary of all properties, animations
-        and filters whose values are not None.
+        This method returns a dictionary of all properties and animations
+        whose values are not None.
         '''
         r = {}
-        for category in [self.properties,self.animations,self.filters]:
+        for category in [self.properties,self.animations]:
             for propertyName in category:
                 value = getattr(self,propertyName)
                 if value is None:
@@ -90,7 +87,7 @@ class Message(object):
         r = {}
 
         if self.sender is not None:
-            r.setdefault('sender',self.sender)
+            r.setdefault('from',self.sender)
             
         if self.body is not None:
             r.setdefault('body',self.body)
@@ -118,13 +115,25 @@ class ColorRGBA(dict):
             raise ValueError('hexstring too short < 3 .')
         
         if len(hexstring) == 6:
-            components = bytes.fromhex(hexstring)
-            
+            try:
+                components = bytes.fromhex(hexstring)
+            except AttributeError:
+                x = int(hexstring,16)
+                components = (x >> 16 & 0xff), (x >> 8 & 0xff), (x&0xff)
+                
         if hexstring.startswith('#'):
-            components = bytes.fromhex(hexstring[1:])
+            try:
+                components = bytes.fromhex(hexstring[1:])
+            except AttributeError:
+                x = int(hexstring[1:],16)
+                components = (x >> 16 & 0xff), (x >> 8 & 0xff), (x&0xff)
             
         if hexstring.startswith('0x'):
-            components = bytes.fromhex(hexstring[2:])
+            try:
+                components = bytes.fromhex(hexstring[2:])
+            except AttributeError:
+                x = int(hexstring[2:],16)
+                components = (x >> 16 & 0xff), (x >> 8 & 0xff), (x&0xff)
 
         if len(components) != 3:
             raise ValueError('unable to parse hexstring into three components')
@@ -132,7 +141,7 @@ class ColorRGBA(dict):
         return cls(components[0],components[1],components[2])
             
     
-    def __init__(self,red=0,green=0,blue=0,alpha=1.0,altScale=255):
+    def __init__(self,red=0,green=0,blue=0,alpha=1.0,altScale=255.):
         self.setdefault('red',  self.scaled(red,  altScale))
         self.setdefault('green',self.scaled(green,altScale))
         self.setdefault('blue', self.scaled(blue, altScale))
@@ -140,7 +149,7 @@ class ColorRGBA(dict):
 
     def scaled(self,value,scale):
         if value > 1:
-            value /= scale
+            value = value / scale
         return value
     
 
@@ -175,8 +184,6 @@ class StatusThing(object):
     _text_properties = ['foreground','string','font','fontSize']
     
     _shape_properties = ['fill','stroke','lineWidth']
-
-    
     
     def __init__(self,hostname='localhost',port=21212,recvsz=8192):
         '''
@@ -191,18 +198,19 @@ class StatusThing(object):
         self.shape      = None
         self.recvsz     = recvsz
         self.responses  = []
+        
         self.background = Layer('background',
                                 self._shape_properties,
-                                self.animations,
-                                self.filters)
+                                self.animations)
+
         self.foreground = Layer('foreground',
                                 self._shape_properties,
-                                self.animations,
-                                self.filters)
+                                self.animations)
+
         self.text       = Layer('text',
                                 self._text_properties,
-                                self.animations,
-                                self.filters)
+                                self.animations)
+
         self.message    = Message()
 
     def __str__(self):
@@ -244,9 +252,21 @@ class StatusThing(object):
         return self._socket
 
     def sendCommand(self,cmd):
-        self.socket.send(bytes(cmd,'utf-8'))
+        '''
+        Send a command to StatusThing. 'cmd' is expected to be a string.
+        '''
+        try:
+            self.socket.send(bytes(cmd,'utf-8'))
+        except TypeError:
+            self.socket.send(str(cmd))
+            
         data = self.socket.recv(self.recvsz)
-        reply,sep,prompt = str(data,'utf-8').partition('\n')
+        
+        try:
+            reply,sep,prompt = str(data,'utf-8').partition('\n')
+        except TypeError:
+            reply,sep,prompt = str(data).partition('\n')
+            
         return reply
         
     @property
@@ -272,26 +292,34 @@ class StatusThing(object):
             self._capabilities = loads(self.sendCommand('c'))
             # shapes in the right order, don't mess it up
             self._capabilities['animations'].sort()
-            self._capabilities['filters'].sort()
         return self._capabilities
 
     @property
     def shapes(self):
+        '''
+        List of supported shape names.
+        '''
         return self.capabilities['shapes']
 
     @property
-    def filters(self):
-        return self.capabilities['filters']
-
-    @property
     def animations(self):
+        '''
+        List of animations that can be applied to background, foreground and text.
+        '''
         return self.capabilities['animations']
 
     @property
     def colors(self):
+        '''
+        Known color strings.
+        '''
         return self.capabilities['colors']
 
     def reset(self):
+        '''
+        Sends a reset to StatusThing, will set itself back to it's default "idle"
+        configuraiton ( user defined in the Preferences ).  Also turns off any animations.
+        '''
         self.sendCommand('r')
     
     def model(self):
@@ -333,6 +361,8 @@ class StatusThing(object):
 
     def deactivate(self):
         '''
+        Sets any property to None, signifying that it is no longer something
+        that should be sent to StatusThing.
         '''
         for entity in self.entities:
             entity.deactivate()
@@ -346,7 +376,10 @@ class StatusThing(object):
 
         if json is None:
             json = str(self) + '\n'
-        data = bytes(json,'utf-8')
+        try:
+            data = bytes(json,'utf-8')
+        except TypeError:
+            data = str(json)
         self.socket.send(data)
         data = self.socket.recv(self.recvsz)
         self.responses.append(data)
@@ -356,7 +389,10 @@ class StatusThing(object):
         Use this method to shutdown communication with the remote
         StatusThing application. 
         '''
-        data = bytes.fromhex('04') # sending ctrl-d is cooler than a q
+        try:
+            data = bytes.fromhex('04') # sending ctrl-d is cooler than a q
+        except AttributeError:
+            data = 'q'
         self.socket.send(data)
         self.responses.append(self.socket.recv(self.recvsz))
         self.socket.close()
@@ -369,8 +405,8 @@ if __name__ == '__main__':
     #     parsing interface.
     
     s = StatusThing()
-    s.background.fill = ColorRGBA(0,1,0,0.5)
+    s.background.fill = ColorRGBA(1,0,0,0.5)
+    s.background.hidden = False
     print(s)
     s.commit()
     s.done()
-    print('\n'.join(map(str,s.responses)))

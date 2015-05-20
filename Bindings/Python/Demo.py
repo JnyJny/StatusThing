@@ -1,29 +1,30 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 from time import sleep
 from statusthing import StatusThing, ColorRGBA
-from collections import OrderedDict
-import colorama
 
-st = StatusThing()
-
-def colorize(text,fg=None,bg=None):
-    try:
-        cfg = colorama.ansi.Fore.__dict__[fg.upper()] if fg is not None else ''
-        rfg = colorama.ansi.Fore.__dict__['RESET'] if fg is not None else ''
-    except:
-        cfg = ''
-        rfg = ''
-
-    try:
-        cbg = colorama.ansi.Back.__dict__[bg.upper()] if bg is not None else ''
-        rbg = colorama.ansi.Back.__dict__['RESET'] if bg is not None else ''
-    except:
-        cbg = ''
-        rft = ''
+try:
+    import colorama
+    def colorize(text,fg=None,bg=None):
+        try:
+            cfg = colorama.ansi.Fore.__dict__[fg.upper()] if fg is not None else ''
+            rfg = colorama.ansi.Fore.__dict__['RESET'] if fg is not None else ''
+        except:
+            cfg = ''
+            rfg = ''
+            
+        try:
+            cbg = colorama.ansi.Back.__dict__[bg.upper()] if bg is not None else ''
+            rbg = colorama.ansi.Back.__dict__['RESET'] if bg is not None else ''
+        except:
+            cbg = ''
+            rft = ''
+        return cfg+cbg+text+rfg+rbg
         
-    return cfg+cbg+text+rfg+rbg
-    
+except ImportError:
+    def colorize(text,fg=None,bg=None):
+        return text
 
 class StatusThingDemo(StatusThing):
 
@@ -31,6 +32,8 @@ class StatusThingDemo(StatusThing):
         self.done()
         print("Be seeing you space cowboy!")
         print("EOF")
+
+    
 
     @property
     def roygbiv(self):
@@ -42,8 +45,8 @@ class StatusThingDemo(StatusThing):
                              ('yellow','yellow'),
                              ('green','green'),
                              ('blue','blue'),
-                             ('indigo',ColorRGBA.colorForHexstring('#4B0082')),
-                             ('violet',ColorRGBA.colorForHexstring('#EE82EE'))]
+                             ('indigo',ColorRGBA.colorForHexstring('4D0082')),
+                             ('violet',ColorRGBA.colorForHexstring('EE82EE'))]
         return self._roygbiv
 
     def hidden(self,fg=None,bg=None,txt=None):
@@ -61,8 +64,6 @@ class StatusThingDemo(StatusThing):
 
     def start(self,aBeat=1.75,sections=None):
         self.reset()
-        # for section in sections
-        #    section.play(aBeat)
         self.shape = 'circle'
         self.foreground.color = 'black'
         self.foreground.lineWidth = 2
@@ -95,8 +96,8 @@ class StatusThingDemo(StatusThing):
         self.commit()
         print("I am StatusThing and I know lots of tricks.")
         sleep(aBeat)
-        print("For instance, I can change",colorize("shape,",'green'),len(self.shapes),'and counting.')
-
+        print("For instance, I can change %s, %d and counting" % ( colorize("shape",'green'),
+                                                                   len(self.shapes)))
         shapes = list(self.shapes)
         try:
             shapes.remove('None')
@@ -106,30 +107,26 @@ class StatusThingDemo(StatusThing):
         shapes.sort()
         
         for idx,shape in enumerate(shapes):
-            end = '\n' if idx and idx % 7 == 0 else ''
-            comma = ', ' if self.shapes[-1] != shape else ''
-            print(shape.capitalize()+comma,end=end,flush=not end)
+            print(shape.capitalize())
             self.shape = shape
             self.commit()
             pause = aBeat/2. if idx < 7 else (aBeat * (1./(idx)))
             sleep(pause)
+
+            
         sleep(aBeat)
         print("\nAs you can see, I am quite flexible.")
         self.shape = 'circle'
         self.commit()
         sleep(aBeat*2)
-        print("I also have",colorize("emotional",'cyan','red'),"intelligence!")
+        print("I also have %s intelligence!" % (colorize("emotional",'cyan','red')))
         sleep(aBeat)
         self.foreground.hidden = True
         self.background.hidden = False
         self.background.fill = 'clear'
         self.commit()
         for (name,color) in self.roygbiv:
-            last = self.roygbiv[-1] == (name,color)
-            comma = '' if last else ', '
-            print(name.capitalize()+comma,
-                  end='\n' if last else '',
-                  flush=not last)
+            print('\t%s' % name.capitalize())
             self.background.fill = color
             self.commit()
             sleep(aBeat/2)
@@ -154,28 +151,31 @@ class StatusThingDemo(StatusThing):
         sleep(aBeat)
         print("Unfortunately I only have room for one or two characters...")
         sleep(aBeat)
+        
         self.text.font = 'Apple Color Emoji'
         self.text.fontSize = 22
-        print("So use unicode characters and make them",colorize("count!",'green'))
-        for idx,emoji in enumerate(['😍','👻','🎵','🎥','📫','💣','➡️','⬇️','⬅️','⬆️',
-                                    '💯','🔜','♨️','♻️','🌀','⎋','⌘','⌫','☎︎','℗',
-                                    'Ω','⨁','⨂','∳','✅','🚀' ]):
+
+        print("So use unicode characters and make them %s " % (colorize("count!",'green')))
+        for idx,emoji in enumerate([u'😍',u'👻',u'🎵',u'🎥',u'📫',u'💣',u'➡️',u'⬇️',u'⬅️',u'⬆️',
+                                    u'💯',u'🔜',u'♨️',u'♻️',u'🌀',u'⎋',u'⌘',u'⌫',u'☎︎',u'℗',
+                                    u'Ω',u'⨁',u'⨂',u'∳',u'✅',u'🚀' ]):
             self.text.string = emoji
             self.commit()
             sleep(aBeat/(idx+1))
+        
         self.text.spin = True
         self.commit()
-        self.text.string = '\u018f'
+        self.text.string = u'018f'
         self.text.font = 'Courier Bold'
         self.commit()
         sleep(aBeat/4)
         self.text.spin = False
         self.commit()
-        print("Whoever thought up Unicode and emoji was",colorize('wicked smart!','blue','white'))
+        print("Whoever thought up Unicode and emoji was %s" % (colorize('wicked smart!','blue','white')))
         sleep(aBeat*3)
         print('I saved my best trick for last.')
         sleep(aBeat)
-        print('I can be very',colorize('animated','red','yellow'),'...')
+        print('I can be very %s...' % (colorize('animated','red','yellow')))
         sleep(aBeat/2)
         self.hidden(fg=False,bg=True,txt=True)
         self.shape = 'rounded square'
@@ -183,18 +183,15 @@ class StatusThingDemo(StatusThing):
         animations.remove('spincw')
         animations.remove('flipx')
         for idx,animation in enumerate(animations):
-            last = self.foreground.animations[-1] == animation
-            comma = '' if last else ', '
-            end = '\n' if last or (idx and (idx % 7 == 0)) else ''
             setattr(self.foreground,animation,True)
             self.commit()
-            print(animation+comma,end=end,flush=True)
+            print('\t%s' % animation.capitalize())
             sleep(aBeat*1.50)
             setattr(self.foreground,animation,False)
             self.commit()
         print("Each of my three layers are individually animatiable.")
         sleep(aBeat)
-        print("To be honest",colorize('Jefe,','yellow'),"I have a plethora of options.")
+        print("To be honest %s I have a plethora of options." % colorize('Jefe,','yellow'))
         self.hidden(bg=False,fg=False,txt=True)
         self.background.throb = True
         self.background.fill = ColorRGBA(1,0,0,1)
@@ -233,7 +230,7 @@ class StatusThingDemo(StatusThing):
         sleep(aBeat/2)
         print(' - Animated')
         sleep(aBeat/2)
-        print(' -',colorize('Tons of Fun!!','green'))
+        print(' - %s' %(colorize('Tons of Fun!!','green')))
         sleep(aBeat)
         print('Visit my github page and download me today!')
         sleep(aBeat)
